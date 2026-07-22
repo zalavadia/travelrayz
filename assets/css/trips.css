@@ -7,17 +7,20 @@
 
 .trip-card {
   position: relative;
-  background: var(--surface);
+  background: var(--gradient-card);
   border-radius: var(--radius-lg);
   overflow: hidden;
   box-shadow: var(--shadow);
   border: 1px solid var(--surface-border);
-  transition: box-shadow var(--transition), border-color var(--transition);
+  transition: box-shadow var(--transition), border-color var(--transition), transform var(--transition);
   cursor: pointer;
+  backdrop-filter: blur(10px);
 }
 
 .trip-card:hover {
-  box-shadow: var(--shadow-lg);
+  box-shadow: var(--shadow-lg), 0 0 36px rgba(34, 211, 238, 0.15);
+  border-color: rgba(34, 211, 238, 0.4);
+  transform: translateY(-6px);
 }
 
 .trip-poster {

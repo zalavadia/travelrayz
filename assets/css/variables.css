@@ -1,26 +1,56 @@
-/* TRAVELRAYZ — Design Tokens (dark · sky blue + black) */
+/* TRAVELRAYZ — Design Tokens (dark · living aurora) */
 :root {
-  --primary: #0a1628;
-  --accent: #38bdf8;
+  --primary: #040b14;
+  --accent: #22d3ee;
   --sky: #7dd3fc;
-  --bg: #050a12;
+  --ice: #ecfeff;
+  --cyan: #06b6d4;
+  --deep: #0369a1;
+  --bg: #010409;
+  --dark: #000000;
   --text: #e8f4fc;
   --text-muted: #8ba3b8;
-  --surface: rgba(255, 255, 255, 0.04);
-  --surface-border: rgba(125, 211, 252, 0.12);
-  --shadow: 0 10px 40px rgba(0, 0, 0, 0.45);
-  --shadow-lg: 0 24px 60px rgba(0, 0, 0, 0.55);
-  --radius: 12px;
-  --radius-lg: 20px;
-  --radius-sm: 8px;
+  --surface: rgba(8, 47, 73, 0.35);
+  --surface-strong: rgba(14, 116, 144, 0.22);
+  --surface-border: rgba(125, 211, 252, 0.18);
+  --glow: 0 0 48px rgba(34, 211, 238, 0.35);
+  --shadow: 0 12px 44px rgba(0, 0, 0, 0.55);
+  --shadow-lg: 0 30px 80px rgba(0, 0, 0, 0.65);
+  --radius: 14px;
+  --radius-lg: 22px;
+  --radius-sm: 10px;
   --nav-h: 72px;
   --font-heading: 'Cormorant Garamond', Georgia, serif;
   --font-sub: 'Outfit', sans-serif;
   --font-body: 'Outfit', sans-serif;
-  --transition: 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  --transition: 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --container: 1120px;
-  --gradient-hero: linear-gradient(160deg, rgba(0, 0, 0, 0.82) 0%, rgba(8, 47, 73, 0.55) 45%, rgba(0, 0, 0, 0.7) 100%);
-  --gradient-accent: linear-gradient(135deg, #0284c7, #38bdf8);
-  --gradient-sky: linear-gradient(135deg, #000000 0%, #0c4a6e 45%, #0284c7 100%);
-  --gradient-page: linear-gradient(180deg, #000000 0%, #050a12 40%, #0a1628 100%);
+  --gradient-hero: linear-gradient(
+    180deg,
+    rgba(0, 20, 40, 0.35) 0%,
+    rgba(0, 0, 0, 0.55) 35%,
+    rgba(0, 0, 0, 0.82) 100%
+  );
+  --gradient-accent: linear-gradient(120deg, #0e7490 0%, #22d3ee 40%, #a5f3fc 70%, #38bdf8 100%);
+  --gradient-sky: linear-gradient(130deg, #000 0%, #0c4a6e 38%, #0891b2 68%, #67e8f9 100%);
+  --gradient-page:
+    radial-gradient(ellipse 100% 70% at 50% -15%, rgba(14, 116, 144, 0.55) 0%, transparent 58%),
+    radial-gradient(ellipse 55% 45% at 100% 30%, rgba(34, 211, 238, 0.18) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 40% at 0% 70%, rgba(6, 182, 212, 0.16) 0%, transparent 50%),
+    radial-gradient(ellipse 70% 50% at 50% 100%, rgba(3, 105, 161, 0.2) 0%, transparent 55%),
+    linear-gradient(180deg, #000000 0%, #010409 45%, #06101c 100%);
+  --gradient-card: linear-gradient(
+    155deg,
+    rgba(34, 211, 238, 0.16) 0%,
+    rgba(8, 47, 73, 0.35) 35%,
+    rgba(0, 0, 0, 0.45) 100%
+  );
+  --gradient-border: linear-gradient(
+    135deg,
+    rgba(165, 243, 252, 0.7),
+    rgba(34, 211, 238, 0.15) 40%,
+    rgba(14, 165, 233, 0.55) 100%
+  );
+  --gradient-text: linear-gradient(115deg, #ffffff 5%, #ecfeff 30%, #67e8f9 55%, #22d3ee 85%, #7dd3fc 100%);
 }

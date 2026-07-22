@@ -95,9 +95,9 @@ const AppChrome = {
 
 document.addEventListener('DOMContentLoaded', async () => {
   AppChrome.init();
+  Motion.init();
 
   if (typeof GalleryUI !== 'undefined') GalleryUI.init();
-
   if (typeof TripsUI !== 'undefined') {
     await TripsUI.init();
     const hash = location.hash.match(/trip-(.+)/);
@@ -105,6 +105,9 @@ document.addEventListener('DOMContentLoaded', async () => {
       setTimeout(() => TripsUI.openModal(hash[1]), 400);
     }
   }
+
+  /* Re-scan after dynamic trip/gallery content mounts */
+  Motion.initReveal();
 
   const year = TR.qs('#year');
   if (year) year.textContent = String(new Date().getFullYear());
