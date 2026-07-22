@@ -17,8 +17,6 @@ const TripsUI = {
     this.bindToolbar();
     this.render();
     this.initCountdowns();
-
-    if (options.featuredSlider) this.renderFeatured();
   },
 
   bindToolbar() {
@@ -83,7 +81,7 @@ const TripsUI = {
     const poster = t.poster || 'assets/images/maharashtra-3-jyotirlinga-poster.png';
 
     return `
-      <article class="trip-card" data-id="${TR.sanitize(t.id)}" data-aos="fade-up">
+      <article class="trip-card" data-id="${TR.sanitize(t.id)}">
         <div class="trip-poster">
           <img src="${TR.sanitize(poster)}" alt="${TR.sanitize(t.tripName)}" loading="lazy" width="600" height="400">
           <div class="trip-badges">${badges.join('')}</div>
@@ -94,7 +92,7 @@ const TripsUI = {
           <div class="trip-meta">
             <span>📍 ${TR.sanitize(t.destination)}</span>
             <span>⏱ ${TR.sanitize(t.duration)}</span>
-            <span>🏔 ${TR.sanitize(t.difficulty)}</span>
+            <span>${TR.sanitize(t.difficulty)}</span>
             <span>🪑 ${TR.sanitize(t.seats)} seats</span>
           </div>
           <div class="trip-footer">
@@ -120,12 +118,14 @@ const TripsUI = {
   },
 
   openBooking(trip) {
-    const link =
-      trip.bookingLink ||
-      TR.whatsappUrl(
-        TRAVELRAYZ_CONFIG.company.whatsapp,
-        `Hi TRAVELRAYZ! I want to book: ${trip.tripName}`
-      );
+    const raw = (trip.bookingLink || '').trim();
+    const hasLink = raw && !/^(na|n\/a|none|-)$/i.test(raw);
+    const link = hasLink
+      ? raw
+      : TR.whatsappUrl(
+          TRAVELRAYZ_CONFIG.company.whatsapp,
+          `Hi TRAVELRAYZ! I want to book: ${trip.tripName}`
+        );
     window.open(link, '_blank', 'noopener');
   },
 
@@ -151,8 +151,8 @@ const TripsUI = {
             <span>📍 ${TR.sanitize(trip.destination)}</span>
             <span>⏱ ${TR.sanitize(trip.duration)}</span>
             <span>📅 ${TR.sanitize(trip.travelDate)}</span>
-            <span>🚐 ${TR.sanitize(trip.vehicle)}</span>
-            <span>🏔 ${TR.sanitize(trip.difficulty)}</span>
+            <span>${TR.sanitize(trip.vehicle)}</span>
+            <span>${TR.sanitize(trip.difficulty)}</span>
             <span>🪑 ${TR.sanitize(trip.seats)} seats left</span>
           </div>
           <div class="modal-grid">
@@ -240,7 +240,7 @@ const TripsUI = {
     const inclusions = TR.splitList(trip.inclusions).map((i) => `<li>${TR.sanitize(i)}</li>`).join('');
     win.document.write(`<!DOCTYPE html><html><head><title>${TR.sanitize(trip.tripName)} — Itinerary</title>
       <style>body{font-family:Georgia,serif;max-width:700px;margin:40px auto;color:#1e293b;line-height:1.6}
-      h1{font-size:1.6rem} .meta{color:#64748b;font-size:.95rem} .price{font-size:1.4rem;color:#ff7a00}</style>
+      h1{font-size:1.6rem} .meta{color:#64748b;font-size:.95rem} .price{font-size:1.4rem;color:#38bdf8}</style>
       </head><body>
       <h1>${TR.sanitize(trip.tripName)}</h1>
       <p class="meta">${TR.sanitize(trip.destination)} · ${TR.sanitize(trip.duration)} · ${TR.sanitize(trip.travelDate)}</p>
@@ -280,38 +280,5 @@ const TripsUI = {
         if (cd) el.textContent = cd.label;
       });
     }, 60000);
-  },
-
-  renderFeatured() {
-    const wrap = TR.qs('#featured-swiper-wrapper');
-    if (!wrap) return;
-    const featured = this.trips.filter((t) => TR.parseBool(t.featured));
-    const list = featured.length ? featured : this.trips.slice(0, 3);
-    wrap.innerHTML = list
-      .map(
-        (t) => `
-      <div class="swiper-slide">
-        <div class="featured-slide">
-          <img src="${TR.sanitize(t.poster || 'assets/images/maharashtra-3-jyotirlinga-poster.png')}" alt="${TR.sanitize(t.tripName)}" loading="lazy">
-          <div class="featured-caption">
-            <h3>${TR.sanitize(t.tripName)}</h3>
-            <p>${TR.sanitize(t.destination)} · ${TR.sanitize(t.duration)} · ${TR.formatINR(t.price)}</p>
-            <a class="btn btn-primary" href="#upcoming">View Details</a>
-          </div>
-        </div>
-      </div>`
-      )
-      .join('');
-
-    if (typeof Swiper !== 'undefined') {
-      new Swiper('#featured-swiper', {
-        loop: list.length > 1,
-        autoplay: { delay: 4500, disableOnInteraction: false },
-        pagination: { el: '.featured-pagination', clickable: true },
-        navigation: { nextEl: '.featured-next', prevEl: '.featured-prev' },
-        effect: 'fade',
-        fadeEffect: { crossFade: true }
-      });
-    }
   }
 };

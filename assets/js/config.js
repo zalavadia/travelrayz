@@ -22,20 +22,10 @@ const TRAVELRAYZ_CONFIG = {
   },
 
   /* Google Apps Script Web App URL — replace after deploying Code.gs */
-  sheetsApiUrl: 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE',
+  sheetsApiUrl: 'https://script.google.com/macros/s/AKfycbwwPKv3T3BGL-IEgl-tdzyWi8iDYm7wXVJow7FO_IxNSwMwd0EjgpE6RvmIYYoNuWTE/exec',
 
   /* Simple admin gate (change before going live) */
   adminPassword: 'travelrayz2026',
-
-  /* Feature flags */
-  features: {
-    darkMode: true,
-    animatedCursor: true,
-    confetti: true,
-    weatherWidget: true,
-    stickyBook: true,
-    scrollProgress: true
-  },
 
   /* Fallback trip when Sheets is unavailable */
   fallbackTrips: [

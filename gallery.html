@@ -21,31 +21,11 @@
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Montserrat:wght@500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/main.css">
 </head>
 <body class="page-reveal">
   <a class="skip-link" href="#main">Skip to content</a>
-  <div class="scroll-progress" aria-hidden="true"></div>
-
-  <div id="page-loader" class="page-loader" aria-hidden="true">
-    <div class="loader-inner">
-      <div class="mountain-loader">
-        <svg viewBox="0 0 120 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M8 68 L40 28 L58 48 L78 22 L112 68 Z" stroke="#FFC107" stroke-width="2" fill="rgba(255,122,0,0.15)">
-            <animate attributeName="opacity" values="0.4;1;0.4" dur="2s" repeatCount="indefinite"/>
-          </path>
-          <circle cx="96" cy="18" r="8" fill="#FF7A00">
-            <animate attributeName="r" values="6;9;6" dur="2s" repeatCount="indefinite"/>
-          </circle>
-        </svg>
-      </div>
-      <div class="loader-brand">TRAVELRAYZ</div>
-      <div class="loader-bar"><span></span></div>
-    </div>
-  </div>
 
   <header class="navbar" id="navbar">
     <div class="nav-inner">
@@ -55,18 +35,13 @@
       </a>
       <nav class="nav-links" aria-label="Primary">
         <a href="index.html">Home</a>
-        <a href="treks.html">Treks</a>
-        <a href="tours.html">Tours</a>
-        <a href="upcoming-trips.html">Upcoming Trips</a>
+        <a href="upcoming-trips.html">Trips</a>
         <a class="active" href="gallery.html">Gallery</a>
         <a href="about.html">About</a>
-        <a href="testimonials.html">Testimonials</a>
         <a href="contact.html">Contact</a>
       </nav>
       <div class="nav-actions">
-        <div class="weather-widget" id="weather-widget" hidden></div>
-        <button class="icon-btn" id="theme-toggle" type="button" aria-label="Toggle dark mode">◐</button>
-        <a class="btn btn-primary magnetic" href="book.html">Book Now</a>
+        <a class="btn btn-primary" href="book.html">Book Now</a>
         <button class="nav-toggle" type="button" aria-label="Open menu"><span></span><span></span><span></span></button>
       </div>
     </div>
@@ -82,7 +57,7 @@
 
     <section class="section">
       <div class="container">
-        <div class="section-header" data-aos="fade-up">
+        <div class="section-header">
           <p class="sub-heading">Moments</p>
           <h2>Journey Highlights</h2>
           <p>A glimpse into the experiences our travelers carry home — click any image to view full size.</p>
@@ -121,16 +96,7 @@
             <a href="contact.html">Contact</a>
             <a href="terms.html">Terms</a>
             <a href="privacy.html">Privacy</a>
-            <a href="admin/index.html">Admin</a>
           </div>
-        </div>
-        <div>
-          <h4>Newsletter</h4>
-          <p>Trip drops &amp; early-bird seats.</p>
-          <form class="newsletter-form" id="newsletter-form">
-            <input type="email" name="email" required placeholder="Your email" aria-label="Email">
-            <button class="btn btn-primary" type="submit">Join</button>
-          </form>
         </div>
       </div>
       <div class="footer-bottom">
@@ -141,13 +107,9 @@
   </footer>
 
   <div class="float-btns">
-    <a class="float-btn float-whatsapp" data-whatsapp-link href="#" target="_blank" rel="noopener" aria-label="WhatsApp">💬</a>
-    <a class="float-btn float-call" href="tel:7208358868" aria-label="Call">📞</a>
-    <button class="float-btn float-top" type="button" aria-label="Back to top">↑</button>
+    <a class="float-btn float-whatsapp" data-whatsapp-link href="#" target="_blank" rel="noopener" aria-label="WhatsApp">WA</a>
   </div>
-  <div class="sticky-book"><a class="btn btn-primary magnetic" href="contact.html">Book Now</a></div>
 
-  <div class="modal-overlay" id="trip-modal" aria-hidden="true"></div>
   <div class="lightbox" id="lightbox" aria-hidden="true">
     <button class="lightbox-close" type="button" aria-label="Close">✕</button>
     <button class="lightbox-prev" type="button" aria-label="Previous">‹</button>
@@ -155,17 +117,9 @@
     <button class="lightbox-next" type="button" aria-label="Next">›</button>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
-  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js" defer></script>
-  <script src="https://unpkg.com/scrollreveal@4.0.9/dist/scrollreveal.min.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
   <script src="assets/js/config.js" defer></script>
   <script src="assets/js/utils.js" defer></script>
-  <script src="assets/js/sheets.js" defer></script>
-  <script src="assets/js/trips.js" defer></script>
   <script src="assets/js/gallery.js" defer></script>
-  <script src="assets/js/animations.js" defer></script>
   <script src="assets/js/main.js" defer></script>
 </body>
 </html>

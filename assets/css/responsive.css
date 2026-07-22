@@ -1,19 +1,14 @@
 /* TRAVELRAYZ — Responsive */
 @media (max-width: 1024px) {
-  .about-grid,
-  .contact-grid,
   .footer-grid {
     grid-template-columns: 1fr 1fr;
-  }
-
-  .footer-grid {
     gap: 2rem 1.5rem;
   }
 }
 
 @media (max-width: 768px) {
   :root {
-    --nav-h: 70px;
+    --nav-h: 68px;
   }
 
   .section {
@@ -33,27 +28,13 @@
     max-height: 360px;
   }
 
-  .hero-stats {
-    gap: 0.75rem;
-  }
-
-  .stat-pill {
-    min-width: 110px;
-    padding: 0.85rem 1rem;
-  }
-
   .gallery-masonry {
     columns: 2 160px;
   }
 
   .float-btns {
     right: 0.85rem;
-    bottom: 5.5rem;
-  }
-
-  .sticky-book .btn {
-    padding: 0.75rem 1.4rem;
-    font-size: 0.8rem;
+    bottom: 0.85rem;
   }
 
   .trips-toolbar {

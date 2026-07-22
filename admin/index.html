@@ -7,7 +7,7 @@
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Montserrat:wght@500;600&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/admin.css">
 </head>
 <body>
@@ -127,9 +127,26 @@
                   <label for="trip-destination">Destination *</label>
                   <input type="text" id="trip-destination" name="destination" required>
                 </div>
-                <div class="form-group">
-                  <label for="trip-poster">Poster URL</label>
-                  <input type="url" id="trip-poster" name="poster" placeholder="https://…">
+                <div class="form-group full">
+                  <label>Poster photo</label>
+                  <div class="upload-field" data-upload="trip-poster">
+                    <input type="hidden" id="trip-poster" name="poster" value="">
+                    <input type="file" id="trip-poster-file" accept="image/jpeg,image/png,image/webp,image/gif" hidden>
+                    <div class="upload-drop" data-upload-trigger>
+                      <div class="upload-preview hidden" data-upload-preview>
+                        <img alt="Poster preview">
+                      </div>
+                      <div class="upload-placeholder" data-upload-placeholder>
+                        <span class="upload-icon" aria-hidden="true">⬆</span>
+                        <span>Click or drop a photo</span>
+                        <span class="hint">JPG, PNG or WebP · auto-compressed for Sheets</span>
+                      </div>
+                    </div>
+                    <div class="upload-actions">
+                      <button type="button" class="btn btn-ghost btn-sm" data-upload-trigger>Choose photo</button>
+                      <button type="button" class="btn btn-danger btn-sm hidden" data-upload-clear>Remove</button>
+                    </div>
+                  </div>
                 </div>
                 <div class="form-group">
                   <label for="trip-category">Category</label>
@@ -161,7 +178,8 @@
                 </div>
                 <div class="form-group">
                   <label for="trip-booking">Booking Link</label>
-                  <input type="url" id="trip-booking" name="bookingLink">
+                  <input type="text" id="trip-booking" name="bookingLink" placeholder="URL or NA">
+                  <span class="hint">Optional — use NA to fall back to WhatsApp</span>
                 </div>
                 <div class="form-group full">
                   <label for="trip-inclusions">Inclusions</label>
@@ -229,13 +247,38 @@
         <section id="panel-gallery" class="panel">
           <div class="panel-header">
             <h2>Gallery</h2>
-            <p class="panel-desc">Images stored in browser localStorage (<code>travelrayz_gallery</code>)</p>
+            <p class="panel-desc">Photos are compressed in-browser and stored in localStorage (<code>travelrayz_gallery</code>)</p>
           </div>
 
-          <form id="gallery-form" class="inline-form">
-            <input type="url" id="gallery-src" class="input" placeholder="Image URL" required>
-            <input type="text" id="gallery-alt" class="input" placeholder="Alt text" required>
-            <button type="submit" class="btn btn-primary">Add Image</button>
+          <form id="gallery-form" class="form-grid compact">
+            <div class="form-group full">
+              <label>Photo</label>
+              <div class="upload-field" data-upload="gallery-src">
+                <input type="hidden" id="gallery-src" value="">
+                <input type="file" id="gallery-src-file" accept="image/jpeg,image/png,image/webp,image/gif" hidden>
+                <div class="upload-drop" data-upload-trigger>
+                  <div class="upload-preview hidden" data-upload-preview>
+                    <img alt="Gallery preview">
+                  </div>
+                  <div class="upload-placeholder" data-upload-placeholder>
+                    <span class="upload-icon" aria-hidden="true">⬆</span>
+                    <span>Click or drop a photo</span>
+                    <span class="hint">Compressed and saved in this browser</span>
+                  </div>
+                </div>
+                <div class="upload-actions">
+                  <button type="button" class="btn btn-ghost btn-sm" data-upload-trigger>Choose photo</button>
+                  <button type="button" class="btn btn-danger btn-sm hidden" data-upload-clear>Remove</button>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="gallery-alt">Alt text</label>
+              <input type="text" id="gallery-alt" class="input" placeholder="Describe the photo" required>
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary">Add Image</button>
+            </div>
           </form>
 
           <div id="gallery-list" class="card-grid"></div>
@@ -261,9 +304,26 @@
               <label for="test-trip">Trip</label>
               <input type="text" id="test-trip" placeholder="Trip name">
             </div>
-            <div class="form-group">
-              <label for="test-photo">Photo URL</label>
-              <input type="url" id="test-photo" placeholder="https://…">
+            <div class="form-group full">
+              <label>Photo</label>
+              <div class="upload-field" data-upload="test-photo">
+                <input type="hidden" id="test-photo" value="">
+                <input type="file" id="test-photo-file" accept="image/jpeg,image/png,image/webp,image/gif" hidden>
+                <div class="upload-drop" data-upload-trigger>
+                  <div class="upload-preview hidden" data-upload-preview>
+                    <img alt="Photo preview">
+                  </div>
+                  <div class="upload-placeholder" data-upload-placeholder>
+                    <span class="upload-icon" aria-hidden="true">⬆</span>
+                    <span>Click or drop a photo</span>
+                    <span class="hint">Optional · face or trip snapshot</span>
+                  </div>
+                </div>
+                <div class="upload-actions">
+                  <button type="button" class="btn btn-ghost btn-sm" data-upload-trigger>Choose photo</button>
+                  <button type="button" class="btn btn-danger btn-sm hidden" data-upload-clear>Remove</button>
+                </div>
+              </div>
             </div>
             <div class="form-group full">
               <label for="test-text">Testimonial</label>

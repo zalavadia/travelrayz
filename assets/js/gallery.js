@@ -27,7 +27,7 @@ const GalleryUI = {
     this.grid.innerHTML = this.images
       .map(
         (img, i) => `
-      <figure class="gallery-item" data-index="${i}" data-aos="zoom-in">
+      <figure class="gallery-item" data-index="${i}">
         <img src="${img.src}" alt="${TR.sanitize(img.alt)}" loading="lazy" width="600" height="400">
       </figure>`
       )

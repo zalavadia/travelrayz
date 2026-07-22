@@ -20,6 +20,7 @@ const AdminApp = {
     this.cacheDOM();
     this.bindAuth();
     this.bindNavigation();
+    this.bindUploads();
     this.bindTrips();
     this.bindGallery();
     this.bindTestimonials();
@@ -100,6 +101,182 @@ const AdminApp = {
         TR.qsa('.panel').forEach((p) => p.classList.remove('active'));
         document.getElementById(`panel-${panel}`)?.classList.add('active');
       });
+    });
+  },
+
+  /* ── Image uploads (client-side compress → data URL) ── */
+  bindUploads() {
+    TR.qsa('[data-upload]').forEach((field) => this.setupUploadField(field));
+  },
+
+  setupUploadField(field) {
+    const fileInput = field.querySelector('input[type="file"]');
+    const triggers = field.querySelectorAll('[data-upload-trigger]');
+    const clearBtn = field.querySelector('[data-upload-clear]');
+    const drop = field.querySelector('.upload-drop');
+    const preset = field.dataset.upload || '';
+
+    const handleFile = async (file) => {
+      if (!file) return;
+      if (!file.type.startsWith('image/')) {
+        this.toast('Please choose an image file', 'error');
+        return;
+      }
+      try {
+        const dataUrl = await this.compressImage(file, this.uploadOptionsFor(preset));
+        this.setUploadValue(field, dataUrl);
+        this.toast('Photo ready', 'success');
+      } catch (err) {
+        console.error(err);
+        this.toast(err.message || 'Could not read image', 'error');
+      }
+    };
+
+    triggers.forEach((el) => {
+      el.addEventListener('click', (e) => {
+        e.preventDefault();
+        fileInput?.click();
+      });
+    });
+
+    fileInput?.addEventListener('change', async () => {
+      const file = fileInput.files?.[0];
+      await handleFile(file);
+      fileInput.value = '';
+    });
+
+    clearBtn?.addEventListener('click', () => this.setUploadValue(field, ''));
+
+    if (drop) {
+      ['dragenter', 'dragover'].forEach((evt) => {
+        drop.addEventListener(evt, (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          drop.classList.add('dragover');
+        });
+      });
+      ['dragleave', 'drop'].forEach((evt) => {
+        drop.addEventListener(evt, (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          drop.classList.remove('dragover');
+        });
+      });
+      drop.addEventListener('drop', async (e) => {
+        await handleFile(e.dataTransfer?.files?.[0]);
+      });
+    }
+  },
+
+  uploadOptionsFor(preset) {
+    if (preset === 'trip-poster') {
+      /* Google Sheets cells cap around 50k chars — keep posters lean */
+      return { maxWidth: 1000, maxHeight: 1000, quality: 0.72, maxChars: 48000 };
+    }
+    if (preset === 'test-photo') {
+      return { maxWidth: 480, maxHeight: 480, quality: 0.78, maxChars: 180000 };
+    }
+    return { maxWidth: 1400, maxHeight: 1400, quality: 0.78, maxChars: 700000 };
+  },
+
+  setUploadValue(fieldOrId, value) {
+    const field = typeof fieldOrId === 'string'
+      ? document.querySelector(`[data-upload="${fieldOrId}"]`)
+      : fieldOrId;
+    if (!field) return;
+
+    const hidden = field.querySelector('input[type="hidden"]');
+    const preview = field.querySelector('[data-upload-preview]');
+    const placeholder = field.querySelector('[data-upload-placeholder]');
+    const clearBtn = field.querySelector('[data-upload-clear]');
+    const img = preview?.querySelector('img');
+
+    if (hidden) hidden.value = value || '';
+
+    const hasImage = !!(value && String(value).trim());
+    if (hasImage && img) {
+      img.src = value;
+      preview?.classList.remove('hidden');
+      placeholder?.classList.add('hidden');
+      clearBtn?.classList.remove('hidden');
+    } else {
+      if (img) img.removeAttribute('src');
+      preview?.classList.add('hidden');
+      placeholder?.classList.remove('hidden');
+      clearBtn?.classList.add('hidden');
+    }
+  },
+
+  /**
+   * Resize & compress an image file to a JPEG data URL.
+   * Keeps storage / Sheets payloads manageable on a static site.
+   */
+  compressImage(file, {
+    maxWidth = 1400,
+    maxHeight = 1400,
+    quality = 0.78,
+    maxChars = 700000
+  } = {}) {
+    return new Promise((resolve, reject) => {
+      if (!file || !file.type.startsWith('image/')) {
+        reject(new Error('Please choose an image file'));
+        return;
+      }
+      if (file.size > 12 * 1024 * 1024) {
+        reject(new Error('Image is too large (max 12 MB before compress)'));
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onerror = () => reject(new Error('Failed to read file'));
+      reader.onload = () => {
+        const img = new Image();
+        img.onerror = () => reject(new Error('Invalid image file'));
+        img.onload = () => {
+          let { width, height } = img;
+          let scale = Math.min(1, maxWidth / width, maxHeight / height);
+          let q = quality;
+          let dataUrl = '';
+
+          const encode = () => {
+            const w = Math.max(1, Math.round(width * scale));
+            const h = Math.max(1, Math.round(height * scale));
+            const canvas = document.createElement('canvas');
+            canvas.width = w;
+            canvas.height = h;
+            const ctx = canvas.getContext('2d');
+            if (!ctx) {
+              reject(new Error('Canvas not supported'));
+              return null;
+            }
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, w, h);
+            ctx.drawImage(img, 0, 0, w, h);
+            return canvas.toDataURL('image/jpeg', q);
+          };
+
+          dataUrl = encode();
+          if (!dataUrl) return;
+
+          /* Progressively shrink until under limit */
+          let tries = 0;
+          while (dataUrl.length > maxChars && tries < 8) {
+            tries += 1;
+            if (q > 0.45) q -= 0.08;
+            else scale *= 0.82;
+            dataUrl = encode();
+            if (!dataUrl) return;
+          }
+
+          if (dataUrl.length > maxChars) {
+            reject(new Error('Image is still too large after compress. Try a smaller photo.'));
+            return;
+          }
+          resolve(dataUrl);
+        };
+        img.src = reader.result;
+      };
+      reader.readAsDataURL(file);
     });
   },
 
@@ -198,12 +375,12 @@ const AdminApp = {
     title.textContent = trip ? 'Edit Trip' : 'Add Trip';
     form.reset();
     document.getElementById('trip-id').value = trip?.id || '';
+    this.setUploadValue('trip-poster', '');
 
     if (trip) {
       const fields = {
         'trip-name': trip.tripName,
         'trip-destination': trip.destination,
-        'trip-poster': trip.poster,
         'trip-category': trip.category,
         'trip-duration': trip.duration,
         'trip-date': this.toDatetimeLocal(trip.travelDate),
@@ -226,6 +403,7 @@ const AdminApp = {
         const el = document.getElementById(id);
         if (el) el.value = val ?? '';
       });
+      this.setUploadValue('trip-poster', trip.poster || '');
     }
 
     document.getElementById('trip-modal')?.classList.remove('hidden');
@@ -325,12 +503,23 @@ const AdminApp = {
       e.preventDefault();
       const src = document.getElementById('gallery-src').value.trim();
       const alt = document.getElementById('gallery-alt').value.trim();
-      if (!src || !alt) return;
+      if (!src) {
+        this.toast('Please upload a photo', 'error');
+        return;
+      }
+      if (!alt) return;
 
       const items = this.getGallery();
       items.push({ src, alt });
-      this.saveGallery(items);
+      try {
+        this.saveGallery(items);
+      } catch (err) {
+        console.error(err);
+        this.toast('Storage full — remove older images or use a smaller photo', 'error');
+        return;
+      }
       document.getElementById('gallery-form').reset();
+      this.setUploadValue('gallery-src', '');
       this.renderGallery();
       this.toast('Image added to gallery', 'success');
     });
@@ -392,9 +581,16 @@ const AdminApp = {
       };
       const items = this.getTestimonials();
       items.push(item);
-      this.saveTestimonials(items);
+      try {
+        this.saveTestimonials(items);
+      } catch (err) {
+        console.error(err);
+        this.toast('Storage full — remove older entries or use a smaller photo', 'error');
+        return;
+      }
       document.getElementById('testimonial-form').reset();
       document.getElementById('test-rating').value = '5';
+      this.setUploadValue('test-photo', '');
       this.renderTestimonials();
       this.toast('Testimonial added', 'success');
     });

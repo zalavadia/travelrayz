@@ -1,79 +1,12 @@
-/* TRAVELRAYZ — Animations & Extras */
-.cursor-dot,
-.cursor-ring {
-  pointer-events: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  border-radius: 50%;
-  z-index: 10000;
-  mix-blend-mode: difference;
-}
-
-.cursor-dot {
-  width: 8px;
-  height: 8px;
-  background: #fff;
-  transform: translate(-50%, -50%);
-}
-
-.cursor-ring {
-  width: 36px;
-  height: 36px;
-  border: 1.5px solid rgba(255, 255, 255, 0.7);
-  transform: translate(-50%, -50%);
-  transition: width 0.25s, height 0.25s, background 0.25s;
-}
-
-.cursor-ring.hover {
-  width: 56px;
-  height: 56px;
-  background: rgba(255, 122, 0, 0.15);
-}
-
-@media (hover: none), (pointer: coarse) {
-  .cursor-dot,
-  .cursor-ring {
-    display: none;
-  }
-}
-
-.mouse-glow {
-  position: fixed;
-  width: 400px;
-  height: 400px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 122, 0, 0.12), transparent 70%);
-  pointer-events: none;
-  z-index: 1;
-  transform: translate(-50%, -50%);
-  opacity: 0;
-  transition: opacity 0.4s;
-}
-
-body.has-glow .mouse-glow {
-  opacity: 1;
-}
-
-/* Text reveal helper */
-.reveal-text {
-  overflow: hidden;
-}
-
-.reveal-text span {
-  display: inline-block;
-  transform: translateY(110%);
-}
-
-/* Page reveal */
+/* TRAVELRAYZ — Animations & page chrome */
 .page-reveal {
-  animation: pageIn 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: pageIn 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 @keyframes pageIn {
   from {
     opacity: 0;
-    transform: translateY(16px);
+    transform: translateY(12px);
   }
   to {
     opacity: 1;
@@ -81,29 +14,16 @@ body.has-glow .mouse-glow {
   }
 }
 
-/* Magnetic btn helper */
-.magnetic {
-  display: inline-block;
-}
-
-/* Confetti canvas */
-#confetti-canvas {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 5000;
-}
-
-/* Toast */
 .toast {
   position: fixed;
   bottom: 2rem;
   left: 50%;
   transform: translateX(-50%) translateY(100px);
-  background: var(--primary);
+  background: #0c4a6e;
   color: #fff;
   padding: 0.9rem 1.5rem;
   border-radius: 999px;
+  border: 1px solid rgba(56, 189, 248, 0.35);
   box-shadow: var(--shadow-lg);
   z-index: 4000;
   opacity: 0;
@@ -117,11 +37,10 @@ body.has-glow .mouse-glow {
   opacity: 1;
 }
 
-/* Dark mode page chrome for secondary pages */
 .page-hero {
   position: relative;
   padding: calc(var(--nav-h) + 4rem) 0 4rem;
-  background: linear-gradient(135deg, var(--primary), var(--dark));
+  background: var(--gradient-sky);
   color: #fff;
   text-align: center;
   overflow: hidden;
@@ -134,7 +53,7 @@ body.has-glow .mouse-glow {
 }
 
 .page-hero p {
-  color: rgba(255, 255, 255, 0.75);
+  color: rgba(186, 230, 253, 0.78);
   max-width: 520px;
   margin: 0 auto;
 }
@@ -143,11 +62,10 @@ body.has-glow .mouse-glow {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 70% 30%, rgba(255, 122, 0, 0.25), transparent 50%);
+  background: radial-gradient(circle at 70% 30%, rgba(56, 189, 248, 0.22), transparent 55%);
 }
 
-/* Inner pages navbar default dark bg */
 body:not(.home) .navbar {
-  background: rgba(11, 31, 58, 0.92);
+  background: rgba(0, 0, 0, 0.88);
   backdrop-filter: blur(12px);
 }

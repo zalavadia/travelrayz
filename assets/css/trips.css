@@ -7,19 +7,13 @@
 
 .trip-card {
   position: relative;
-  background: var(--white);
+  background: var(--surface);
   border-radius: var(--radius-lg);
   overflow: hidden;
   box-shadow: var(--shadow);
-  border: 1px solid rgba(11, 31, 58, 0.06);
-  transform-style: preserve-3d;
-  transition: box-shadow var(--transition);
+  border: 1px solid var(--surface-border);
+  transition: box-shadow var(--transition), border-color var(--transition);
   cursor: pointer;
-}
-
-[data-theme='dark'] .trip-card {
-  background: rgba(255, 255, 255, 0.04);
-  border-color: rgba(255, 255, 255, 0.08);
 }
 
 .trip-card:hover {
@@ -70,8 +64,8 @@
 }
 
 .badge-featured {
-  background: var(--gold);
-  color: #08111f;
+  background: var(--sky);
+  color: #000;
 }
 
 .badge-limited {
@@ -124,11 +118,7 @@
 .trip-price {
   font-family: var(--font-heading);
   font-size: 1.35rem;
-  color: var(--primary);
-}
-
-[data-theme='dark'] .trip-price {
-  color: var(--gold);
+  color: var(--sky);
 }
 
 .trip-price small {
@@ -156,7 +146,7 @@
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(8, 17, 31, 0.72);
+  background: rgba(0, 0, 0, 0.78);
   backdrop-filter: blur(8px);
   z-index: 2000;
   display: grid;
@@ -194,7 +184,7 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: rgba(8, 17, 31, 0.55);
+  background: rgba(0, 0, 0, 0.55);
   color: #fff;
   z-index: 5;
   display: grid;
@@ -268,13 +258,13 @@
   gap: 0.75rem;
   margin-top: 1.5rem;
   padding-top: 1.5rem;
-  border-top: 1px solid rgba(11, 31, 58, 0.08);
+  border-top: 1px solid var(--surface-border);
 }
 
 .modal-price {
   font-family: var(--font-heading);
   font-size: 2rem;
-  color: var(--primary);
+  color: var(--sky);
   margin-right: auto;
 }
 

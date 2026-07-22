@@ -4,7 +4,7 @@
 
 Premium static website for treks, weekend trips, camping, Jyotirlinga yatras and spiritual tours.
 
-Built with **HTML5 · CSS3 · Vanilla JavaScript** — no React, Angular, Vue, Bootstrap, Tailwind, jQuery, PHP, Firebase or backend database.
+Built with **HTML5 · CSS3 · Vanilla JavaScript** — no framework or backend database.
 
 Deploy by uploading files to Hostinger, Netlify, GitHub Pages, or any static host.
 
@@ -36,9 +36,8 @@ travelrayz/
 ├── favicon.svg · robots.txt · sitemap.xml · README.md
 ├── assets/
 │   ├── css/          # Modular stylesheets
-│   ├── js/           # config, utils, sheets, trips, gallery, animations, main
+│   ├── js/           # config, utils, sheets, trips, gallery, main
 │   ├── images/       # Poster + hero artwork
-│   ├── videos/       # Optional hero drone video (hero-drone.mp4)
 │   └── icons/
 ├── admin/            # Password-gated CMS UI
 └── google-sheet/     # Apps Script + sample CSV + setup guide
@@ -50,29 +49,26 @@ travelrayz/
 
 | Token | Value |
 |--------|--------|
-| Primary | `#0B1F3A` |
-| Accent | `#FF7A00` |
-| Gold | `#FFC107` |
-| Background | `#F8FAFC` |
-| Dark | `#08111F` |
-| Text | `#1E293B` |
-| Headings | Cinzel |
-| Subheads | Montserrat |
-| Body | Poppins |
+| Primary | `#0a1628` |
+| Accent | `#38bdf8` |
+| Sky | `#7dd3fc` |
+| Background | `#050a12` |
+| Text | `#e8f4fc` |
+| Headings | Cormorant Garamond |
+| Body / UI | Outfit |
 
-Glassmorphism cards, soft shadows, rounded corners, dark mode toggle.
+Dark sky-blue palette with full-bleed hero and restrained motion.
 
 ---
 
 ## Features
 
-- Full-screen hero with video/image fallback, rotating headlines, floating stats, parallax, clouds
-- Upcoming trips from **Google Sheets** (Apps Script JSON API) with search, filters, countdown, tilt cards
+- Full-bleed hero with brand, tagline, and CTAs
+- Upcoming trips from **Google Sheets** (Apps Script JSON API) with search, filters, countdown, and card tilt
 - Trip details modal: inclusions, itinerary, WhatsApp book, share, copy link, print/PDF itinerary
-- Categories, featured Swiper slider, Pinterest masonry gallery + lightbox
-- Why Choose Us, testimonials slider, FAQ accordion, contact + maps + enquiry (WhatsApp + confetti)
-- Floating WhatsApp / Call / Back to top, sticky Book Now, scroll progress, animated cursor
-- Loader, GSAP / AOS / Swiper / ScrollReveal motion
+- Masonry gallery + lightbox
+- Why Choose Us, testimonials, FAQ accordion, contact + maps + WhatsApp enquiry
+- Floating WhatsApp button
 - SEO: meta, Open Graph, Twitter, JSON-LD, robots.txt, sitemap.xml, lazy images
 - Admin: trips CRUD, gallery, testimonials, settings, JSON export
 
@@ -117,20 +113,7 @@ Edit **`assets/js/config.js`**:
 - Company phones, WhatsApp, email, social, maps embed
 - `sheetsApiUrl`
 - `adminPassword`
-- Feature flags (dark mode, cursor, confetti, weather, sticky book, scroll progress)
 - `fallbackTrips` used when Sheets is offline
-
----
-
-## Hero video (optional)
-
-Place a compressed MP4 at:
-
-```
-assets/videos/hero-drone.mp4
-```
-
-If missing or failing, the premium mountain SVG/image is shown automatically.
 
 ---
 
@@ -152,10 +135,10 @@ Point DNS to your host, then update canonical URLs in HTML, `sitemap.xml`, and `
 
 ## Performance tips
 
-- Keep hero video under ~3–5 MB; prefer WebM/MP4 H.264
 - Compress poster/gallery images (WebP where possible)
-- CDNs already load GSAP, AOS, Swiper, fonts with `defer` / `preconnect`
+- Google Fonts load with `preconnect`; site scripts use `defer`
 - Scroll handlers are throttled/debounced
+- Pages only load the JS they need (trips / gallery / chrome)
 
 ---
 
