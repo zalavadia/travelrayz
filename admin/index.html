@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TRAVELRAYZ Admin</title>
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Montserrat:wght@500;600&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+  <!-- Login gate -->
+  <div id="login-screen" class="login-screen">
+    <div class="login-card glass">
+      <div class="login-brand">
+        <img src="../assets/icons/logo.svg" alt="TRAVELRAYZ" width="48" height="48">
+        <h1>TRAVELRAYZ</h1>
+        <p>Admin Panel</p>
+      </div>
+      <form id="login-form" autocomplete="off">
+        <label for="login-password">Password</label>
+        <input type="password" id="login-password" placeholder="Enter admin password" required autofocus>
+        <button type="submit" class="btn btn-primary">Enter Dashboard</button>
+      </form>
+      <p class="login-hint">Default password is set in <code>config.js</code></p>
+    </div>
+  </div>
+
+  <!-- Main dashboard (hidden until auth) -->
+  <div id="dashboard" class="dashboard hidden">
+    <header class="admin-header">
+      <div class="header-left">
+        <img src="../assets/icons/logo.svg" alt="" width="32" height="32">
+        <span class="header-title">TRAVELRAYZ Admin</span>
+      </div>
+      <div class="header-right">
+        <a href="../index.html" class="btn btn-ghost" target="_blank" rel="noopener">View Site</a>
+        <button type="button" id="logout-btn" class="btn btn-outline">Logout</button>
+      </div>
+    </header>
+
+    <div class="admin-layout">
+      <!-- Sidebar navigation -->
+      <aside class="sidebar">
+        <nav class="sidebar-nav">
+          <button type="button" class="nav-item active" data-panel="trips">
+            <span class="nav-icon">✈</span> Trips
+          </button>
+          <button type="button" class="nav-item" data-panel="gallery">
+            <span class="nav-icon">🖼</span> Gallery
+          </button>
+          <button type="button" class="nav-item" data-panel="testimonials">
+            <span class="nav-icon">★</span> Testimonials
+          </button>
+          <button type="button" class="nav-item" data-panel="settings">
+            <span class="nav-icon">⚙</span> Settings
+          </button>
+          <button type="button" class="nav-item" data-panel="export">
+            <span class="nav-icon">↓</span> Export
+          </button>
+        </nav>
+      </aside>
+
+      <main class="admin-main">
+
+        <!-- Trips panel -->
+        <section id="panel-trips" class="panel active">
+          <div class="panel-header">
+            <h2>Trips</h2>
+            <p class="panel-desc">Manage trips via Google Sheets CMS</p>
+          </div>
+
+          <div id="sheets-warning" class="alert alert-warning hidden">
+            Google Apps Script URL is not configured. Trips are read-only from fallback data.
+            Set <code>sheetsApiUrl</code> in <code>config.js</code> to enable saves.
+          </div>
+
+          <div class="toolbar">
+            <input type="search" id="trip-search" class="input" placeholder="Search trips…">
+            <select id="trip-filter-category" class="select">
+              <option value="">All categories</option>
+            </select>
+            <select id="trip-filter-status" class="select">
+              <option value="">All statuses</option>
+              <option value="Active">Active</option>
+              <option value="Inactive">Inactive</option>
+            </select>
+            <button type="button" id="trip-add-btn" class="btn btn-primary">+ Add Trip</button>
+          </div>
+
+          <div class="table-wrap">
+            <table class="data-table" id="trips-table">
+              <thead>
+                <tr>
+                  <th>Trip</th>
+                  <th>Destination</th>
+                  <th>Category</th>
+                  <th>Date</th>
+                  <th>Price</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="trips-tbody"></tbody>
+            </table>
+          </div>
+
+          <!-- Trip form modal -->
+          <div id="trip-modal" class="modal hidden">
+            <div class="modal-backdrop" data-close-modal></div>
+            <div class="modal-content glass">
+              <div class="modal-header">
+                <h3 id="trip-form-title">Add Trip</h3>
+                <button type="button" class="modal-close" data-close-modal aria-label="Close">&times;</button>
+              </div>
+              <form id="trip-form" class="form-grid">
+                <input type="hidden" id="trip-id" name="id">
+
+                <div class="form-group">
+                  <label for="trip-name">Trip Name *</label>
+                  <input type="text" id="trip-name" name="tripName" required>
+                </div>
+                <div class="form-group">
+                  <label for="trip-destination">Destination *</label>
+                  <input type="text" id="trip-destination" name="destination" required>
+                </div>
+                <div class="form-group">
+                  <label for="trip-poster">Poster URL</label>
+                  <input type="url" id="trip-poster" name="poster" placeholder="https://…">
+                </div>
+                <div class="form-group">
+                  <label for="trip-category">Category</label>
+                  <input type="text" id="trip-category" name="category" placeholder="Jyotirlinga, Trek, etc.">
+                </div>
+                <div class="form-group">
+                  <label for="trip-duration">Duration</label>
+                  <input type="text" id="trip-duration" name="duration" placeholder="2 Days / 2 Nights">
+                </div>
+                <div class="form-group">
+                  <label for="trip-date">Travel Date</label>
+                  <input type="datetime-local" id="trip-date" name="travelDate">
+                </div>
+                <div class="form-group">
+                  <label for="trip-price">Price (INR)</label>
+                  <input type="number" id="trip-price" name="price" min="0" step="1">
+                </div>
+                <div class="form-group">
+                  <label for="trip-seats">Seats</label>
+                  <input type="number" id="trip-seats" name="seats" min="0">
+                </div>
+                <div class="form-group full">
+                  <label for="trip-description">Description</label>
+                  <textarea id="trip-description" name="description" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                  <label for="trip-vehicle">Vehicle</label>
+                  <input type="text" id="trip-vehicle" name="vehicle">
+                </div>
+                <div class="form-group">
+                  <label for="trip-booking">Booking Link</label>
+                  <input type="url" id="trip-booking" name="bookingLink">
+                </div>
+                <div class="form-group full">
+                  <label for="trip-inclusions">Inclusions</label>
+                  <textarea id="trip-inclusions" name="inclusions" rows="2" placeholder="Separate with | or new lines"></textarea>
+                </div>
+                <div class="form-group full">
+                  <label for="trip-exclusions">Exclusions</label>
+                  <textarea id="trip-exclusions" name="exclusions" rows="2"></textarea>
+                </div>
+                <div class="form-group full">
+                  <label for="trip-pickup">Pickup Points</label>
+                  <textarea id="trip-pickup" name="pickupPoints" rows="2"></textarea>
+                </div>
+                <div class="form-group full">
+                  <label for="trip-itinerary">Itinerary</label>
+                  <textarea id="trip-itinerary" name="itinerary" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                  <label for="trip-difficulty">Difficulty</label>
+                  <select id="trip-difficulty" name="difficulty">
+                    <option value="Easy">Easy</option>
+                    <option value="Moderate">Moderate</option>
+                    <option value="Hard">Hard</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="trip-trending">Trending</label>
+                  <select id="trip-trending" name="trending">
+                    <option value="No">No</option>
+                    <option value="Yes">Yes</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="trip-featured">Featured</label>
+                  <select id="trip-featured" name="featured">
+                    <option value="No">No</option>
+                    <option value="Yes">Yes</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="trip-status">Status</label>
+                  <select id="trip-status" name="status">
+                    <option value="Active">Active</option>
+                    <option value="Inactive">Inactive</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="trip-limited">Limited Seats</label>
+                  <select id="trip-limited" name="limitedSeats">
+                    <option value="No">No</option>
+                    <option value="Yes">Yes</option>
+                  </select>
+                </div>
+
+                <div class="form-actions full">
+                  <button type="button" class="btn btn-ghost" data-close-modal>Cancel</button>
+                  <button type="submit" class="btn btn-primary" id="trip-save-btn">Save Trip</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </section>
+
+        <!-- Gallery panel -->
+        <section id="panel-gallery" class="panel">
+          <div class="panel-header">
+            <h2>Gallery</h2>
+            <p class="panel-desc">Images stored in browser localStorage (<code>travelrayz_gallery</code>)</p>
+          </div>
+
+          <form id="gallery-form" class="inline-form">
+            <input type="url" id="gallery-src" class="input" placeholder="Image URL" required>
+            <input type="text" id="gallery-alt" class="input" placeholder="Alt text" required>
+            <button type="submit" class="btn btn-primary">Add Image</button>
+          </form>
+
+          <div id="gallery-list" class="card-grid"></div>
+        </section>
+
+        <!-- Testimonials panel -->
+        <section id="panel-testimonials" class="panel">
+          <div class="panel-header">
+            <h2>Testimonials</h2>
+            <p class="panel-desc">Stored in localStorage (<code>travelrayz_testimonials</code>)</p>
+          </div>
+
+          <form id="testimonial-form" class="form-grid compact">
+            <div class="form-group">
+              <label for="test-name">Name</label>
+              <input type="text" id="test-name" required>
+            </div>
+            <div class="form-group">
+              <label for="test-rating">Rating (1–5)</label>
+              <input type="number" id="test-rating" min="1" max="5" value="5" required>
+            </div>
+            <div class="form-group">
+              <label for="test-trip">Trip</label>
+              <input type="text" id="test-trip" placeholder="Trip name">
+            </div>
+            <div class="form-group">
+              <label for="test-photo">Photo URL</label>
+              <input type="url" id="test-photo" placeholder="https://…">
+            </div>
+            <div class="form-group full">
+              <label for="test-text">Testimonial</label>
+              <textarea id="test-text" rows="3" required></textarea>
+            </div>
+            <div class="form-actions full">
+              <button type="submit" class="btn btn-primary">Add Testimonial</button>
+            </div>
+          </form>
+
+          <div id="testimonials-list" class="card-list"></div>
+        </section>
+
+        <!-- Settings panel -->
+        <section id="panel-settings" class="panel">
+          <div class="panel-header">
+            <h2>Settings</h2>
+            <p class="panel-desc">Company details merge into site config on load</p>
+          </div>
+
+          <form id="settings-form" class="form-grid">
+            <div class="form-group">
+              <label for="set-name">Company Name</label>
+              <input type="text" id="set-name" name="name">
+            </div>
+            <div class="form-group">
+              <label for="set-tagline">Tagline</label>
+              <input type="text" id="set-tagline" name="tagline">
+            </div>
+            <div class="form-group">
+              <label for="set-phone">Phone</label>
+              <input type="tel" id="set-phone" name="phone">
+            </div>
+            <div class="form-group">
+              <label for="set-phone2">Phone 2</label>
+              <input type="tel" id="set-phone2" name="phone2">
+            </div>
+            <div class="form-group">
+              <label for="set-whatsapp">WhatsApp (with country code)</label>
+              <input type="text" id="set-whatsapp" name="whatsapp">
+            </div>
+            <div class="form-group">
+              <label for="set-email">Email</label>
+              <input type="email" id="set-email" name="email">
+            </div>
+            <div class="form-group full">
+              <label for="set-address">Address</label>
+              <input type="text" id="set-address" name="address">
+            </div>
+            <div class="form-group full">
+              <label for="set-maps">Google Maps Embed URL</label>
+              <input type="url" id="set-maps" name="mapsEmbed">
+            </div>
+            <div class="form-group">
+              <label for="set-instagram">Instagram</label>
+              <input type="url" id="set-instagram" name="instagram">
+            </div>
+            <div class="form-group">
+              <label for="set-facebook">Facebook</label>
+              <input type="url" id="set-facebook" name="facebook">
+            </div>
+            <div class="form-group">
+              <label for="set-youtube">YouTube</label>
+              <input type="url" id="set-youtube" name="youtube">
+            </div>
+
+            <div class="form-divider full"><span>Security</span></div>
+
+            <div class="form-group full">
+              <label for="set-admin-pass">Admin Password</label>
+              <input type="password" id="set-admin-pass" placeholder="Leave blank to keep current">
+              <small class="hint">Saved to localStorage (<code>travelrayz_admin_password</code>)</small>
+            </div>
+
+            <div class="form-actions full">
+              <button type="submit" class="btn btn-primary">Save Settings</button>
+            </div>
+          </form>
+        </section>
+
+        <!-- Export panel -->
+        <section id="panel-export" class="panel">
+          <div class="panel-header">
+            <h2>Export</h2>
+            <p class="panel-desc">Download JSON backups of your data</p>
+          </div>
+
+          <div class="export-cards">
+            <div class="export-card glass">
+              <h3>Trips JSON</h3>
+              <p>All trips currently loaded in the admin (including inactive).</p>
+              <button type="button" id="export-trips" class="btn btn-primary">Download Trips</button>
+            </div>
+            <div class="export-card glass">
+              <h3>Settings JSON</h3>
+              <p>Company settings from config + localStorage overrides.</p>
+              <button type="button" id="export-settings" class="btn btn-primary">Download Settings</button>
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- Toast notification -->
+  <div id="toast" class="toast" aria-live="polite"></div>
+
+  <!-- Shared site scripts (order matters) -->
+  <script src="../assets/js/config.js"></script>
+  <script src="../assets/js/utils.js"></script>
+  <script src="../assets/js/sheets.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,102 @@
+/* TRAVELRAYZ — Responsive */
+@media (max-width: 1024px) {
+  .about-grid,
+  .contact-grid,
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .footer-grid {
+    gap: 2rem 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --nav-h: 70px;
+  }
+
+  .section {
+    padding: 4rem 0;
+  }
+
+  .about-grid,
+  .contact-grid,
+  .footer-grid,
+  .mission-vision,
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .about-image {
+    aspect-ratio: 16 / 11;
+    max-height: 360px;
+  }
+
+  .hero-stats {
+    gap: 0.75rem;
+  }
+
+  .stat-pill {
+    min-width: 110px;
+    padding: 0.85rem 1rem;
+  }
+
+  .gallery-masonry {
+    columns: 2 160px;
+  }
+
+  .float-btns {
+    right: 0.85rem;
+    bottom: 5.5rem;
+  }
+
+  .sticky-book .btn {
+    padding: 0.75rem 1.4rem;
+    font-size: 0.8rem;
+  }
+
+  .trips-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search-box {
+    max-width: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    width: min(100% - 1.5rem, var(--container));
+  }
+
+  .hero-ctas {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .hero-ctas .btn {
+    width: 100%;
+  }
+
+  .gallery-masonry {
+    columns: 1;
+  }
+
+  .category-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .modal-content {
+    padding: 1.25rem;
+  }
+
+  .modal-actions {
+    flex-direction: column;
+  }
+
+  .modal-price {
+    margin-right: 0;
+  }
+}

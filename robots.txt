@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /google-sheet/
+
+Sitemap: https://travelrayz.com/sitemap.xml

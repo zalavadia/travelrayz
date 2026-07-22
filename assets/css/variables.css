@@ -1,0 +1,38 @@
+/* TRAVELRAYZ — Design Tokens */
+:root {
+  --primary: #0b1f3a;
+  --accent: #ff7a00;
+  --gold: #ffc107;
+  --bg: #f8fafc;
+  --dark: #08111f;
+  --text: #1e293b;
+  --text-muted: #64748b;
+  --white: #ffffff;
+  --glass: rgba(255, 255, 255, 0.12);
+  --glass-border: rgba(255, 255, 255, 0.22);
+  --shadow: 0 10px 40px rgba(8, 17, 31, 0.12);
+  --shadow-lg: 0 24px 60px rgba(8, 17, 31, 0.18);
+  --radius: 16px;
+  --radius-lg: 24px;
+  --radius-sm: 10px;
+  --nav-h: 80px;
+  --font-heading: 'Cinzel', serif;
+  --font-sub: 'Montserrat', sans-serif;
+  --font-body: 'Poppins', sans-serif;
+  --transition: 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  --container: 1200px;
+  --gradient-hero: linear-gradient(135deg, rgba(11, 31, 58, 0.85), rgba(8, 17, 31, 0.55));
+  --gradient-accent: linear-gradient(135deg, #ff7a00, #ffc107);
+  --gradient-move: linear-gradient(120deg, #0b1f3a, #1a3a5c, #0b1f3a, #ff7a00);
+}
+
+[data-theme='dark'] {
+  --bg: #08111f;
+  --text: #e2e8f0;
+  --text-muted: #94a3b8;
+  --white: #0f1a2a;
+  --glass: rgba(255, 255, 255, 0.06);
+  --glass-border: rgba(255, 255, 255, 0.12);
+  --shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 24px 60px rgba(0, 0, 0, 0.5);
+}
