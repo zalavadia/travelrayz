@@ -14,7 +14,13 @@ const AppChrome = {
   bindNav() {
     const toggle = TR.qs('.nav-toggle');
     const links = TR.qs('.nav-links');
+    const navbar = TR.qs('.navbar');
     if (!toggle || !links) return;
+
+    // Ensure header stays a direct child of body (outside transformed/overflow wrappers)
+    if (navbar && navbar.parentElement !== document.body) {
+      document.body.prepend(navbar);
+    }
 
     const mq = window.matchMedia('(max-width: 1024px)');
 
