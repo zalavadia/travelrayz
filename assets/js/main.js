@@ -6,7 +6,6 @@ const AppChrome = {
     this.lockShell();
     this.bindNav();
     this.bindScroll();
-    this.bindSectionNav();
     this.bindFAQ();
     this.bindForms();
     this.injectCompany();
@@ -92,57 +91,6 @@ const AppChrome = {
     onScroll();
   },
 
-  bindSectionNav() {
-    if (!document.body.classList.contains('home')) return;
-    const nav = TR.qs('.nav-links');
-    if (!nav) return;
-    const links = TR.qsa('a', nav);
-    if (!links.length) return;
-
-    const items = links
-      .map((a) => {
-        const href = a.getAttribute('href') || '';
-        let id = null;
-        if (href.startsWith('#')) id = href.slice(1);
-        else if (/index\.html\/?$/.test(href) || href === './' || href === '/') id = 'hero';
-        const section = id ? document.getElementById(id) : null;
-        return section ? { a, section } : null;
-      })
-      .filter(Boolean);
-
-    if (!items.length) return;
-
-    const setActive = (active) => {
-      links.forEach((a) => {
-        const on = a === active;
-        a.classList.toggle('active', on);
-        if (on) a.setAttribute('aria-current', 'true');
-        else a.removeAttribute('aria-current');
-      });
-    };
-
-    const update = () => {
-      const navH = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--nav-h')) || 72;
-      const marker = navH + 48;
-      let current = items[0];
-      for (const item of items) {
-        if (item.section.getBoundingClientRect().top <= marker) current = item;
-      }
-      setActive(current.a);
-    };
-
-    links.forEach((a) => {
-      a.addEventListener('click', () => {
-        const href = a.getAttribute('href') || '';
-        if (href.startsWith('#')) setActive(a);
-      });
-    });
-
-    TR.onScroll(TR.throttle(update, 50));
-    window.addEventListener('hashchange', update);
-    update();
-  },
-
   bindFAQ() {
     TR.qsa('.faq-item').forEach((item) => {
       const btn = TR.qs('.faq-question', item);
@@ -220,9 +168,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     console.error('[TRAVELRAYZ] Motion init failed', err);
   }
 
-  if (typeof GalleryUI !== 'undefined') GalleryUI.init();
+  const isHome = document.body.classList.contains('home');
+  if (typeof GalleryUI !== 'undefined') GalleryUI.init(isHome ? { limit: 6 } : {});
   if (typeof TripsUI !== 'undefined') {
-    await TripsUI.init();
+    await TripsUI.init(isHome ? { limit: 3 } : {});
     const hash = location.hash.match(/trip-(.+)/);
     if (hash) {
       setTimeout(() => TripsUI.openModal(hash[1]), 400);

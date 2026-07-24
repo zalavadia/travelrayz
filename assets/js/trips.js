@@ -10,6 +10,7 @@ const TripsUI = {
   async init(options = {}) {
     this.grid = TR.qs(options.grid || '#trips-grid');
     this.modal = TR.qs('#trip-modal');
+    this.limit = Number(options.limit) > 0 ? Number(options.limit) : 0;
     if (!this.grid) return;
 
     this.trips = await SheetsAPI.fetchTrips();
@@ -64,7 +65,8 @@ const TripsUI = {
       return;
     }
 
-    this.grid.innerHTML = this.filtered.map((t) => this.cardHTML(t)).join('');
+    const list = this.limit ? this.filtered.slice(0, this.limit) : this.filtered;
+    this.grid.innerHTML = list.map((t) => this.cardHTML(t)).join('');
     this.bindCards();
     this.initTilt();
   },

@@ -15,16 +15,18 @@ const GalleryUI = {
   ],
   index: 0,
 
-  init() {
+  init(options = {}) {
     this.grid = TR.qs('#gallery-grid');
     this.lightbox = TR.qs('#lightbox');
+    this.limit = Number(options.limit) > 0 ? Number(options.limit) : 0;
     if (!this.grid) return;
     this.render();
     this.bindLightbox();
   },
 
   render() {
-    this.grid.innerHTML = this.images
+    const images = this.limit ? this.images.slice(0, this.limit) : this.images;
+    this.grid.innerHTML = images
       .map(
         (img, i) => `
       <figure class="gallery-item" data-index="${i}">

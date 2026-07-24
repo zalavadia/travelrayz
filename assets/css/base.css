@@ -191,6 +191,18 @@ h6 {
   color: var(--text-muted);
 }
 
+.section-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.85rem;
+  margin-top: 2.5rem;
+}
+
+.home-cta {
+  text-align: center;
+}
+
 /* Buttons */
 .btn {
   display: inline-flex;

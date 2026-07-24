@@ -52,6 +52,10 @@
   margin-bottom: 1rem;
 }
 
+.about-content .btn {
+  margin-top: 0.75rem;
+}
+
 .mission-vision {
   display: grid;
   grid-template-columns: 1fr 1fr;

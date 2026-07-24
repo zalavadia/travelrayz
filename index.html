@@ -71,14 +71,14 @@
         <img class="logo-img" src="assets/images/logo-full.png" alt="TRAVELRAYZ" width="220" height="52">
       </a>
       <nav class="nav-links" aria-label="Primary">
-        <a class="active" href="#hero">Home</a>
-        <a href="#upcoming">Trips</a>
-        <a href="#gallery">Gallery</a>
-        <a href="#about">About</a>
-        <a href="#contact">Contact</a>
+        <a class="active" href="index.html" aria-current="page">Home</a>
+        <a href="upcoming-trips.html">Trips</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
       </nav>
       <div class="nav-actions">
-        <a class="btn btn-primary" href="#contact">Book Now</a>
+        <a class="btn btn-primary" href="book.html">Book Now</a>
         <button class="nav-toggle" type="button" aria-label="Open menu"><span></span><span></span><span></span></button>
       </div>
     </div>
@@ -99,8 +99,8 @@
         <p class="hero-tagline">Travel to Divine. Return with Peace.</p>
         <p class="hero-subtitle">Premium treks, spiritual yatras and weekend escapes — curated with care.</p>
         <div class="hero-ctas">
-          <a class="btn btn-primary" href="#upcoming">Explore Trips</a>
-          <a class="btn btn-outline" href="#contact">Book Now</a>
+          <a class="btn btn-primary" href="upcoming-trips.html">Explore Trips</a>
+          <a class="btn btn-outline" href="book.html">Book Now</a>
         </div>
       </div>
       <div class="hero-line" aria-hidden="true"></div>
@@ -124,28 +124,21 @@
         </div>
       </div>
     </section>
+
     <section class="section" id="upcoming">
       <div class="container">
         <div class="section-header">
           <p class="sub-heading">Plan Ahead</p>
           <h2>Upcoming Trips</h2>
-          <p>Live departures from our trip calendar. Limited seats — book early.</p>
-        </div>
-        <div class="trips-toolbar">
-          <div class="search-box">
-            <label class="label-hidden" for="trip-search">Search trips</label>
-            <input type="search" id="trip-search" placeholder="Search trips, destinations…" autocomplete="off">
-          </div>
-          <div class="filter-pills" role="tablist">
-            <button class="filter-pill active" data-filter="all" type="button">All</button>
-            <button class="filter-pill" data-filter="jyotirlinga" type="button">Jyotirlinga</button>
-            <button class="filter-pill" data-filter="trek" type="button">Treks</button>
-            <button class="filter-pill" data-filter="weekend" type="button">Weekend</button>
-          </div>
+          <p>A few live departures from our trip calendar. Limited seats — book early.</p>
         </div>
         <div class="trips-grid" id="trips-grid"></div>
+        <div class="section-actions">
+          <a class="btn btn-primary" href="upcoming-trips.html">View All Trips</a>
+        </div>
       </div>
     </section>
+
     <section class="section section-muted" id="gallery">
       <div class="container">
         <div class="section-header">
@@ -154,8 +147,12 @@
           <p>Scenes from trails, temples and nights under the stars.</p>
         </div>
         <div class="gallery-masonry" id="gallery-grid"></div>
+        <div class="section-actions">
+          <a class="btn btn-outline" href="gallery.html">Open Gallery</a>
+        </div>
       </div>
     </section>
+
     <section class="section" id="about">
       <div class="container about-grid">
         <div class="about-image">
@@ -166,19 +163,11 @@
           <h2>Crafted for seekers of peace &amp; adventure</h2>
           <p>TRAVELRAYZ designs premium group journeys across Maharashtra and beyond — from sacred Jyotirlinga yatras to weekend treks and family escapes.</p>
           <p>Every trip blends comfort and devotion: Luxury Urbania travel, verified hotels, pure veg meals, and leaders who care about your safety.</p>
-          <div class="mission-vision">
-            <div class="mv-card">
-              <h4>Mission</h4>
-              <p>Make divine &amp; adventure travel accessible, safe and unforgettable.</p>
-            </div>
-            <div class="mv-card">
-              <h4>Vision</h4>
-              <p>India’s most trusted premium trek &amp; spiritual travel brand.</p>
-            </div>
-          </div>
+          <a class="btn btn-primary" href="about.html">About TRAVELRAYZ</a>
         </div>
       </div>
     </section>
+
     <section class="section" id="why">
       <div class="container">
         <div class="section-header">
@@ -195,6 +184,7 @@
         </div>
       </div>
     </section>
+
     <section class="section" id="testimonials">
       <div class="container">
         <div class="section-header">
@@ -227,8 +217,12 @@
             </div>
           </div>
         </div>
+        <div class="section-actions">
+          <a class="btn btn-outline" href="testimonials.html">Read More Stories</a>
+        </div>
       </div>
     </section>
+
     <section class="section section-muted" id="faq">
       <div class="container">
         <div class="section-header">
@@ -259,59 +253,17 @@
         </div>
       </div>
     </section>
-    <section class="section" id="contact">
+
+    <section class="section home-cta" id="plan">
       <div class="container">
         <div class="section-header">
           <p class="sub-heading">Let’s Plan</p>
-          <h2>Contact &amp; Enquiry</h2>
+          <h2>Ready for your next journey?</h2>
+          <p>Tell us your dates and group size — we’ll help you pick the right trek, yatra or weekend escape.</p>
         </div>
-        <div class="contact-grid">
-          <div class="contact-info">
-            <div class="contact-card">
-              <div class="icon">PH</div>
-              <div>
-                <h4>Phone / WhatsApp</h4>
-                <p><a data-company-phone href="tel:7208358868">7208358868</a> · <a data-company-phone2 href="tel:8850824834">8850824834</a></p>
-              </div>
-            </div>
-            <div class="contact-card">
-              <div class="icon">EM</div>
-              <div>
-                <h4>Email</h4>
-                <p><a data-company-email href="mailto:hello@travelrayz.com">hello@travelrayz.com</a></p>
-              </div>
-            </div>
-            <div class="contact-card">
-              <div class="icon">IN</div>
-              <div>
-                <h4>Address</h4>
-                <p data-company-address>Maharashtra, India</p>
-              </div>
-            </div>
-            <a class="btn btn-primary" data-whatsapp-link href="#" target="_blank" rel="noopener">Chat on WhatsApp</a>
-            <div class="map-wrap">
-              <iframe id="google-map" title="TRAVELRAYZ location map" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d241317.11609823277!2d72.74109995709657!3d19.08219783958221!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c6306644edc1%3A0x5da4ed8f8d648c69!2sMumbai%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1700000000000"></iframe>
-            </div>
-          </div>
-          <form class="enquiry-form" id="enquiry-form">
-            <div class="form-row">
-              <div class="form-group"><label for="name">Name</label><input id="name" name="name" required autocomplete="name"></div>
-              <div class="form-group"><label for="phone">Phone</label><input id="phone" name="phone" type="tel" required autocomplete="tel"></div>
-            </div>
-            <div class="form-group">
-              <label for="trip">Interested In</label>
-              <select id="trip" name="trip">
-                <option>Maharashtra 3 Jyotirlinga Yatra</option>
-                <option>Weekend Trek</option>
-                <option>Camping</option>
-                <option>Customized Tour</option>
-                <option>Other</option>
-              </select>
-            </div>
-            <div class="form-group"><label for="message">Message</label><textarea id="message" name="message" required placeholder="Dates, group size, preferences…"></textarea></div>
-            <button class="btn btn-primary" type="submit">Send Enquiry</button>
-          </form>
+        <div class="section-actions">
+          <a class="btn btn-primary" href="book.html">Book Now</a>
+          <a class="btn btn-outline" href="contact.html">Contact Us</a>
         </div>
       </div>
     </section>
@@ -330,18 +282,19 @@
           </div>
         </div>
         <div>
-          <h4>Explore</h4>
+          <h4>Quick Links</h4>
           <div class="footer-links">
-            <a href="#upcoming">Upcoming Trips</a>
+            <a href="upcoming-trips.html">Upcoming Trips</a>
             <a href="treks.html">Treks</a>
             <a href="tours.html">Tours</a>
             <a href="gallery.html">Gallery</a>
+            <a href="about.html">About</a>
           </div>
         </div>
         <div>
           <h4>Company</h4>
           <div class="footer-links">
-            <a href="about.html">About</a>
+            <a href="testimonials.html">Testimonials</a>
             <a href="contact.html">Contact</a>
             <a href="terms.html">Terms</a>
             <a href="privacy.html">Privacy</a>
