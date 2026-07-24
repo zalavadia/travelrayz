@@ -5,6 +5,7 @@ const AppChrome = {
   init() {
     this.bindNav();
     this.bindScroll();
+    this.bindSectionNav();
     this.bindFAQ();
     this.bindForms();
     this.injectCompany();
@@ -13,16 +14,24 @@ const AppChrome = {
   bindNav() {
     const toggle = TR.qs('.nav-toggle');
     const links = TR.qs('.nav-links');
-    toggle?.addEventListener('click', () => {
-      toggle.classList.toggle('open');
-      links?.classList.toggle('open');
+    if (!toggle || !links) return;
+
+    const mq = window.matchMedia('(max-width: 1024px)');
+
+    const setOpen = (open) => {
+      toggle.classList.toggle('open', open);
+      links.classList.toggle('open', open);
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      document.documentElement.classList.toggle('nav-open', open);
+    };
+
+    toggle.setAttribute('aria-expanded', 'false');
+    toggle.addEventListener('click', () => setOpen(!links.classList.contains('open')));
+    TR.qsa('a', links).forEach((a) => a.addEventListener('click', () => setOpen(false)));
+
+    mq.addEventListener('change', () => {
+      if (!mq.matches) setOpen(false);
     });
-    TR.qsa('.nav-links a').forEach((a) =>
-      a.addEventListener('click', () => {
-        toggle?.classList.remove('open');
-        links?.classList.remove('open');
-      })
-    );
   },
 
   bindScroll() {
@@ -32,6 +41,58 @@ const AppChrome = {
     };
     window.addEventListener('scroll', TR.throttle(onScroll, 16), { passive: true });
     onScroll();
+  },
+
+  bindSectionNav() {
+    if (!document.body.classList.contains('home')) return;
+    const nav = TR.qs('.nav-links');
+    if (!nav) return;
+    const links = TR.qsa('a', nav);
+    if (!links.length) return;
+
+    const items = links
+      .map((a) => {
+        const href = a.getAttribute('href') || '';
+        let id = null;
+        if (href.startsWith('#')) id = href.slice(1);
+        else if (/index\.html\/?$/.test(href) || href === './' || href === '/') id = 'hero';
+        const section = id ? document.getElementById(id) : null;
+        return section ? { a, section } : null;
+      })
+      .filter(Boolean)
+      .sort((x, y) => x.section.offsetTop - y.section.offsetTop);
+
+    if (!items.length) return;
+
+    const setActive = (active) => {
+      links.forEach((a) => {
+        const on = a === active;
+        a.classList.toggle('active', on);
+        if (on) a.setAttribute('aria-current', 'true');
+        else a.removeAttribute('aria-current');
+      });
+    };
+
+    const update = () => {
+      const navH = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--nav-h')) || 72;
+      const marker = window.scrollY + navH + 48;
+      let current = items[0];
+      for (const item of items) {
+        if (item.section.offsetTop <= marker) current = item;
+      }
+      setActive(current.a);
+    };
+
+    links.forEach((a) => {
+      a.addEventListener('click', () => {
+        const href = a.getAttribute('href') || '';
+        if (href.startsWith('#')) setActive(a);
+      });
+    });
+
+    window.addEventListener('scroll', TR.throttle(update, 50), { passive: true });
+    window.addEventListener('hashchange', update);
+    update();
   },
 
   bindFAQ() {

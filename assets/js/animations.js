@@ -3,6 +3,11 @@
  */
 const Motion = {
   init() {
+    // Keep page-reveal off <body> so it never creates a fixed containing block
+    if (document.body.classList.contains('page-reveal')) {
+      document.body.classList.remove('page-reveal');
+      document.getElementById('main')?.classList.add('page-reveal');
+    }
     this.injectAmbient();
     this.initReveal();
     this.initParallax();

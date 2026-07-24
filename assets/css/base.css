@@ -16,12 +16,12 @@ html {
 body {
   font-family: var(--font-body);
   background: var(--gradient-page);
-  background-attachment: fixed;
+  /* Avoid background-attachment:fixed — it breaks position:fixed menus on iOS */
   color: var(--text);
   line-height: 1.7;
-  overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
 body::before {

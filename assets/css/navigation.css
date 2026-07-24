@@ -1,20 +1,36 @@
 /* TRAVELRAYZ — Navigation */
+
+html.nav-open,
+html.nav-open body {
+  overflow: hidden;
+  touch-action: none;
+}
+
 .navbar {
   position: fixed;
   inset: 0 0 auto 0;
   height: var(--nav-h);
-  z-index: 1000;
+  z-index: 1300;
   display: flex;
   align-items: center;
-  transition: background var(--transition), backdrop-filter var(--transition), box-shadow var(--transition);
+  transition: background var(--transition), height var(--transition), box-shadow var(--transition);
 }
 
 .navbar.scrolled {
   background: rgba(0, 0, 0, 0.72);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
   border-bottom: 1px solid rgba(34, 211, 238, 0.12);
+}
+
+/* Blur on a layer — not the navbar itself — so fixed/absolute menu isn't trapped */
+.navbar.scrolled::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  pointer-events: none;
 }
 
 .nav-inner {
@@ -139,26 +155,71 @@
     display: flex;
   }
 
+  .navbar {
+    overflow: hidden;
+  }
+
+  /* Expand the bar into a full-screen panel so links share its stacking context */
+  html.nav-open .navbar {
+    height: 100vh;
+    height: 100dvh;
+    align-items: flex-start;
+    background: #05080f;
+    border-bottom: none;
+    box-shadow: none;
+  }
+
+  html.nav-open .navbar::before {
+    display: none;
+  }
+
+  html.nav-open .nav-inner {
+    width: 100%;
+    max-width: none;
+    min-height: var(--nav-h);
+    padding-inline: 1rem;
+    box-sizing: border-box;
+  }
+
+  .logo,
+  .nav-actions {
+    position: relative;
+    z-index: 2;
+  }
+
+  /* Positioned against .navbar (fixed), not .nav-inner — so bottom:0 fills the viewport */
   .nav-links {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.96);
-    backdrop-filter: blur(20px);
+    position: absolute;
+    top: var(--nav-h);
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    display: flex;
     flex-direction: column;
-    justify-content: center;
-    gap: 0.5rem;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 0.35rem;
+    margin: 0;
+    padding: 1.5rem 1.25rem 2rem;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    background: #05080f;
     opacity: 0;
+    visibility: hidden;
     pointer-events: none;
-    transition: opacity var(--transition);
+    transition: opacity var(--transition), visibility var(--transition);
   }
 
   .nav-links.open {
     opacity: 1;
+    visibility: visible;
     pointer-events: auto;
   }
 
   .nav-links a {
-    font-size: 1.15rem;
-    padding: 0.85rem 1.5rem;
+    font-size: 1.2rem;
+    padding: 0.9rem 1.5rem;
+    color: #e2f2fc;
   }
 }

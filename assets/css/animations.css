@@ -6,11 +6,9 @@
 @keyframes pageIn {
   from {
     opacity: 0;
-    transform: translateY(14px);
   }
   to {
     opacity: 1;
-    transform: none;
   }
 }
 
@@ -138,14 +136,9 @@
 }
 
 main,
-.footer,
-.navbar {
+.footer {
   position: relative;
   z-index: 1;
-}
-
-.navbar {
-  z-index: 1000;
 }
 
 .toast {
@@ -237,7 +230,16 @@ main,
 
 body:not(.home) .navbar {
   background: rgba(0, 0, 0, 0.88);
+}
+
+body:not(.home) .navbar::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
   backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  pointer-events: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
