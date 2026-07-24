@@ -11,6 +11,11 @@
     --nav-h: 68px;
   }
 
+  .logo-img {
+    height: 44px;
+    max-width: min(58vw, 180px);
+  }
+
   .section {
     padding: 4rem 0;
   }

@@ -29,6 +29,7 @@ const AppChrome = {
       if (el.classList.contains('navbar')) return true;
       if (el.classList.contains('skip-link')) return true;
       if (el.classList.contains('ambient')) return true;
+      if (el.classList.contains('page-loader')) return true;
       if (el.classList.contains('float-btns')) return true;
       if (el.classList.contains('toast')) return true;
       if (el.id === 'trip-modal' || el.id === 'lightbox') return true;
@@ -202,8 +203,22 @@ const AppChrome = {
 };
 
 document.addEventListener('DOMContentLoaded', async () => {
-  AppChrome.init();
-  Motion.init();
+  // Dismiss loader first so a later init error can't leave it stuck
+  try {
+    Motion.initLoader();
+  } catch (_) {}
+
+  try {
+    AppChrome.init();
+  } catch (err) {
+    console.error('[TRAVELRAYZ] AppChrome init failed', err);
+  }
+
+  try {
+    Motion.init();
+  } catch (err) {
+    console.error('[TRAVELRAYZ] Motion init failed', err);
+  }
 
   if (typeof GalleryUI !== 'undefined') GalleryUI.init();
   if (typeof TripsUI !== 'undefined') {

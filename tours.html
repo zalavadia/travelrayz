@@ -18,20 +18,41 @@
   <meta name="twitter:title" content="Tours | TRAVELRAYZ">
   <meta name="twitter:description" content="Explore our tour categories and find your perfect journey.">
   <meta name="twitter:image" content="assets/images/maharashtra-3-jyotirlinga-poster.png">
-  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="assets/images/logo-mark.png" type="image/png">
+  <link rel="apple-touch-icon" href="assets/images/logo-mark.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/main.css">
 </head>
 <body>
+  <div class="page-loader" id="page-loader" role="status" aria-live="polite" aria-label="Loading TRAVELRAYZ">
+    <div class="page-loader-inner">
+      <span class="page-loader-ring" aria-hidden="true"></span>
+      <img class="page-loader-logo" src="assets/images/logo-mark.png" alt="" width="120" height="120">
+    </div>
+  </div>
+  <script>
+    (function () {
+      var el = document.getElementById('page-loader');
+      if (!el) return;
+      function dismiss() {
+        if (!el || el.dataset.done) return;
+        el.dataset.done = '1';
+        el.classList.add('is-done');
+        setTimeout(function () { if (el && el.parentNode) el.parentNode.removeChild(el); }, 550);
+      }
+      setTimeout(dismiss, 900);
+      setTimeout(dismiss, 2500);
+    })();
+  </script>
+
   <a class="skip-link" href="#main">Skip to content</a>
 
   <header class="navbar" id="navbar">
     <div class="nav-inner">
       <a class="logo" href="index.html" aria-label="TRAVELRAYZ home">
-        <span class="logo-mark"><img src="assets/icons/logo.svg" alt="" width="28" height="28"></span>
-        <span class="logo-text">TRAVELRAYZ</span>
+        <img class="logo-img" src="assets/images/logo-full.png" alt="TRAVELRAYZ" width="220" height="52">
       </a>
       <nav class="nav-links" aria-label="Primary">
         <a href="index.html">Home</a>
@@ -142,7 +163,7 @@
     <div class="container">
       <div class="footer-grid">
         <div class="footer-brand">
-          <a class="logo" href="index.html"><span class="logo-mark">✦</span><span class="logo-text">TRAVELRAYZ</span></a>
+          <a class="logo" href="index.html"><img class="logo-img" src="assets/images/logo-full.png" alt="TRAVELRAYZ" width="220" height="52"></a>
           <p>Travel to Divine. Return with Peace. Premium treks, yatras and curated journeys across India.</p>
           <div class="social-links">
             <a data-social="instagram" href="#" aria-label="Instagram" target="_blank" rel="noopener">IG</a>

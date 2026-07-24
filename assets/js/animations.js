@@ -8,9 +8,37 @@ const Motion = {
       document.body.classList.remove('page-reveal');
       document.getElementById('main')?.classList.add('page-reveal');
     }
+    // Loader may already be armed from main.js — safe to call again (no-ops if gone)
+    this.initLoader();
     this.injectAmbient();
     this.initReveal();
     this.initParallax();
+  },
+
+  _loaderArmed: false,
+
+  initLoader() {
+    const loader = document.getElementById('page-loader');
+    if (!loader || this._loaderArmed || loader.dataset.done) return;
+    this._loaderArmed = true;
+
+    let finished = false;
+    const hide = () => {
+      if (finished || !loader.isConnected || loader.dataset.done) return;
+      finished = true;
+      loader.dataset.done = '1';
+      loader.classList.add('is-done');
+      document.documentElement.classList.add('is-loaded');
+      setTimeout(() => {
+        if (loader.isConnected) loader.remove();
+      }, 550);
+    };
+
+    // Don't wait for window "load" — fonts/maps/iframes can delay it indefinitely.
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const delay = reduce ? 80 : 650;
+    setTimeout(hide, delay);
+    setTimeout(hide, 2200); // hard failsafe
   },
 
   injectAmbient() {
