@@ -185,7 +185,7 @@ const TripsUI = {
       </div>`;
 
     this.modal.classList.add('open');
-    document.body.style.overflow = 'hidden';
+    document.documentElement.classList.add('modal-open');
 
     TR.qs('.modal-close', this.modal).addEventListener('click', () => this.closeModal());
     this.modal.addEventListener('click', (e) => {
@@ -202,7 +202,7 @@ const TripsUI = {
   closeModal() {
     if (!this.modal) return;
     this.modal.classList.remove('open');
-    document.body.style.overflow = '';
+    document.documentElement.classList.remove('modal-open');
   },
 
   async shareTrip(trip) {

@@ -1,7 +1,11 @@
 /* TRAVELRAYZ — Navigation */
 
 html.nav-open,
-html.nav-open body {
+html.nav-open body,
+html.nav-open .site-shell,
+html.modal-open,
+html.modal-open body,
+html.modal-open .site-shell {
   overflow: hidden;
   touch-action: none;
 }

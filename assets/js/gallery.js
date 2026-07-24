@@ -58,12 +58,12 @@ const GalleryUI = {
     this.index = i;
     this.update();
     this.lightbox.classList.add('open');
-    document.body.style.overflow = 'hidden';
+    document.documentElement.classList.add('modal-open');
   },
 
   close() {
     this.lightbox.classList.remove('open');
-    document.body.style.overflow = '';
+    document.documentElement.classList.remove('modal-open');
   },
 
   nav(dir) {

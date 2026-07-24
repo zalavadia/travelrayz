@@ -3,6 +3,7 @@
  */
 const AppChrome = {
   init() {
+    this.lockShell();
     this.bindNav();
     this.bindScroll();
     this.bindSectionNav();
@@ -11,13 +12,54 @@ const AppChrome = {
     this.injectCompany();
   },
 
+  /**
+   * Move page content into .site-shell so window/body never scroll.
+   * Navbar stays a sibling → position:fixed sticks to the viewport on mobile.
+   */
+  lockShell() {
+    if (document.querySelector('.site-shell')) return;
+
+    const shell = document.createElement('div');
+    shell.className = 'site-shell';
+
+    const stayOnBody = (el) => {
+      if (!el || el.nodeType !== 1) return false;
+      const tag = el.tagName;
+      if (tag === 'SCRIPT' || tag === 'STYLE' || tag === 'LINK') return true;
+      if (el.classList.contains('navbar')) return true;
+      if (el.classList.contains('skip-link')) return true;
+      if (el.classList.contains('ambient')) return true;
+      if (el.classList.contains('float-btns')) return true;
+      if (el.classList.contains('toast')) return true;
+      if (el.id === 'trip-modal' || el.id === 'lightbox') return true;
+      return false;
+    };
+
+    const move = [];
+    [...document.body.children].forEach((el) => {
+      if (!stayOnBody(el)) move.push(el);
+    });
+    move.forEach((el) => shell.appendChild(el));
+
+    const nav = TR.qs('.navbar');
+    if (nav) nav.after(shell);
+    else document.body.prepend(shell);
+
+    // Overlays must sit on body (outside overflow scrollport)
+    ['#trip-modal', '#lightbox', '.float-btns'].forEach((sel) => {
+      const el = TR.qs(sel);
+      if (el && el.parentElement !== document.body) document.body.appendChild(el);
+    });
+
+    document.documentElement.classList.add('has-shell');
+  },
+
   bindNav() {
     const toggle = TR.qs('.nav-toggle');
     const links = TR.qs('.nav-links');
     const navbar = TR.qs('.navbar');
     if (!toggle || !links) return;
 
-    // Ensure header stays a direct child of body (outside transformed/overflow wrappers)
     if (navbar && navbar.parentElement !== document.body) {
       document.body.prepend(navbar);
     }
@@ -43,9 +85,9 @@ const AppChrome = {
   bindScroll() {
     const nav = TR.qs('.navbar');
     const onScroll = () => {
-      nav?.classList.toggle('scrolled', window.scrollY > 40);
+      nav?.classList.toggle('scrolled', TR.scrollY() > 40);
     };
-    window.addEventListener('scroll', TR.throttle(onScroll, 16), { passive: true });
+    TR.onScroll(TR.throttle(onScroll, 16));
     onScroll();
   },
 
@@ -65,8 +107,7 @@ const AppChrome = {
         const section = id ? document.getElementById(id) : null;
         return section ? { a, section } : null;
       })
-      .filter(Boolean)
-      .sort((x, y) => x.section.offsetTop - y.section.offsetTop);
+      .filter(Boolean);
 
     if (!items.length) return;
 
@@ -81,10 +122,10 @@ const AppChrome = {
 
     const update = () => {
       const navH = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--nav-h')) || 72;
-      const marker = window.scrollY + navH + 48;
+      const marker = navH + 48;
       let current = items[0];
       for (const item of items) {
-        if (item.section.offsetTop <= marker) current = item;
+        if (item.section.getBoundingClientRect().top <= marker) current = item;
       }
       setActive(current.a);
     };
@@ -96,7 +137,7 @@ const AppChrome = {
       });
     });
 
-    window.addEventListener('scroll', TR.throttle(update, 50), { passive: true });
+    TR.onScroll(TR.throttle(update, 50));
     window.addEventListener('hashchange', update);
     update();
   },

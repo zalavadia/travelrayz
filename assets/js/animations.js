@@ -41,6 +41,7 @@ const Motion = {
       return;
     }
 
+    const root = document.querySelector('.site-shell') || null;
     const io = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -49,7 +50,7 @@ const Motion = {
           io.unobserve(entry.target);
         });
       },
-      { threshold: 0.1, rootMargin: '0px 0px -5% 0px' }
+      { root, threshold: 0.1, rootMargin: '0px 0px -5% 0px' }
     );
 
     targets.forEach((el, i) => {
@@ -69,14 +70,14 @@ const Motion = {
     if (!layers.length) return;
 
     const onScroll = TR.throttle(() => {
-      const y = window.scrollY;
+      const y = TR.scrollY();
       layers.forEach((el) => {
         const speed = Number(el.dataset.parallax) || 0.05;
         el.style.setProperty('--py', `${y * speed}px`);
       });
     }, 16);
 
-    window.addEventListener('scroll', onScroll, { passive: true });
+    TR.onScroll(onScroll);
     onScroll();
   },
 

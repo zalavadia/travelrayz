@@ -81,5 +81,21 @@ const TR = {
     const d = document.createElement('div');
     d.textContent = str == null ? '' : String(str);
     return d.innerHTML;
+  },
+
+  /** Page scroll root — .site-shell when present, otherwise window */
+  scrollRoot() {
+    return document.querySelector('.site-shell') || window;
+  },
+
+  scrollY() {
+    const root = document.querySelector('.site-shell');
+    return root ? root.scrollTop : window.scrollY;
+  },
+
+  onScroll(fn, opts) {
+    const root = this.scrollRoot();
+    root.addEventListener('scroll', fn, opts || { passive: true });
+    return () => root.removeEventListener('scroll', fn);
   }
 };
