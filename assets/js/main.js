@@ -60,7 +60,7 @@ const AppChrome = {
       const saved = localStorage.getItem('travelrayz-theme');
       if (saved === 'light' || saved === 'dark') return saved;
     } catch (_) {}
-    return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+    return 'dark';
   },
 
   applyTheme(theme) {

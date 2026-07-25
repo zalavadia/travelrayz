@@ -9,11 +9,7 @@
           var t = localStorage.getItem(KEY);
           if (t === 'light' || t === 'dark') return t;
         } catch (e) {}
-        try {
-          return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
-        } catch (e2) {
-          return 'dark';
-        }
+        return 'dark';
       }
       function apply(theme) {
         var next = theme === 'light' ? 'light' : 'dark';
