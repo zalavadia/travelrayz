@@ -30,6 +30,12 @@
   --footer-bottom: rgba(255, 255, 255, 0.4);
   --footer-border: rgba(34, 211, 238, 0.12);
   --loader-bg: radial-gradient(ellipse at 50% 42%, rgba(14, 116, 144, 0.35), transparent 55%), #05080f;
+  /* Brand colours sampled from the logo artwork */
+  --brand-orange: #f2822d;
+  --brand-navy: #0a2a4a;
+  --hero-title: #dbebfc;
+  --hero-tagline: #f2822d;
+  --hero-body: rgba(226, 242, 252, 0.84);
   --glow: 0 0 48px rgba(34, 211, 238, 0.35);
   --shadow: 0 12px 44px rgba(0, 0, 0, 0.55);
   --shadow-lg: 0 30px 80px rgba(0, 0, 0, 0.65);
@@ -105,14 +111,19 @@ html[data-theme='light'] {
   --footer-bottom: rgba(255, 255, 255, 0.4);
   --footer-border: rgba(34, 211, 238, 0.15);
   --loader-bg: radial-gradient(ellipse at 50% 42%, rgba(14, 116, 144, 0.18), transparent 55%), #eef6fb;
+  --brand-orange: #e2711d;
+  --brand-navy: #0a2a4a;
+  --hero-title: #0a2a4a;
+  --hero-tagline: #c2620f;
+  --hero-body: rgba(12, 40, 68, 0.82);
   --glow: 0 0 40px rgba(8, 145, 178, 0.2);
   --shadow: 0 12px 36px rgba(15, 39, 68, 0.1);
   --shadow-lg: 0 24px 60px rgba(15, 39, 68, 0.14);
   --gradient-hero: linear-gradient(
     180deg,
-    rgba(240, 247, 252, 0.15) 0%,
-    rgba(12, 74, 110, 0.35) 40%,
-    rgba(11, 18, 32, 0.72) 100%
+    rgba(0, 20, 40, 0.28) 0%,
+    rgba(0, 10, 24, 0.52) 40%,
+    rgba(2, 8, 18, 0.88) 100%
   );
   --gradient-accent: linear-gradient(120deg, #0e7490 0%, #22d3ee 45%, #67e8f9 100%);
   --gradient-sky: linear-gradient(130deg, #e0f2fe 0%, #bae6fd 40%, #7dd3fc 72%, #38bdf8 100%);

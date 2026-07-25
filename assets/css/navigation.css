@@ -196,9 +196,15 @@ html[data-theme='light'] .nav-links a.active {
 }
 
 html[data-theme='light'] body.home .hero .btn-outline {
-  color: #fff;
-  border-color: rgba(255, 255, 255, 0.55);
-  background: rgba(8, 47, 73, 0.28);
+  color: var(--brand-navy);
+  border-color: rgba(10, 42, 74, 0.35);
+  background: rgba(255, 255, 255, 0.7);
+}
+
+html[data-theme='light'] body.home .hero .btn-outline:hover {
+  border-color: var(--brand-orange);
+  color: var(--brand-orange);
+  background: rgba(255, 255, 255, 0.9);
 }
 
 .nav-toggle.open span:nth-child(1) {

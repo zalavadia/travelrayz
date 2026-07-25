@@ -213,6 +213,15 @@
   }
 }
 
+html[data-theme='light'] .ambient-orb {
+  opacity: 0.32;
+  filter: blur(80px);
+}
+
+html[data-theme='light'] .ambient-beam {
+  opacity: 0.18;
+}
+
 main,
 .footer {
   position: relative;
@@ -243,67 +252,19 @@ main,
 }
 
 .page-hero {
+  /* Base look lives in page-heroes.css (photo editorial). Keep this as a safe fallback. */
   position: relative;
-  padding: calc(var(--nav-h) + 4.5rem) 0 4.5rem;
-  background: var(--gradient-sky);
-  background-size: 200% 200%;
-  animation: skyShift 12s ease-in-out infinite alternate;
-  color: #fff;
-  text-align: center;
   overflow: hidden;
+  isolation: isolate;
 }
 
-@keyframes skyShift {
-  from {
-    background-position: 0% 40%;
-  }
-  to {
-    background-position: 100% 60%;
-  }
-}
-
-.page-hero h1 {
-  position: relative;
-  z-index: 1;
-  font-size: clamp(2rem, 5vw, 3.2rem);
-  margin-bottom: 0.75rem;
-  background: var(--gradient-text);
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  animation: brandShimmer 10s ease-in-out infinite;
-}
-
-.page-hero p {
-  color: rgba(186, 230, 253, 0.82);
-  max-width: 520px;
-  margin: 0 auto;
-  position: relative;
-  z-index: 1;
-}
-
-.page-hero::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(circle at 75% 25%, rgba(34, 211, 238, 0.45), transparent 45%),
-    radial-gradient(circle at 20% 80%, rgba(14, 165, 233, 0.28), transparent 40%);
-  animation: auroraDrift 16s ease-in-out infinite alternate;
-}
-
-.page-hero::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
-  background-size: 48px 48px;
-  mask-image: linear-gradient(180deg, #000 30%, transparent);
-  opacity: 0.5;
-  pointer-events: none;
+/* Legacy texture hooks no longer used — kept inert so old class names don't break */
+.page-hero-aura,
+.page-hero-grain,
+.page-hero-ridges,
+.page-hero-stars,
+.page-hero-vignette {
+  display: none;
 }
 
 body:not(.home) .navbar {
@@ -320,16 +281,6 @@ body:not(.home) .navbar::before {
   pointer-events: none;
 }
 
-html[data-theme='light'] .page-hero p {
-  color: rgba(15, 39, 68, 0.72);
-}
-
-html[data-theme='light'] .page-hero::after {
-  background-image:
-    linear-gradient(rgba(15, 39, 68, 0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(15, 39, 68, 0.06) 1px, transparent 1px);
-}
-
 @media (prefers-reduced-motion: reduce) {
   [data-reveal] {
     opacity: 1;
@@ -340,9 +291,6 @@ html[data-theme='light'] .page-hero::after {
 
   .ambient-orb,
   .ambient-beam,
-  .page-hero,
-  .page-hero h1,
-  .page-hero::before,
   .page-loader-ring,
   .page-loader-ring::after,
   .page-loader-logo {

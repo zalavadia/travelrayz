@@ -11,6 +11,7 @@ const Motion = {
     // Loader may already be armed from main.js — safe to call again (no-ops if gone)
     this.initLoader();
     this.injectAmbient();
+    this.texturePageHeroes();
     this.initReveal();
     this.initParallax();
   },
@@ -53,6 +54,21 @@ const Motion = {
       '<span class="ambient-beam"></span>' +
       '<span class="ambient-beam ambient-beam-2"></span>';
     document.body.prepend(wrap);
+  },
+
+  texturePageHeroes() {
+    TR.qsa('.page-hero').forEach((hero) => {
+      if (hero.classList.contains('has-texture')) return;
+      hero.classList.add('has-texture');
+      const layers = document.createElement('div');
+      layers.className = 'page-hero-layers';
+      layers.setAttribute('aria-hidden', 'true');
+      layers.innerHTML =
+        '<div class="page-hero-media"></div>' +
+        '<div class="page-hero-shade"></div>' +
+        '<div class="page-hero-mesh"></div>';
+      hero.prepend(layers);
+    });
   },
 
   initReveal() {
@@ -124,7 +140,11 @@ const Motion = {
       '.gallery-item',
       '.mv-card',
       '.page-hero h1',
-      '.page-hero p'
+      '.page-hero p',
+      '.featured-visual',
+      '.featured-copy',
+      '.cta-panel',
+      '.journey-strip'
     ];
 
     const set = new Set(TR.qsa('[data-reveal]'));

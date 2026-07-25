@@ -21,6 +21,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center 42%;
   position: absolute;
   inset: 0;
   animation: heroZoom 34s ease-in-out infinite alternate;
@@ -28,34 +29,42 @@
 
 @keyframes heroZoom {
   from {
-    transform: scale(1) translateY(0);
+    transform: scale(1.05) translateY(0);
   }
   to {
-    transform: scale(1.1) translateY(-2%);
+    transform: scale(1.14) translateY(-2%);
   }
 }
 
 .hero-overlay {
   position: absolute;
   inset: 0;
-  background: var(--gradient-hero);
+  background:
+    radial-gradient(ellipse 70% 55% at 50% 38%, rgba(2, 10, 24, 0.15) 0%, transparent 60%),
+    linear-gradient(
+      180deg,
+      rgba(2, 8, 20, 0.55) 0%,
+      rgba(2, 8, 20, 0.28) 32%,
+      rgba(2, 8, 20, 0.45) 58%,
+      rgba(1, 4, 12, 0.88) 100%
+    );
   z-index: 1;
 }
 
+/* Soften aurora so the spiritual art stays readable */
 .hero-aurora {
   position: absolute;
   inset: -30%;
   z-index: 2;
   pointer-events: none;
   background:
-    radial-gradient(ellipse 55% 42% at 18% 28%, rgba(34, 211, 238, 0.55), transparent 62%),
-    radial-gradient(ellipse 50% 38% at 82% 22%, rgba(56, 189, 248, 0.4), transparent 58%),
-    radial-gradient(ellipse 60% 45% at 50% 85%, rgba(6, 182, 212, 0.32), transparent 65%),
-    conic-gradient(from 210deg at 50% 40%, transparent 0deg, rgba(34, 211, 238, 0.12) 60deg, transparent 140deg);
-  filter: blur(12px);
+    radial-gradient(ellipse 55% 42% at 18% 28%, rgba(34, 211, 238, 0.28), transparent 62%),
+    radial-gradient(ellipse 50% 38% at 82% 22%, rgba(56, 189, 248, 0.2), transparent 58%),
+    radial-gradient(ellipse 60% 45% at 50% 85%, rgba(6, 182, 212, 0.18), transparent 65%);
+  filter: blur(14px);
   animation: auroraDrift 16s ease-in-out infinite alternate;
   mix-blend-mode: screen;
-  opacity: 1;
+  opacity: 0.55;
   translate: 0 var(--py, 0px);
 }
 
@@ -160,13 +169,12 @@
   letter-spacing: 0.1em;
   margin-bottom: 0.85rem;
   font-weight: 600;
-  background: var(--gradient-text);
-  background-size: 220% 220%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  animation: brandShimmer 7s ease-in-out infinite, heroRise 1.05s var(--ease-out) both;
-  filter: drop-shadow(0 0 40px rgba(34, 211, 238, 0.45));
+  color: var(--hero-title);
+  animation: heroRise 1.05s var(--ease-out) both;
+}
+
+.hero-brand .brand-rayz {
+  color: var(--brand-orange);
 }
 
 @keyframes brandShimmer {
@@ -194,17 +202,18 @@
 
 .hero-tagline {
   font-family: var(--font-sub);
-  font-size: 0.8rem;
+  font-size: 0.82rem;
+  font-weight: 600;
   letter-spacing: 0.3em;
   text-transform: uppercase;
-  color: rgba(165, 243, 252, 0.85);
+  color: var(--hero-tagline);
   margin-bottom: 1.35rem;
   animation: heroRise 1s var(--ease-out) 0.15s both;
 }
 
 .hero-subtitle {
   font-size: 1.08rem;
-  color: rgba(226, 242, 252, 0.82);
+  color: var(--hero-body);
   max-width: 460px;
   margin: 0 auto 2.1rem;
   line-height: 1.65;
@@ -217,6 +226,44 @@
   gap: 0.9rem;
   justify-content: center;
   animation: heroRise 1s var(--ease-out) 0.42s both;
+}
+
+.hero-scroll {
+  position: absolute;
+  bottom: 2.4rem;
+  left: 50%;
+  z-index: 5;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.55rem;
+  font-family: var(--font-sub);
+  font-size: 0.68rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(186, 230, 253, 0.7);
+  animation: heroRise 1s var(--ease-out) 0.7s both;
+}
+
+.hero-scroll-line {
+  width: 1px;
+  height: 42px;
+  background: linear-gradient(180deg, rgba(34, 211, 238, 0.9), transparent);
+  animation: scrollPulse 1.8s ease-in-out infinite;
+  transform-origin: top center;
+}
+
+@keyframes scrollPulse {
+  0%,
+  100% {
+    transform: scaleY(0.55);
+    opacity: 0.4;
+  }
+  50% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
 }
 
 .hero-line {
@@ -250,6 +297,52 @@
   }
 }
 
+/* Light theme: bright airy hero so the navy wordmark reads on the pale artwork */
+html[data-theme='light'] .hero {
+  background: #eef6fb;
+}
+
+html[data-theme='light'] .hero-overlay {
+  background:
+    radial-gradient(ellipse 72% 58% at 50% 38%, rgba(255, 255, 255, 0.62) 0%, rgba(255, 255, 255, 0.28) 55%, transparent 78%),
+    linear-gradient(
+      180deg,
+      rgba(240, 248, 253, 0.6) 0%,
+      rgba(240, 248, 253, 0.25) 38%,
+      rgba(222, 236, 246, 0.5) 74%,
+      rgba(219, 234, 244, 0.92) 100%
+    );
+}
+
+html[data-theme='light'] .hero-aurora {
+  opacity: 0.22;
+}
+
+html[data-theme='light'] .hero-horizon,
+html[data-theme='light'] .hero-particles {
+  opacity: 0.35;
+}
+
+html[data-theme='light'] .hero-scroll {
+  color: rgba(10, 42, 74, 0.72);
+}
+
+html[data-theme='light'] .hero-scroll-line {
+  background: linear-gradient(180deg, var(--brand-orange), transparent);
+}
+
+html[data-theme='light'] .hero-line {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(8, 145, 178, 0.2) 20%,
+    rgba(14, 116, 144, 0.65) 50%,
+    rgba(8, 145, 178, 0.2) 80%,
+    transparent 100%
+  );
+  box-shadow: 0 0 18px rgba(8, 145, 178, 0.3);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .hero-media img,
   .hero-aurora,
@@ -257,11 +350,13 @@
   .hero-grid,
   .hero-particles,
   .hero-brand,
-  .hero-line {
+  .hero-line,
+  .hero-scroll-line {
     animation: none;
   }
 
-  .hero-content > * {
+  .hero-content > *,
+  .hero-scroll {
     animation: none;
   }
 }

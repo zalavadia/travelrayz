@@ -11,6 +11,7 @@ html {
   scroll-behavior: smooth;
   font-size: 16px;
   background: var(--bg);
+  transition: background-color 0.45s ease, color 0.45s ease;
 }
 
 body {
@@ -20,6 +21,7 @@ body {
   line-height: 1.7;
   -webkit-font-smoothing: antialiased;
   min-height: 100vh;
+  transition: background 0.45s ease, color 0.45s ease;
 }
 
 /* After JS wraps content, scroll moves into .site-shell so the navbar can stay fixed */
