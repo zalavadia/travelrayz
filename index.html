@@ -1,6 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script>
+    (function () {
+      var KEY = 'travelrayz-theme';
+      function preferred() {
+        try {
+          var t = localStorage.getItem(KEY);
+          if (t === 'light' || t === 'dark') return t;
+        } catch (e) {}
+        try {
+          return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+        } catch (e2) {
+          return 'dark';
+        }
+      }
+      function apply(theme) {
+        var next = theme === 'light' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', next);
+        try { localStorage.setItem(KEY, next); } catch (e) {}
+        document.querySelectorAll('.theme-toggle').forEach(function (btn) {
+          var light = next === 'light';
+          btn.setAttribute('aria-label', light ? 'Switch to dark theme' : 'Switch to light theme');
+          btn.setAttribute('title', light ? 'Dark theme' : 'Light theme');
+        });
+      }
+      apply(preferred());
+      document.addEventListener('click', function (e) {
+        var btn = e.target && e.target.closest && e.target.closest('.theme-toggle');
+        if (!btn) return;
+        e.preventDefault();
+        var cur = document.documentElement.getAttribute('data-theme') || 'dark';
+        apply(cur === 'light' ? 'dark' : 'light');
+      });
+    })();
+  </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TRAVELRAYZ | Travel to Divine. Return with Peace.</title>
@@ -78,6 +112,10 @@
         <a href="contact.html">Contact</a>
       </nav>
       <div class="nav-actions">
+        <button class="theme-toggle" type="button" aria-label="Switch to light theme" title="Light theme">
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 14.5A8.5 8.5 0 0 1 9.5 3 7 7 0 1 0 21 14.5z"/></svg>
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+        </button>
         <a class="btn btn-primary" href="book.html">Book Now</a>
         <button class="nav-toggle" type="button" aria-label="Open menu"><span></span><span></span><span></span></button>
       </div>
@@ -125,49 +163,6 @@
       </div>
     </section>
 
-    <section class="section" id="upcoming">
-      <div class="container">
-        <div class="section-header">
-          <p class="sub-heading">Plan Ahead</p>
-          <h2>Upcoming Trips</h2>
-          <p>A few live departures from our trip calendar. Limited seats — book early.</p>
-        </div>
-        <div class="trips-grid" id="trips-grid"></div>
-        <div class="section-actions">
-          <a class="btn btn-primary" href="upcoming-trips.html">View All Trips</a>
-        </div>
-      </div>
-    </section>
-
-    <section class="section section-muted" id="gallery">
-      <div class="container">
-        <div class="section-header">
-          <p class="sub-heading">Moments</p>
-          <h2>Gallery</h2>
-          <p>Scenes from trails, temples and nights under the stars.</p>
-        </div>
-        <div class="gallery-masonry" id="gallery-grid"></div>
-        <div class="section-actions">
-          <a class="btn btn-outline" href="gallery.html">Open Gallery</a>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="about">
-      <div class="container about-grid">
-        <div class="about-image">
-          <img src="assets/images/maharashtra-3-jyotirlinga-poster.png" alt="TRAVELRAYZ spiritual yatra experience" loading="lazy" width="800" height="1000">
-        </div>
-        <div class="about-content">
-          <p class="sub-heading">Our Story</p>
-          <h2>Crafted for seekers of peace &amp; adventure</h2>
-          <p>TRAVELRAYZ designs premium group journeys across Maharashtra and beyond — from sacred Jyotirlinga yatras to weekend treks and family escapes.</p>
-          <p>Every trip blends comfort and devotion: Luxury Urbania travel, verified hotels, pure veg meals, and leaders who care about your safety.</p>
-          <a class="btn btn-primary" href="about.html">About TRAVELRAYZ</a>
-        </div>
-      </div>
-    </section>
-
     <section class="section" id="why">
       <div class="container">
         <div class="section-header">
@@ -181,75 +176,6 @@
           <div class="why-card" data-step="04"><h3>Pure Veg Meals</h3><p>Wholesome vegetarian breakfasts and dinners.</p></div>
           <div class="why-card" data-step="05"><h3>First Aid Ready</h3><p>Medical kit and prepared trip captains on every tour.</p></div>
           <div class="why-card" data-step="06"><h3>24×7 Support</h3><p>Always a call or WhatsApp away.</p></div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="testimonials">
-      <div class="container">
-        <div class="section-header">
-          <p class="sub-heading">Travelers</p>
-          <h2>Testimonials</h2>
-        </div>
-        <div class="testimonials-grid">
-          <div class="testimonial-card">
-            <div class="testimonial-stars">★★★★★</div>
-            <p>“The 3 Jyotirlinga yatra was beautifully organized. Luxury Urbania, pure veg food, and a calm trip leader — felt premium yet soulful.”</p>
-            <div class="testimonial-author">
-              <strong>Priya Sharma</strong>
-              <span>Mumbai · Jyotirlinga Yatra</span>
-            </div>
-          </div>
-          <div class="testimonial-card">
-            <div class="testimonial-stars">★★★★★</div>
-            <p>“Best weekend trek I’ve done. Safety first, great group vibes, and the views were unforgettable.”</p>
-            <div class="testimonial-author">
-              <strong>Arjun Mehta</strong>
-              <span>Pune · Weekend Trek</span>
-            </div>
-          </div>
-          <div class="testimonial-card">
-            <div class="testimonial-stars">★★★★★</div>
-            <p>“Family trip was seamless. Kids loved camping, elders loved the comfort. TRAVELRAYZ handled everything.”</p>
-            <div class="testimonial-author">
-              <strong>Neha Patil</strong>
-              <span>Thane · Family Tour</span>
-            </div>
-          </div>
-        </div>
-        <div class="section-actions">
-          <a class="btn btn-outline" href="testimonials.html">Read More Stories</a>
-        </div>
-      </div>
-    </section>
-
-    <section class="section section-muted" id="faq">
-      <div class="container">
-        <div class="section-header">
-          <p class="sub-heading">Questions</p>
-          <h2>FAQ</h2>
-        </div>
-        <div class="faq-list">
-          <div class="faq-item open">
-            <button class="faq-question" type="button">How do I book a trip?</button>
-            <div class="faq-answer">Click Book Now on any trip, or send an enquiry via the contact form / WhatsApp. We’ll confirm seats, pickup and payment details.</div>
-          </div>
-          <div class="faq-item">
-            <button class="faq-question" type="button">What is included in the price?</button>
-            <div class="faq-answer">Typically Luxury Urbania travel, hotel stay (as listed), pure veg meals mentioned in inclusions, trip leader and first aid. Exclusions are shown on each trip.</div>
-          </div>
-          <div class="faq-item">
-            <button class="faq-question" type="button">Are meals pure vegetarian?</button>
-            <div class="faq-answer">Yes. All TRAVELRAYZ group meals are pure veg unless a custom tour requests otherwise.</div>
-          </div>
-          <div class="faq-item">
-            <button class="faq-question" type="button">Can you customize a private tour?</button>
-            <div class="faq-answer">Absolutely. Share your dates, group size and preferences — we’ll craft a customized itinerary.</div>
-          </div>
-          <div class="faq-item">
-            <button class="faq-question" type="button">What is the cancellation policy?</button>
-            <div class="faq-answer">Policies vary by trip date and vendor bookings. Contact us ASAP; we’ll share the applicable terms for your departure.</div>
-          </div>
         </div>
       </div>
     </section>
@@ -312,19 +238,8 @@
     <a class="float-btn float-whatsapp" data-whatsapp-link href="#" target="_blank" rel="noopener" aria-label="WhatsApp">WA</a>
   </div>
 
-  <div class="modal-overlay" id="trip-modal" aria-hidden="true"></div>
-  <div class="lightbox" id="lightbox" aria-hidden="true">
-    <button class="lightbox-close" type="button" aria-label="Close">✕</button>
-    <button class="lightbox-prev" type="button" aria-label="Previous">‹</button>
-    <img src="" alt="">
-    <button class="lightbox-next" type="button" aria-label="Next">›</button>
-  </div>
-
   <script src="assets/js/config.js" defer></script>
   <script src="assets/js/utils.js" defer></script>
-  <script src="assets/js/sheets.js" defer></script>
-  <script src="assets/js/trips.js" defer></script>
-  <script src="assets/js/gallery.js" defer></script>
   <script src="assets/js/animations.js" defer></script>
   <script src="assets/js/main.js" defer></script>
 </body>

@@ -7,9 +7,7 @@
   z-index: 5000;
   display: grid;
   place-items: center;
-  background:
-    radial-gradient(ellipse at 50% 42%, rgba(14, 116, 144, 0.35), transparent 55%),
-    #05080f;
+  background: var(--loader-bg);
   transition: opacity 0.55s var(--ease-out, cubic-bezier(0.16, 1, 0.3, 1)),
     visibility 0.55s var(--ease-out, cubic-bezier(0.16, 1, 0.3, 1));
 }
@@ -309,7 +307,7 @@ main,
 }
 
 body:not(.home) .navbar {
-  background: rgba(0, 0, 0, 0.88);
+  background: var(--nav-scrolled);
 }
 
 body:not(.home) .navbar::before {
@@ -320,6 +318,16 @@ body:not(.home) .navbar::before {
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   pointer-events: none;
+}
+
+html[data-theme='light'] .page-hero p {
+  color: rgba(15, 39, 68, 0.72);
+}
+
+html[data-theme='light'] .page-hero::after {
+  background-image:
+    linear-gradient(rgba(15, 39, 68, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(15, 39, 68, 0.06) 1px, transparent 1px);
 }
 
 @media (prefers-reduced-motion: reduce) {

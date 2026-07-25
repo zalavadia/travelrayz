@@ -4,6 +4,7 @@
 const AppChrome = {
   init() {
     this.lockShell();
+    this.bindTheme();
     this.bindNav();
     this.bindScroll();
     this.bindFAQ();
@@ -52,6 +53,33 @@ const AppChrome = {
     });
 
     document.documentElement.classList.add('has-shell');
+  },
+
+  getStoredTheme() {
+    try {
+      const saved = localStorage.getItem('travelrayz-theme');
+      if (saved === 'light' || saved === 'dark') return saved;
+    } catch (_) {}
+    return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+  },
+
+  applyTheme(theme) {
+    const next = theme === 'light' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    try {
+      localStorage.setItem('travelrayz-theme', next);
+    } catch (_) {}
+    TR.qsa('.theme-toggle').forEach((btn) => {
+      const isLight = next === 'light';
+      btn.setAttribute('aria-label', isLight ? 'Switch to dark theme' : 'Switch to light theme');
+      btn.setAttribute('title', isLight ? 'Dark theme' : 'Light theme');
+    });
+  },
+
+  bindTheme() {
+    /* Click handling lives in the early head script so the toggle works
+       even if later bundles fail. Keep applyTheme for label sync. */
+    this.applyTheme(this.getStoredTheme());
   },
 
   bindNav() {
@@ -168,10 +196,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     console.error('[TRAVELRAYZ] Motion init failed', err);
   }
 
-  const isHome = document.body.classList.contains('home');
-  if (typeof GalleryUI !== 'undefined') GalleryUI.init(isHome ? { limit: 6 } : {});
+  if (typeof GalleryUI !== 'undefined') GalleryUI.init({});
   if (typeof TripsUI !== 'undefined') {
-    await TripsUI.init(isHome ? { limit: 3 } : {});
+    await TripsUI.init({});
     const hash = location.hash.match(/trip-(.+)/);
     if (hash) {
       setTimeout(() => TripsUI.openModal(hash[1]), 400);
