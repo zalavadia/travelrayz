@@ -297,50 +297,76 @@
   }
 }
 
-/* Light theme: bright airy hero so the navy wordmark reads on the pale artwork */
+/* Light theme: sunrise alpine hero — bright twin of night aurora */
 html[data-theme='light'] .hero {
-  background: #eef6fb;
+  background: #e8f4fb;
 }
 
 html[data-theme='light'] .hero-overlay {
   background:
-    radial-gradient(ellipse 72% 58% at 50% 38%, rgba(255, 255, 255, 0.62) 0%, rgba(255, 255, 255, 0.28) 55%, transparent 78%),
+    radial-gradient(ellipse 55% 45% at 78% 22%, rgba(251, 146, 60, 0.22), transparent 58%),
+    radial-gradient(ellipse 50% 48% at 18% 70%, rgba(56, 189, 248, 0.18), transparent 55%),
+    radial-gradient(ellipse 72% 58% at 50% 38%, rgba(255, 255, 255, 0.38) 0%, rgba(224, 242, 254, 0.18) 55%, transparent 78%),
     linear-gradient(
       180deg,
-      rgba(240, 248, 253, 0.6) 0%,
-      rgba(240, 248, 253, 0.25) 38%,
-      rgba(222, 236, 246, 0.5) 74%,
-      rgba(219, 234, 244, 0.92) 100%
+      rgba(232, 244, 251, 0.4) 0%,
+      rgba(232, 244, 251, 0.12) 36%,
+      rgba(186, 230, 253, 0.35) 72%,
+      rgba(224, 242, 254, 0.92) 100%
     );
 }
 
 html[data-theme='light'] .hero-aurora {
-  opacity: 0.22;
+  opacity: 0.38;
+  mix-blend-mode: multiply;
 }
 
-html[data-theme='light'] .hero-horizon,
+html[data-theme='light'] .hero-horizon {
+  opacity: 0.45;
+}
+
 html[data-theme='light'] .hero-particles {
+  opacity: 0.4;
+}
+
+html[data-theme='light'] .hero-grid {
   opacity: 0.35;
 }
 
+html[data-theme='light'] .hero-brand {
+  text-shadow: 0 2px 24px rgba(255, 255, 255, 0.7), 0 0 40px rgba(56, 189, 248, 0.2);
+}
+
+html[data-theme='light'] .hero-tagline {
+  color: var(--hero-tagline);
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+html[data-theme='light'] .hero-subtitle {
+  color: var(--hero-body);
+  font-weight: 500;
+}
+
 html[data-theme='light'] .hero-scroll {
-  color: rgba(10, 42, 74, 0.72);
+  color: rgba(10, 42, 74, 0.78);
 }
 
 html[data-theme='light'] .hero-scroll-line {
-  background: linear-gradient(180deg, var(--brand-orange), transparent);
+  background: linear-gradient(180deg, var(--brand-orange), rgba(14, 165, 233, 0.2), transparent);
 }
 
 html[data-theme='light'] .hero-line {
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(8, 145, 178, 0.2) 20%,
-    rgba(14, 116, 144, 0.65) 50%,
-    rgba(8, 145, 178, 0.2) 80%,
+    rgba(251, 146, 60, 0.35) 22%,
+    rgba(14, 165, 233, 0.75) 50%,
+    rgba(251, 146, 60, 0.35) 78%,
     transparent 100%
   );
-  box-shadow: 0 0 18px rgba(8, 145, 178, 0.3);
+  box-shadow: 0 0 22px rgba(14, 165, 233, 0.35), 0 0 18px rgba(251, 146, 60, 0.2);
 }
 
 @media (prefers-reduced-motion: reduce) {

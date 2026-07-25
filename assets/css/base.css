@@ -53,8 +53,17 @@ body::before {
 }
 
 html[data-theme='light'] body::before {
-  opacity: 0.02;
-  mix-blend-mode: multiply;
+  opacity: 0.028;
+  mix-blend-mode: soft-light;
+}
+
+html[data-theme='light'] .section-header p,
+html[data-theme='light'] .featured-copy > p {
+  color: var(--text-muted);
+}
+
+html[data-theme='light'] .btn-primary {
+  animation: accentPulse 6s ease-in-out infinite;
 }
 
 img {

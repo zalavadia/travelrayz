@@ -214,12 +214,13 @@
 }
 
 html[data-theme='light'] .ambient-orb {
-  opacity: 0.32;
-  filter: blur(80px);
+  opacity: 0.48;
+  filter: blur(70px);
 }
 
 html[data-theme='light'] .ambient-beam {
-  opacity: 0.18;
+  opacity: 0.28;
+  mix-blend-mode: multiply;
 }
 
 main,

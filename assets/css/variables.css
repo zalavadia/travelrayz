@@ -79,30 +79,30 @@
   --gradient-heading: linear-gradient(120deg, #f0f9ff 20%, #a5f3fc 70%, #22d3ee);
 }
 
-/* Light · clear daylight sky */
+/* Light · sunrise alpine sky (daylight twin of dark aurora) */
 html[data-theme='light'] {
   color-scheme: light;
-  --primary: #0c4a6e;
-  --accent: #0891b2;
+  --primary: #0a3d5c;
+  --accent: #0c8bb0;
   --sky: #0284c7;
-  --ice: #f0f9ff;
+  --ice: #f5fbff;
   --cyan: #0e7490;
-  --deep: #0369a1;
-  --bg: #f0f7fc;
+  --deep: #075985;
+  --bg: #eef6fb;
   --dark: #0b1220;
-  --text: #0f2744;
-  --text-muted: #4a657d;
-  --heading: #0a2540;
+  --text: #0c243d;
+  --text-muted: #3d5a72;
+  --heading: #082338;
   --surface: rgba(255, 255, 255, 0.72);
-  --surface-strong: rgba(14, 116, 144, 0.1);
+  --surface-strong: rgba(14, 165, 233, 0.12);
   --surface-border: rgba(8, 145, 178, 0.22);
   --nav-scrolled: rgba(4, 14, 26, 0.94);
   --nav-link: rgba(226, 242, 252, 0.82);
   --nav-panel: #05121f;
   --nav-toggle: #ffffff;
-  --btn-outline-bg: rgba(255, 255, 255, 0.65);
-  --btn-outline-border: rgba(8, 145, 178, 0.45);
-  --btn-outline-text: #0f2744;
+  --btn-outline-bg: rgba(255, 255, 255, 0.7);
+  --btn-outline-border: rgba(8, 145, 178, 0.42);
+  --btn-outline-text: #0c243d;
   --footer-bg: linear-gradient(180deg, #0b2036 0%, #050e1a 100%);
   --footer-text: rgba(255, 255, 255, 0.8);
   --footer-muted: rgba(186, 230, 253, 0.55);
@@ -110,41 +110,41 @@ html[data-theme='light'] {
   --footer-heading: #ffffff;
   --footer-bottom: rgba(255, 255, 255, 0.4);
   --footer-border: rgba(34, 211, 238, 0.15);
-  --loader-bg: radial-gradient(ellipse at 50% 42%, rgba(14, 116, 144, 0.18), transparent 55%), #eef6fb;
-  --brand-orange: #e2711d;
+  --loader-bg: radial-gradient(ellipse at 50% 42%, rgba(14, 165, 233, 0.22), transparent 55%), #eef6fb;
+  --brand-orange: #d97706;
   --brand-navy: #0a2a4a;
   --hero-title: #0a2a4a;
-  --hero-tagline: #c2620f;
-  --hero-body: rgba(12, 40, 68, 0.82);
-  --glow: 0 0 40px rgba(8, 145, 178, 0.2);
-  --shadow: 0 12px 36px rgba(15, 39, 68, 0.1);
-  --shadow-lg: 0 24px 60px rgba(15, 39, 68, 0.14);
+  --hero-tagline: #c2410c;
+  --hero-body: rgba(8, 35, 56, 0.88);
+  --glow: 0 0 42px rgba(14, 165, 233, 0.28);
+  --shadow: 0 14px 36px rgba(12, 74, 110, 0.1);
+  --shadow-lg: 0 28px 64px rgba(12, 74, 110, 0.14);
   --gradient-hero: linear-gradient(
     180deg,
-    rgba(0, 20, 40, 0.28) 0%,
-    rgba(0, 10, 24, 0.52) 40%,
-    rgba(2, 8, 18, 0.88) 100%
+    rgba(255, 255, 255, 0.35) 0%,
+    rgba(224, 242, 254, 0.45) 40%,
+    rgba(186, 230, 253, 0.55) 100%
   );
-  --gradient-accent: linear-gradient(120deg, #0e7490 0%, #22d3ee 45%, #67e8f9 100%);
-  --gradient-sky: linear-gradient(130deg, #e0f2fe 0%, #bae6fd 40%, #7dd3fc 72%, #38bdf8 100%);
+  --gradient-accent: linear-gradient(120deg, #0e7490 0%, #22d3ee 48%, #67e8f9 100%);
+  --gradient-sky: linear-gradient(130deg, #fff7ed 0%, #e0f2fe 38%, #7dd3fc 72%, #38bdf8 100%);
   --gradient-page:
-    radial-gradient(ellipse 100% 70% at 50% -15%, rgba(56, 189, 248, 0.28) 0%, transparent 58%),
-    radial-gradient(ellipse 55% 45% at 100% 30%, rgba(14, 165, 233, 0.12) 0%, transparent 55%),
-    radial-gradient(ellipse 50% 40% at 0% 70%, rgba(6, 182, 212, 0.1) 0%, transparent 50%),
-    radial-gradient(ellipse 70% 50% at 50% 100%, rgba(3, 105, 161, 0.08) 0%, transparent 55%),
-    linear-gradient(180deg, #f5fafd 0%, #e8f2f9 45%, #dbeaf4 100%);
+    radial-gradient(ellipse 90% 55% at 50% -12%, rgba(251, 146, 60, 0.16) 0%, transparent 52%),
+    radial-gradient(ellipse 70% 50% at 100% 18%, rgba(56, 189, 248, 0.22) 0%, transparent 55%),
+    radial-gradient(ellipse 55% 45% at 0% 55%, rgba(34, 211, 238, 0.14) 0%, transparent 50%),
+    radial-gradient(ellipse 80% 50% at 50% 100%, rgba(14, 165, 233, 0.12) 0%, transparent 55%),
+    linear-gradient(180deg, #f8fcff 0%, #eaf5fb 42%, #e2f0f8 100%);
   --gradient-card: linear-gradient(
     155deg,
-    rgba(255, 255, 255, 0.95) 0%,
-    rgba(224, 242, 254, 0.85) 45%,
+    rgba(255, 255, 255, 0.92) 0%,
+    rgba(224, 242, 254, 0.65) 48%,
     rgba(186, 230, 253, 0.35) 100%
   );
   --gradient-border: linear-gradient(
     135deg,
-    rgba(8, 145, 178, 0.55),
-    rgba(34, 211, 238, 0.2) 40%,
-    rgba(14, 165, 233, 0.45) 100%
+    rgba(251, 146, 60, 0.45),
+    rgba(34, 211, 238, 0.35) 45%,
+    rgba(14, 165, 233, 0.5) 100%
   );
-  --gradient-text: linear-gradient(115deg, #0c4a6e 5%, #0369a1 35%, #0891b2 65%, #0e7490 100%);
-  --gradient-heading: linear-gradient(120deg, #0a2540 15%, #0c4a6e 55%, #0891b2 100%);
+  --gradient-text: linear-gradient(115deg, #0a2a4a 5%, #0c4a6e 40%, #0891b2 100%);
+  --gradient-heading: linear-gradient(120deg, #082338 8%, #0c4a6e 48%, #0891b2 88%, #d97706 130%);
 }
