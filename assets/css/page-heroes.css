@@ -214,42 +214,13 @@
   display: none !important;
 }
 
-/* Light theme */
+/* Light theme — heroes stay dark, matching the dark header/footer band */
 html[data-theme='light'] .page-hero {
-  background: #eef5fa;
-  color: var(--ph-navy);
+  color: #fff;
 }
 
-html[data-theme='light'] .page-hero-media {
-  background:
-    radial-gradient(ellipse 55% 70% at 78% 45%, rgba(242, 130, 45, 0.14), transparent 62%),
-    linear-gradient(115deg, #f5f9fc, #e6f0f7 55%, #d9eaf3) !important;
-}
-
-html[data-theme='light'] .page-hero-shade {
-  background-image:
-    linear-gradient(rgba(10, 42, 74, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(10, 42, 74, 0.05) 1px, transparent 1px);
-}
-
-html[data-theme='light'] .page-hero-badge,
-html[data-theme='light'] .page-hero-eyebrow {
-  color: var(--ph-navy);
-  background: rgba(255, 255, 255, 0.65);
-  border-color: rgba(10, 42, 74, 0.12);
-}
-
-html[data-theme='light'] .page-hero h1 {
-  color: var(--ph-navy);
-}
-
-html[data-theme='light'] .page-hero h1 .ph-accent {
-  color: #d96a18;
-}
-
-html[data-theme='light'] .page-hero-desc,
-html[data-theme='light'] .page-hero p:not(.page-hero-badge):not(.page-hero-eyebrow) {
-  color: rgba(15, 39, 68, 0.72);
+html[data-theme='light'] .page-hero-line {
+  box-shadow: 0 0 14px rgba(242, 130, 45, 0.45);
 }
 
 @media (max-width: 700px) {
