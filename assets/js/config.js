@@ -8,14 +8,17 @@ const TRAVELRAYZ_CONFIG = {
     name: 'TRAVELRAYZ',
     tagline: 'Travel to Divine. Return with Peace.',
     phone: '7208358868',
+    phoneLabel: 'Kiran',
     phone2: '8850824834',
-    whatsapp: '917208358868',
-    email: 'hello@travelrayz.com',
-    address: 'Maharashtra, India',
+    phone2Label: 'Pratima',
+    whatsapp: '917208453777',
+    email: 'contact@travelrayz.com',
+    address: 'Mumbai, Maharashtra',
     mapsEmbed:
-      'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3770.8!2d72.8777!3d19.0760!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTnCsDA0JzMzLjYiTiA3MsKwNTInMzkuNyJF!5e0!3m2!1sen!2sin!4v1',
+      'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d241317.11609823277!2d72.74109995709657!3d19.08219783958221!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c6306644edc1%3A0x5da4ed8f8d648c69!2sMumbai%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1700000000000',
     social: {
-      instagram: 'https://instagram.com/travelrayz',
+      instagram: 'https://instagram.com/travelrayzz',
+      linkedin: 'https://www.linkedin.com/company/travelrayz/',
       facebook: 'https://facebook.com/travelrayz',
       youtube: 'https://youtube.com/@travelrayz'
     }
@@ -49,7 +52,7 @@ const TRAVELRAYZ_CONFIG = {
       pickupPoints: 'Mumbai / Thane (to be confirmed on booking)',
       itinerary:
         'Day 0 Night: Departure 9:00 PM | Day 1: Bhimashankar Darshan & travel | Day 2: Grishneshwar & Trimbakeshwar | Return by 12:00 AM',
-      bookingLink: 'https://wa.me/917208358868?text=Hi%20I%20want%20to%20book%20Maharashtra%203%20Jyotirlinga%20Yatra',
+      bookingLink: 'https://wa.me/917208453777?text=Hi%20I%20want%20to%20book%20Maharashtra%203%20Jyotirlinga%20Yatra',
       trending: 'Yes',
       featured: 'Yes',
       status: 'Active',

@@ -171,6 +171,7 @@ const AppChrome = {
       el.href = TR.whatsappUrl(c.whatsapp, 'Hi TRAVELRAYZ! I want to plan a trip.');
     });
     TR.qsa('[data-social="instagram"]').forEach((el) => (el.href = c.social.instagram));
+    TR.qsa('[data-social="linkedin"]').forEach((el) => (el.href = c.social.linkedin || '#'));
     TR.qsa('[data-social="facebook"]').forEach((el) => (el.href = c.social.facebook));
     TR.qsa('[data-social="youtube"]').forEach((el) => (el.href = c.social.youtube));
     const map = TR.qs('#google-map');

@@ -24,7 +24,13 @@
   .contact-grid,
   .footer-grid,
   .mission-vision,
+  .founders-grid,
+  .split-benefits,
   .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .process-grid {
     grid-template-columns: 1fr;
   }
 
@@ -50,6 +56,25 @@
   .search-box {
     max-width: none;
   }
+
+  .category-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem 0.75rem;
+    padding-inline: 0;
+  }
+
+  .category-grid::before {
+    inset-inline: 12%;
+    opacity: 0.08;
+  }
+
+  .reach-tiles {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .map-panel {
+    height: 300px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -72,6 +97,33 @@
 
   .category-grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: 1rem 0.35rem;
+  }
+
+  .category-card {
+    min-height: 150px;
+    padding-inline: 0.2rem;
+  }
+
+  .category-card:nth-child(even) {
+    transform: translateY(1rem);
+  }
+
+  .category-card:nth-child(even):hover {
+    transform: translateY(calc(1rem - 5px));
+  }
+
+  .category-mark {
+    width: 68px;
+    height: 68px;
+  }
+
+  .reach-tiles {
+    grid-template-columns: 1fr;
+  }
+
+  .reach-tile:nth-child(n) {
+    border-radius: 1.2rem 2.4rem 1.2rem 2.4rem;
   }
 
   .modal-content {
