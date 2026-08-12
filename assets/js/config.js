@@ -7,18 +7,27 @@ const TRAVELRAYZ_CONFIG = {
   company: {
     name: 'TRAVELRAYZ',
     tagline: 'Travel to Divine. Return with Peace.',
+    taglineAlt: 'Beyond the Workplace. Stronger Together.',
+    headline: 'Creating Experiences That Strengthen Teams Beyond the Workplace',
+    mission:
+      'Helping organizations build stronger teams, healthier workplaces, and more engaged employees through meaningful experiences beyond the workplace.',
     phone: '7208358868',
     phoneLabel: 'Kiran',
     phone2: '8850824834',
     phone2Label: 'Pratima',
     whatsapp: '917208453777',
+    whatsappDisplay: '7208453777',
     email: 'contact@travelrayz.com',
     address: 'Mumbai, Maharashtra',
+    website: 'https://www.travelrayz.com',
+    websiteLabel: 'www.travelrayz.com',
     mapsEmbed:
       'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d241317.11609823277!2d72.74109995709657!3d19.08219783958221!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c6306644edc1%3A0x5da4ed8f8d648c69!2sMumbai%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1700000000000',
     social: {
       instagram: 'https://instagram.com/travelrayzz',
+      instagramHandle: '@travelrayzz',
       linkedin: 'https://www.linkedin.com/company/travelrayz/',
+      linkedinLabel: 'Travelrayz',
       facebook: 'https://facebook.com/travelrayz',
       youtube: 'https://youtube.com/@travelrayz'
     }

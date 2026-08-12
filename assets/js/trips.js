@@ -13,11 +13,35 @@ const TripsUI = {
     this.limit = Number(options.limit) > 0 ? Number(options.limit) : 0;
     if (!this.grid) return;
 
+    this.showSkeleton(this.limit || 6);
+    const started = Date.now();
     this.trips = await SheetsAPI.fetchTrips();
+    // Keep skeleton visible briefly so load feels intentional
+    const wait = Math.max(0, 480 - (Date.now() - started));
+    if (wait) await new Promise((r) => setTimeout(r, wait));
+
     this.filtered = [...this.trips];
     this.bindToolbar();
     this.render();
     this.initCountdowns();
+    if (typeof Motion !== 'undefined') Motion.refreshReveal(this.grid);
+  },
+
+  showSkeleton(count = 6) {
+    if (!this.grid) return;
+    const n = Math.min(Math.max(count, 3), 8);
+    this.grid.classList.add('is-content-loading');
+    this.grid.setAttribute('aria-busy', 'true');
+    this.grid.innerHTML = Array.from({ length: n }, () => `
+      <article class="trip-card is-skeleton" aria-hidden="true">
+        <div class="trip-poster skeleton-shimmer"></div>
+        <div class="trip-body">
+          <div class="sk-line sk-line--short skeleton-shimmer"></div>
+          <div class="sk-line sk-line--title skeleton-shimmer"></div>
+          <div class="sk-line skeleton-shimmer"></div>
+          <div class="sk-line sk-line--short skeleton-shimmer"></div>
+        </div>
+      </article>`).join('');
   },
 
   bindToolbar() {
@@ -60,6 +84,9 @@ const TripsUI = {
 
   render() {
     if (!this.grid) return;
+    this.grid.classList.remove('is-content-loading');
+    this.grid.removeAttribute('aria-busy');
+
     if (!this.filtered.length) {
       this.grid.innerHTML = `<div class="trips-empty">No trips found. Check back soon or contact us for custom tours.</div>`;
       return;
@@ -67,8 +94,10 @@ const TripsUI = {
 
     const list = this.limit ? this.filtered.slice(0, this.limit) : this.filtered;
     this.grid.innerHTML = list.map((t) => this.cardHTML(t)).join('');
+    this.grid.classList.add('content-enter');
     this.bindCards();
     this.initTilt();
+    if (typeof Motion !== 'undefined') Motion.refreshReveal(this.grid);
   },
 
   cardHTML(t) {

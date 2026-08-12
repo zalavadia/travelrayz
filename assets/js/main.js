@@ -155,17 +155,46 @@ const AppChrome = {
     TR.qsa('[data-company-phone]').forEach((el) => {
       el.textContent = c.phone;
       if (el.tagName === 'A') el.href = `tel:${c.phone}`;
+      else {
+        const parent = el.closest('a.reach-tile--phone');
+        if (parent) parent.href = `tel:${c.phone}`;
+      }
     });
     TR.qsa('[data-company-phone2]').forEach((el) => {
       el.textContent = c.phone2;
       if (el.tagName === 'A') el.href = `tel:${c.phone2}`;
+      else {
+        const parent = el.closest('a.reach-tile--phone');
+        if (parent) parent.href = `tel:${c.phone2}`;
+      }
     });
     TR.qsa('[data-company-email]').forEach((el) => {
       el.textContent = c.email;
       if (el.tagName === 'A') el.href = `mailto:${c.email}`;
+      else {
+        const parent = el.closest('a[href^="mailto"]');
+        if (parent) parent.href = `mailto:${c.email}`;
+      }
+    });
+    TR.qsa('[data-company-whatsapp]').forEach((el) => {
+      el.textContent = c.whatsappDisplay || c.whatsapp.replace(/^91/, '');
+    });
+    TR.qsa('[data-company-website-label]').forEach((el) => {
+      el.textContent = c.websiteLabel || c.website;
+      const parent = el.closest('a');
+      if (parent && c.website) parent.href = c.website;
+    });
+    TR.qsa('[data-social-instagram-handle]').forEach((el) => {
+      el.textContent = c.social.instagramHandle || '@travelrayzz';
     });
     TR.qsa('[data-company-address]').forEach((el) => {
       el.textContent = c.address;
+    });
+    TR.qsa('[data-company-tagline]').forEach((el) => {
+      el.textContent = c.tagline;
+    });
+    TR.qsa('[data-company-mission]').forEach((el) => {
+      el.textContent = c.mission || c.tagline;
     });
     TR.qsa('[data-whatsapp-link]').forEach((el) => {
       el.href = TR.whatsappUrl(c.whatsapp, 'Hi TRAVELRAYZ! I want to plan a trip.');
@@ -207,7 +236,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   /* Re-scan after dynamic trip/gallery content mounts */
-  Motion.initReveal();
+  if (typeof Motion !== 'undefined') Motion.refreshReveal();
 
   const year = TR.qs('#year');
   if (year) year.textContent = String(new Date().getFullYear());

@@ -214,7 +214,7 @@
 .hero-subtitle {
   font-size: 1.08rem;
   color: var(--hero-body);
-  max-width: 460px;
+  max-width: 540px;
   margin: 0 auto 2.1rem;
   line-height: 1.65;
   animation: heroRise 1s var(--ease-out) 0.28s both;

@@ -108,6 +108,39 @@ const Motion = {
     });
   },
 
+  /** Re-run reveal after dynamic content mounts (trips, gallery). */
+  refreshReveal(scope) {
+    const root = scope || document;
+    const nodes = TR.qsa('.trip-card, .gallery-item, [data-reveal]', root).filter(
+      (el) => !el.classList.contains('is-skeleton') && !el.classList.contains('is-visible')
+    );
+    if (!nodes.length) return;
+
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce || !('IntersectionObserver' in window)) {
+      nodes.forEach((el) => el.classList.add('is-visible'));
+      return;
+    }
+
+    const scrollRoot = document.querySelector('.site-shell') || null;
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('is-visible');
+          io.unobserve(entry.target);
+        });
+      },
+      { root: scrollRoot, threshold: 0.08, rootMargin: '0px 0px -4% 0px' }
+    );
+
+    nodes.forEach((el, i) => {
+      if (!el.hasAttribute('data-reveal')) el.setAttribute('data-reveal', '');
+      el.style.setProperty('--reveal-delay', `${Math.min(i * 70, 420)}ms`);
+      io.observe(el);
+    });
+  },
+
   initParallax() {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const layers = TR.qsa('[data-parallax]');
@@ -132,7 +165,7 @@ const Motion = {
       '.about-content',
       '.category-card',
       '.why-card',
-      '.trip-card',
+      '.trip-card:not(.is-skeleton)',
       '.testimonial-card',
       '.faq-item',
       '.contact-info',
@@ -144,7 +177,16 @@ const Motion = {
       '.featured-visual',
       '.featured-copy',
       '.cta-panel',
-      '.journey-strip'
+      '.journey-strip',
+      '.band-row',
+      '.feature-tile',
+      '.benefit-panel',
+      '.visionary',
+      '.story-timeline li',
+      '.about-value-list li',
+      '.why-started-pillars li',
+      '.reach-tile',
+      '.pillar-editorial li'
     ];
 
     const set = new Set(TR.qsa('[data-reveal]'));

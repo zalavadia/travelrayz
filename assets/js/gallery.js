@@ -20,20 +20,39 @@ const GalleryUI = {
     this.lightbox = TR.qs('#lightbox');
     this.limit = Number(options.limit) > 0 ? Number(options.limit) : 0;
     if (!this.grid) return;
-    this.render();
     this.bindLightbox();
+    this.showSkeleton();
+    // Brief loader then paint so image grid feels intentional
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    setTimeout(() => {
+      this.render();
+      if (typeof Motion !== 'undefined') Motion.refreshReveal(this.grid);
+    }, reduce ? 40 : 420);
+  },
+
+  showSkeleton() {
+    const n = this.limit || 8;
+    this.grid.classList.add('is-content-loading');
+    this.grid.setAttribute('aria-busy', 'true');
+    this.grid.innerHTML = Array.from({ length: n }, () => `
+      <figure class="gallery-item is-skeleton" aria-hidden="true">
+        <div class="skeleton-shimmer gallery-skel"></div>
+      </figure>`).join('');
   },
 
   render() {
     const images = this.limit ? this.images.slice(0, this.limit) : this.images;
+    this.grid.classList.remove('is-content-loading');
+    this.grid.removeAttribute('aria-busy');
     this.grid.innerHTML = images
       .map(
         (img, i) => `
-      <figure class="gallery-item" data-index="${i}">
+      <figure class="gallery-item" data-index="${i}" data-reveal>
         <img src="${img.src}" alt="${TR.sanitize(img.alt)}" loading="lazy" width="600" height="400">
       </figure>`
       )
       .join('');
+    this.grid.classList.add('content-enter');
 
     TR.qsa('.gallery-item', this.grid).forEach((item) => {
       item.addEventListener('click', () => this.open(Number(item.dataset.index)));
