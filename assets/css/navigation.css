@@ -120,9 +120,10 @@ body:not(:has(.hero)):not(:has(.page-hero)) .navbar::before {
   font-family: var(--font-sub);
   font-size: var(--text-sm);
   font-weight: 500;
-  padding: 0.5rem 0.7rem;
+  padding: 0.45rem 0.55rem;
   border-radius: 999px;
   letter-spacing: 0.02em;
+  white-space: nowrap;
   transition: background var(--transition), color var(--transition);
 }
 
@@ -144,8 +145,9 @@ body:not(:has(.hero)):not(:has(.page-hero)) .navbar::before {
 }
 
 .nav-actions .btn {
-  padding: 0.6rem 1.15rem;
+  padding: 0.6rem 1.05rem;
   font-size: var(--text-xs);
+  white-space: nowrap;
 }
 
 .nav-toggle {
@@ -314,7 +316,7 @@ html[data-theme='light'] body.home .hero .btn-outline:hover {
   transform: translateY(-7px) rotate(-45deg);
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1180px) {
   .nav-toggle {
     display: flex;
     flex: 0 0 40px;
@@ -403,7 +405,7 @@ html[data-theme='light'] body.home .hero .btn-outline:hover {
   }
 }
 
-@media (min-width: 1025px) {
+@media (min-width: 1181px) {
   .theme-toggle--mobile {
     display: none;
   }

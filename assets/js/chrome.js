@@ -58,18 +58,18 @@ const SiteChrome = {
       ${this.logoHTML('index.html', 'TRAVELRAYZ home')}
       <nav class="nav-links" aria-label="Primary">
         <a${home} href="index.html"${this.ariaCurrent(page, ['home'])}>Home</a>
-        <a${trips} href="trips.html"${this.ariaCurrent(page, ['trips', 'treks', 'tours'])}>Trips</a>
-        <a${about} href="about.html"${this.ariaCurrent(page, ['about'])}>About</a>
-        <a${gallery} href="gallery.html"${this.ariaCurrent(page, ['gallery'])}>Gallery</a>
-        <a${testimonials} href="testimonials.html"${this.ariaCurrent(page, ['testimonials'])}>Testimonials</a>
-        <a${contact} href="contact.html"${this.ariaCurrent(page, ['contact'])}>Contact</a>
+        <a${trips} href="trips.html"${this.ariaCurrent(page, ['trips', 'treks', 'tours'])}>Explore Trips</a>
+        <a${about} href="about.html"${this.ariaCurrent(page, ['about'])}>Our Story</a>
+        <a${gallery} href="gallery.html"${this.ariaCurrent(page, ['gallery'])}>Captured Journeys</a>
+        <a${testimonials} href="testimonials.html"${this.ariaCurrent(page, ['testimonials'])}>Travel Stories</a>
+        <a${contact} href="contact.html"${this.ariaCurrent(page, ['contact'])}>Let's Connect</a>
         <div class="nav-mobile-actions">
           ${this.themeToggleHTML('theme-toggle--mobile')}
         </div>
       </nav>
       <div class="nav-actions">
         ${this.themeToggleHTML('theme-toggle--desktop')}
-        <a class="btn btn-primary" href="trips.html">Explore Trips</a>
+        <a class="btn btn-primary" href="trips.html">Join the Journey</a>
         <button class="nav-toggle" type="button" aria-label="Open menu"><span></span><span></span><span></span></button>
       </div>
     </div>
@@ -93,8 +93,8 @@ const SiteChrome = {
           <p class="footer-cta__title">Your next adventure awaits</p>
         </div>
         <div class="footer-cta__actions">
-          <a class="btn btn-primary" href="trips.html">Explore Trips</a>
-          <a class="btn btn-outline" href="contact.html">Get in Touch</a>
+          <a class="btn btn-primary" href="trips.html">Join the Journey</a>
+          <a class="btn btn-outline" href="contact.html">Let's Connect</a>
         </div>
       </div>
 
@@ -112,19 +112,19 @@ const SiteChrome = {
         <nav class="footer-col" aria-label="Explore">
           <h4>Explore</h4>
           <div class="footer-links">
-            <a href="trips.html">Upcoming Trips</a>
+            <a href="trips.html">Explore Trips</a>
             <a href="treks.html">Treks</a>
             <a href="tours.html">Tours</a>
-            <a href="gallery.html">Gallery</a>
-            <a href="about.html">About</a>
+            <a href="gallery.html">Captured Journeys</a>
+            <a href="about.html">Our Story</a>
           </div>
         </nav>
 
         <nav class="footer-col" aria-label="Company">
           <h4>Company</h4>
           <div class="footer-links">
-            <a href="testimonials.html">Testimonials</a>
-            <a href="contact.html">Contact</a>
+            <a href="testimonials.html">Travel Stories</a>
+            <a href="contact.html">Let's Connect</a>
             <a href="terms.html">Terms</a>
             <a href="privacy.html">Privacy</a>
           </div>
