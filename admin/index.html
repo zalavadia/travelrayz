@@ -353,11 +353,15 @@
               <div class="upload-field" data-upload="gallery-src">
                 <input type="hidden" id="gallery-src" value="">
                 <input type="file" id="gallery-src-file" accept="image/jpeg,image/png,image/webp" hidden>
-                <div class="upload-drop" data-upload-trigger>
+                <div class="upload-drop" data-upload-trigger tabindex="0" role="button" aria-label="Upload gallery photo">
                   <div class="upload-preview hidden" data-upload-preview><img alt="Gallery preview"></div>
                   <div class="upload-placeholder" data-upload-placeholder>
                     <span class="upload-icon" aria-hidden="true">⬆</span>
                     <span>Click or drop a photo</span>
+                  </div>
+                  <div class="upload-progress hidden" data-upload-progress>
+                    <div class="upload-progress-bar" data-upload-bar></div>
+                    <span data-upload-status>Uploading…</span>
                   </div>
                 </div>
                 <div class="upload-actions">
@@ -401,11 +405,15 @@
               <div class="upload-field" data-upload="test-photo">
                 <input type="hidden" id="test-photo" value="">
                 <input type="file" id="test-photo-file" accept="image/jpeg,image/png,image/webp" hidden>
-                <div class="upload-drop" data-upload-trigger>
+                <div class="upload-drop" data-upload-trigger tabindex="0" role="button" aria-label="Upload profile photo">
                   <div class="upload-preview hidden" data-upload-preview><img alt="Photo preview"></div>
                   <div class="upload-placeholder" data-upload-placeholder>
                     <span class="upload-icon" aria-hidden="true">⬆</span>
                     <span>Optional profile photo</span>
+                  </div>
+                  <div class="upload-progress hidden" data-upload-progress>
+                    <div class="upload-progress-bar" data-upload-bar></div>
+                    <span data-upload-status>Uploading…</span>
                   </div>
                 </div>
                 <div class="upload-actions">

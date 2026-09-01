@@ -3,7 +3,7 @@
  * User content from Google Sheets is rendered with textContent / safe DOM only.
  */
 const TripsUI = {
-  DEFAULT_POSTER: 'assets/images/maharashtra-3-jyotirlinga-poster.png',
+  DEFAULT_POSTER: 'assets/images/hero-spiritual.jpg',
 
   trips: [],
   filtered: [],
@@ -199,7 +199,7 @@ const TripsUI = {
     }
 
     const list = this.limit ? this.filtered.slice(0, this.limit) : this.filtered;
-    list.forEach((trip) => this.grid.appendChild(this.buildTripCard(trip)));
+    list.forEach((trip, i) => this.grid.appendChild(this.buildTripCard(trip, i)));
     this.grid.classList.add('content-enter');
     this.bindCards();
     this.initTilt();
@@ -211,17 +211,26 @@ const TripsUI = {
     parent.appendChild(span);
   },
 
-  posterImg(trip, className) {
+  posterImg(trip, className, options = {}) {
     const img = document.createElement('img');
     img.className = className || '';
     img.alt = trip.tripName || 'Trip cover';
-    img.loading = 'lazy';
+    img.decoding = 'async';
     img.width = 600;
     img.height = 400;
-    img.src = trip.poster || this.DEFAULT_POSTER;
-    img.addEventListener('error', () => {
-      img.src = this.DEFAULT_POSTER;
-    });
+    if (!options.eager) img.loading = 'lazy';
+
+    if (typeof SheetsAPI !== 'undefined') {
+      SheetsAPI.applyDriveImg(
+        img,
+        trip.poster || trip.driveFileId,
+        this.DEFAULT_POSTER,
+        options
+      );
+    } else {
+      img.src = trip.poster || this.DEFAULT_POSTER;
+    }
+
     return img;
   },
 
@@ -242,12 +251,16 @@ const TripsUI = {
     return wrap;
   },
 
-  buildTripCard(trip) {
+  buildTripCard(trip, index = 0) {
     const article = TR.el('article', 'trip-card');
     article.dataset.id = trip.id;
 
     const posterWrap = TR.el('div', 'trip-poster');
-    posterWrap.appendChild(this.posterImg(trip));
+    posterWrap.appendChild(this.posterImg(trip, '', {
+      width: 640,
+      upgradeWidth: 960,
+      eager: index < 2
+    }));
 
     const badges = TR.el('div', 'trip-badges');
     if (TR.parseBool(trip.featured)) this.appendBadge(badges, 'Featured', 'badge-featured');
@@ -333,7 +346,7 @@ const TripsUI = {
       card.querySelector('.trip-book-btn')?.addEventListener('click', (e) => {
         e.stopPropagation();
         const trip = this.trips.find((t) => String(t.id) === card.dataset.id);
-        if (trip) this.openBooking(trip);
+          if (trip) this.openBooking(trip);
       });
     });
   },
@@ -499,7 +512,7 @@ const TripsUI = {
     article.dataset.reveal = '';
 
     const hero = TR.el('div', 'trip-detail-hero');
-    hero.appendChild(this.posterImg(trip));
+    hero.appendChild(this.posterImg(trip, '', { width: 960, upgradeWidth: 1280, eager: true }));
     const heroBadges = TR.el('div', 'trip-badges');
     if (TR.parseBool(trip.featured)) this.appendBadge(heroBadges, 'Featured', 'badge-featured');
     if (TR.isSoldOut(trip)) this.appendBadge(heroBadges, 'Sold Out', 'badge-soldout');

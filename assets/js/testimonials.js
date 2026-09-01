@@ -6,7 +6,7 @@ const TestimonialsUI = {
     {
       name: 'Priya Sharma',
       trip: 'Mumbai · Jyotirlinga Yatra',
-      text: 'The 3 Jyotirlinga yatra was beautifully organized. Luxury Urbania, pure veg food, and a calm trip leader — felt premium yet soulful.',
+      text: 'The 3 Jyotirlinga yatra was beautifully organized. Comfortable group travel, quality meals, and a calm trip leader — felt premium yet soulful.',
       rating: 5,
       photo: ''
     },
@@ -34,7 +34,7 @@ const TestimonialsUI = {
     {
       name: 'Sunita Kulkarni',
       trip: 'Kolhapur · Spiritual Tour',
-      text: 'Spiritual yatra with zero stress. Darshan timings, hotel quality, and the Urbania travel — all top notch.',
+      text: 'Spiritual yatra with zero stress. Darshan timings, hotel quality, and comfortable travel — all top notch.',
       rating: 5,
       photo: ''
     },
@@ -51,32 +51,85 @@ const TestimonialsUI = {
     this.grid = TR.qs('#testimonials-grid');
     if (!this.grid) return;
 
+    this.grid.classList.add('is-content-loading');
+    this.grid.setAttribute('aria-busy', 'true');
+
     let remote = [];
-    if (typeof SheetsAPI !== 'undefined') {
-      remote = await SheetsAPI.fetchTestimonials();
+    if (typeof SheetsAPI !== 'undefined' && SheetsAPI.configured()) {
+      try {
+        remote = await SheetsAPI.fetchTestimonials();
+      } catch (err) {
+        console.warn('[TRAVELRAYZ] Testimonials API unavailable.', err);
+      }
     }
-    this.items = remote.length ? remote : this.fallback;
+
+    const seen = new Set();
+    this.items = [...remote, ...this.fallback].filter((item) => {
+      const key = `${item.name || ''}|${item.text || ''}`.toLowerCase();
+      if (!key || key === '|' || seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+
+    this.grid.classList.remove('is-content-loading');
+    this.grid.removeAttribute('aria-busy');
     this.render();
     if (typeof Motion !== 'undefined') Motion.refreshReveal(this.grid);
   },
 
+  buildAuthorPhoto(t) {
+    const wrap = TR.el('span', 'testimonial-avatar');
+    if (t.photo && typeof SheetsAPI !== 'undefined') {
+      const img = document.createElement('img');
+      img.alt = t.name || 'Traveler';
+      img.width = 48;
+      img.height = 48;
+      img.loading = 'lazy';
+      img.decoding = 'async';
+      SheetsAPI.applyDriveImg(img, t.photo, '', { width: 96, upgradeWidth: 200 });
+      wrap.appendChild(img);
+      return wrap;
+    }
+    if (t.photo) {
+      const img = document.createElement('img');
+      img.src = t.photo;
+      img.alt = t.name || 'Traveler';
+      img.width = 48;
+      img.height = 48;
+      img.loading = 'lazy';
+      img.referrerPolicy = 'no-referrer';
+      wrap.appendChild(img);
+      return wrap;
+    }
+    const initial = TR.el('span', 'testimonial-initial', (t.name || 'T').charAt(0));
+    initial.setAttribute('aria-hidden', 'true');
+    wrap.appendChild(initial);
+    return wrap;
+  },
+
   render() {
-    this.grid.innerHTML = this.items
-      .map((t) => {
-        const stars = '★'.repeat(Math.min(5, Math.max(1, t.rating || 5)));
-        const photo = t.photo
-          ? `<img src="${TR.sanitize(t.photo)}" alt="${TR.sanitize(t.name)}" width="48" height="48" loading="lazy">`
-          : `<span class="testimonial-initial" aria-hidden="true">${TR.sanitize((t.name || 'T').charAt(0))}</span>`;
-        return `
-      <article class="testimonial-card">
-        <div class="testimonial-stars">${stars}</div>
-        <p>“${TR.sanitize(t.text)}”</p>
-        <div class="testimonial-author">
-          ${photo}
-          <div><strong>${TR.sanitize(t.name)}</strong><span>${TR.sanitize(t.trip || '')}</span></div>
-        </div>
-      </article>`;
-      })
-      .join('');
+    TR.clearChildren(this.grid);
+
+    if (!this.items.length) {
+      const empty = TR.el('p', 'gallery-empty', 'No testimonials yet. Check back soon.');
+      this.grid.appendChild(empty);
+      return;
+    }
+
+    this.items.forEach((t) => {
+      const card = TR.el('article', 'testimonial-card');
+      card.dataset.reveal = '';
+      card.appendChild(TR.el('div', 'testimonial-stars', '★'.repeat(Math.min(5, Math.max(1, t.rating || 5)))));
+      card.appendChild(TR.el('p', '', `“${t.text}”`));
+
+      const author = TR.el('div', 'testimonial-author');
+      author.appendChild(this.buildAuthorPhoto(t));
+      const meta = TR.el('div');
+      meta.appendChild(TR.el('strong', '', t.name || 'Traveler'));
+      if (t.trip) meta.appendChild(TR.el('span', '', t.trip));
+      author.appendChild(meta);
+      card.appendChild(author);
+      this.grid.appendChild(card);
+    });
   }
 };

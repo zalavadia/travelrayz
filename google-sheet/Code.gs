@@ -123,11 +123,20 @@ function doGet(e) {
         if (!trip) return respond(fail("Trip not found or not published"));
         return respond(ok("Trip loaded", { trip: trip }));
       case "getGallery":
-        return respond(ok("Gallery loaded", { items: getGalleryItems(false) }));
-      case "getTestimonials":
+        var allGallery = e && e.parameter && e.parameter.all === "1";
         return respond(
-          ok("Testimonials loaded", { items: getTestimonials(false) })
+          ok("Gallery loaded", { items: getGalleryItems(allGallery) })
         );
+      case "getTestimonials":
+        var allTestimonials = e && e.parameter && e.parameter.all === "1";
+        return respond(
+          ok("Testimonials loaded", {
+            items: getTestimonials(allTestimonials)
+          })
+        );
+      case "getImage":
+        if (!id) return respond(fail("Image id is required"));
+        return serveDriveImage(id);
       default:
         return respond(
           fail("Unknown GET action. Use getPublishedTrips or getTrip")
@@ -382,7 +391,19 @@ function getImageFolder() {
 }
 
 function publicImageUrl(fileId) {
-  return "https://lh3.googleusercontent.com/d/" + fileId;
+  return "https://lh3.googleusercontent.com/d/" + fileId + "=w800";
+}
+
+function serveDriveImage(fileId) {
+  var id = extractDriveId(fileId);
+  if (!id) throw new Error("Invalid image id");
+  return DriveApp.getFileById(id).getBlob();
+}
+
+function normalizeImageField(image, driveFileId) {
+  var driveId = extractDriveId(driveFileId || image);
+  if (driveId) return publicImageUrl(driveId);
+  return String(image || "").trim();
 }
 
 function extractDriveId(urlOrId) {
@@ -498,12 +519,25 @@ function ensureNamedSheet(name, headers) {
   var sheet = ss.getSheetByName(name);
   if (!sheet) sheet = ss.insertSheet(name);
 
-  var firstRow = sheet.getRange(1, 1, 1, headers.length).getValues()[0];
+  if (!headers || !headers.length) {
+    throw new Error("Sheet headers are not configured for " + name);
+  }
+
+  var headerRange = sheet.getRange(1, 1, 1, headers.length);
+  var firstRow = headerRange.getValues()[0];
+  var firstHeader = String(firstRow[0] || "")
+    .trim()
+    .toLowerCase();
+  var expectedHeader = String(headers[0] || "")
+    .trim()
+    .toLowerCase();
   var needsHeaders =
     firstRow.join("").trim() === "" ||
-    String(firstRow[0]).trim() !== headers[0];
+    firstHeader !== expectedHeader ||
+    sheet.getLastColumn() < headers.length;
+
   if (needsHeaders) {
-    sheet.getRange(1, 1, 1, headers.length).setValues([headers]);
+    headerRange.setValues([headers.slice()]);
     styleHeaderRow(sheet, headers.length);
   }
   return sheet;
@@ -540,7 +574,7 @@ function findTripRow(sheet, id) {
   if (!idCol) return 0;
   var lastRow = sheet.getLastRow();
   if (lastRow < 2) return 0;
-  var ids = sheet.getRange(2, idCol, lastRow - 1, 1).getValues();
+  var ids = sheet.getRange(2, idCol, lastRow, idCol).getValues();
   for (var i = 0; i < ids.length; i++) {
     if (String(ids[i][0]).trim() === wanted) return i + 2;
   }
@@ -639,62 +673,122 @@ function normalizeIncomingTrip(trip) {
   };
 }
 
+function coalesceField(incoming, existing, key, fallback) {
+  var v = incoming != null ? String(incoming).trim() : "";
+  if (v) return v;
+  if (
+    existing &&
+    existing[key] != null &&
+    String(existing[key]).trim() !== ""
+  ) {
+    return String(existing[key]).trim();
+  }
+  return fallback != null ? fallback : "";
+}
+
 function tripToRow(trip, existing) {
   var n = normalizeIncomingTrip(trip);
+  var ex = existing || {};
   var now = isoNow();
-  var id = existing && existing.id ? existing.id : n.id || newId();
-  var title = n.title || "Untitled Trip";
+  var id = coalesceField(n.id, ex, "id", "") || newId();
+  var title = coalesceField(n.title, ex, "title", "Untitled Trip");
 
-  if (!n.shortDescription && n.fullDescription) {
-    n.shortDescription = n.fullDescription.slice(0, 220);
+  var shortDescription = coalesceField(
+    n.shortDescription,
+    ex,
+    "shortDescription",
+    ""
+  );
+  var fullDescription = coalesceField(
+    n.fullDescription,
+    ex,
+    "fullDescription",
+    coalesceField(ex.shortDescription, ex, "shortDescription", "")
+  );
+  if (!shortDescription && fullDescription) {
+    shortDescription = fullDescription.slice(0, 220);
   }
-  if (!n.fullDescription && n.shortDescription) {
-    n.fullDescription = n.shortDescription;
+  if (!fullDescription && shortDescription) {
+    fullDescription = shortDescription;
   }
 
-  var image = n.image;
-  var driveFileId = n.driveFileId || extractDriveId(image);
-  if (driveFileId && !image) image = publicImageUrl(driveFileId);
+  var image = normalizeImageField(
+    coalesceField(n.image, ex, "image", ""),
+    coalesceField(
+      n.driveFileId,
+      ex,
+      "driveFileId",
+      extractDriveId(n.image || ex.image)
+    )
+  );
+  var driveFileId = extractDriveId(
+    coalesceField(n.driveFileId, ex, "driveFileId", "") ||
+      n.image ||
+      ex.image ||
+      image
+  );
 
-  var featured = /^(yes|true|1)$/i.test(n.featured) ? "Yes" : "No";
-  var soldOut = /^(yes|true|1)$/i.test(n.soldOut) ? "Yes" : "No";
-  var status = String(n.status || "draft").toLowerCase();
+  var featuredRaw = coalesceField(n.featured, ex, "featured", "No");
+  var soldOutRaw = coalesceField(n.soldOut, ex, "soldOut", "No");
+  var featured = /^(yes|true|1)$/i.test(featuredRaw) ? "Yes" : "No";
+  var soldOut = /^(yes|true|1)$/i.test(soldOutRaw) ? "Yes" : "No";
+  var status = coalesceField(n.status, ex, "status", "draft").toLowerCase();
   if (status === "active") status = "published";
 
   return {
     id: id,
-    slug: n.slug || slugify(title),
+    slug: coalesceField(n.slug, ex, "slug", slugify(title)),
     title: title,
-    location: n.location,
-    meetingPoint: n.meetingPoint,
-    category: n.category,
-    startDate: n.startDate,
-    endDate: n.endDate,
-    duration: n.duration,
-    price: n.price,
-    discountedPrice: n.discountedPrice,
-    seats: n.seats,
-    maxGroupSize: n.maxGroupSize,
-    shortDescription: n.shortDescription,
-    fullDescription: n.fullDescription,
-    inclusions: toJsonList(n.inclusions),
-    exclusions: toJsonList(n.exclusions),
-    itinerary: toJsonList(n.itinerary),
-    importantNotes: n.importantNotes,
+    location: coalesceField(n.location, ex, "location", ""),
+    meetingPoint: coalesceField(n.meetingPoint, ex, "meetingPoint", ""),
+    category: coalesceField(n.category, ex, "category", ""),
+    startDate: coalesceField(n.startDate, ex, "startDate", ""),
+    endDate: coalesceField(n.endDate, ex, "endDate", ""),
+    duration: coalesceField(n.duration, ex, "duration", ""),
+    price: coalesceField(n.price, ex, "price", ""),
+    discountedPrice: coalesceField(
+      n.discountedPrice,
+      ex,
+      "discountedPrice",
+      ""
+    ),
+    seats: coalesceField(n.seats, ex, "seats", ""),
+    maxGroupSize: coalesceField(n.maxGroupSize, ex, "maxGroupSize", ""),
+    shortDescription: shortDescription,
+    fullDescription: fullDescription,
+    inclusions: toJsonList(
+      n.inclusions != null && String(n.inclusions).trim() !== ""
+        ? n.inclusions
+        : ex.inclusions
+    ),
+    exclusions: toJsonList(
+      n.exclusions != null && String(n.exclusions).trim() !== ""
+        ? n.exclusions
+        : ex.exclusions
+    ),
+    itinerary: toJsonList(
+      n.itinerary != null && String(n.itinerary).trim() !== ""
+        ? n.itinerary
+        : ex.itinerary
+    ),
+    importantNotes: coalesceField(n.importantNotes, ex, "importantNotes", ""),
     image: image,
     driveFileId: driveFileId,
-    whatsappNumber: n.whatsappNumber,
+    whatsappNumber: coalesceField(n.whatsappNumber, ex, "whatsappNumber", ""),
     featured: featured,
     soldOut: soldOut,
     status: status,
-    createdAt: existing && existing.createdAt ? existing.createdAt : now,
+    createdAt: coalesceField(ex.createdAt, ex, "createdAt", now) || now,
     updatedAt: now
   };
 }
 
 function rowObjectToArray(obj) {
   return TRIP_HEADERS.map(function (h) {
-    return obj[h] != null ? obj[h] : "";
+    var val = obj[h];
+    if (val == null) return "";
+    if (Array.isArray(val)) return JSON.stringify(val);
+    return val;
   });
 }
 
@@ -725,6 +819,9 @@ function enrichTrip(obj) {
   obj.inclusionsList = parseJsonList(obj.inclusions);
   obj.exclusionsList = parseJsonList(obj.exclusions);
   obj.itineraryList = parseJsonList(obj.itinerary);
+  obj.image = normalizeImageField(obj.image, obj.driveFileId);
+  obj.driveFileId =
+    extractDriveId(obj.driveFileId || obj.image) || obj.driveFileId || "";
   return obj;
 }
 
@@ -746,9 +843,17 @@ function getTripById(id, admin) {
 }
 
 function writeTripRow(sheet, rowNum, rowObj) {
-  sheet
-    .getRange(rowNum, 1, rowNum, TRIP_HEADERS.length)
-    .setValues([rowObjectToArray(rowObj)]);
+  var row = rowObjectToArray(rowObj);
+  if (row.length !== TRIP_HEADERS.length) {
+    throw new Error(
+      "Trip row has " +
+        row.length +
+        " values but " +
+        TRIP_HEADERS.length +
+        " columns are required"
+    );
+  }
+  sheet.getRange(rowNum, 1, rowNum, TRIP_HEADERS.length).setValues([row]);
   return enrichTrip(rowObj);
 }
 
@@ -881,10 +986,10 @@ function getGalleryItems(includeInactive) {
   if (lastRow < 2) return [];
   var items = [];
   for (var r = 2; r <= lastRow; r++) {
-    var row = sheet.getRange(r, 1, 1, GALLERY_HEADERS.length).getValues()[0];
+    var row = sheet.getRange(r, 1, r, GALLERY_HEADERS.length).getValues()[0];
     var item = {
       id: String(row[0]),
-      src: String(row[1]),
+      src: normalizeImageField(String(row[1]), String(row[1])),
       alt: String(row[2]),
       status: String(row[3] || "Active")
     };
@@ -900,9 +1005,13 @@ function getGalleryItems(includeInactive) {
 function addGalleryItem(item) {
   var sheet = ensureNamedSheet(SHEET_GALLERY, GALLERY_HEADERS);
   var id = newId();
+  var src = normalizeImageField(
+    pick(item, "src", "Src"),
+    pick(item, "src", "Src")
+  );
   sheet.appendRow([
     id,
-    pick(item, "src", "Src"),
+    src,
     pick(item, "alt", "Alt"),
     pick(item, "status", "Status") || "Active"
   ]);
@@ -926,14 +1035,14 @@ function getTestimonials(includeInactive) {
   var items = [];
   for (var r = 2; r <= lastRow; r++) {
     var row = sheet
-      .getRange(r, 1, 1, TESTIMONIAL_HEADERS.length)
+      .getRange(r, 1, r, TESTIMONIAL_HEADERS.length)
       .getValues()[0];
     var item = {
       id: String(row[0]),
       name: String(row[1]),
       text: String(row[2]),
       rating: String(row[3]),
-      photo: String(row[4]),
+      photo: normalizeImageField(String(row[4]), String(row[4])),
       trip: String(row[5]),
       status: String(row[6] || "Active")
     };
@@ -949,12 +1058,16 @@ function getTestimonials(includeInactive) {
 function addTestimonial(item) {
   var sheet = ensureNamedSheet(SHEET_TESTIMONIALS, TESTIMONIAL_HEADERS);
   var id = newId();
+  var photo = normalizeImageField(
+    pick(item, "photo", "Photo"),
+    pick(item, "photo", "Photo")
+  );
   sheet.appendRow([
     id,
     pick(item, "name", "Name"),
     pick(item, "text", "Text"),
     pick(item, "rating", "Rating") || "5",
-    pick(item, "photo", "Photo"),
+    photo,
     pick(item, "trip", "Trip"),
     pick(item, "status", "Status") || "Active"
   ]);
@@ -974,7 +1087,7 @@ function findLegacyRowById(sheet, id) {
   if (!wanted) return 0;
   var lastRow = sheet.getLastRow();
   if (lastRow < 2) return 0;
-  var ids = sheet.getRange(2, 1, lastRow - 1, 1).getValues();
+  var ids = sheet.getRange(2, 1, lastRow, 1).getValues();
   for (var i = 0; i < ids.length; i++) {
     if (String(ids[i][0]).trim() === wanted) return i + 2;
   }

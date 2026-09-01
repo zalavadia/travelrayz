@@ -19,7 +19,7 @@ const GALLERY_DATA = {
 
   items: [
     {
-      src: 'assets/images/maharashtra-3-jyotirlinga-poster.png',
+      src: 'assets/images/hero-spiritual.jpg',
       alt: 'Maharashtra 3 Jyotirlinga Yatra group departure',
       caption: 'Maharashtra 3 Jyotirlinga Yatra — sacred circuit with luxury travel',
       category: 'Spiritual Yatras'

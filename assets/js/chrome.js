@@ -48,6 +48,7 @@ const SiteChrome = {
     const home = this.isActive(page, ['home']);
     const trips = this.isActive(page, ['trips', 'trip-detail', 'treks', 'tours', 'book']);
     const gallery = this.isActive(page, ['gallery']);
+    const testimonials = this.isActive(page, ['testimonials']);
     const about = this.isActive(page, ['about']);
     const contact = this.isActive(page, ['contact']);
 
@@ -60,6 +61,7 @@ const SiteChrome = {
         <a${trips} href="trips.html"${this.ariaCurrent(page, ['trips', 'treks', 'tours'])}>Trips</a>
         <a${about} href="about.html"${this.ariaCurrent(page, ['about'])}>About</a>
         <a${gallery} href="gallery.html"${this.ariaCurrent(page, ['gallery'])}>Gallery</a>
+        <a${testimonials} href="testimonials.html"${this.ariaCurrent(page, ['testimonials'])}>Testimonials</a>
         <a${contact} href="contact.html"${this.ariaCurrent(page, ['contact'])}>Contact</a>
         <div class="nav-mobile-actions">
           ${this.themeToggleHTML('theme-toggle--mobile')}

@@ -1,6 +1,6 @@
 /**
  * TRAVELRAYZ — Gallery masonry, filters, accessible lightbox
- * Data: assets/js/gallery-data.js (GALLERY_DATA)
+ * Data: assets/js/gallery-data.js + Google Sheets (via sheets.js)
  */
 const GalleryUI = {
   FALLBACK_IMAGE: 'assets/images/logo-mark.png',
@@ -21,29 +21,43 @@ const GalleryUI = {
     if (!this.grid) return;
 
     this.bindLightbox();
-    this.bindFilters();
+    this.bindFilterEvents();
     this.showSkeleton();
 
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     await new Promise((r) => setTimeout(r, reduce ? 40 : 380));
 
-    this.allItems = Array.isArray(GALLERY_DATA?.items) ? [...GALLERY_DATA.items] : [];
+    const staticItems = Array.isArray(GALLERY_DATA?.items) ? [...GALLERY_DATA.items] : [];
+    let remoteItems = [];
+
+    if (typeof SheetsAPI !== 'undefined' && SheetsAPI.configured()) {
+      try {
+        remoteItems = (await SheetsAPI.fetchGallery()).map((item) => ({
+          src: SheetsAPI.resolveImageUrl(item.src),
+          alt: item.alt || 'TRAVELRAYZ journey photo',
+          caption: item.alt || 'TRAVELRAYZ journey photo',
+          category: item.category || 'Highlights'
+        }));
+      } catch (err) {
+        console.warn('[TRAVELRAYZ] Gallery API unavailable.', err);
+      }
+    }
+
+    const seen = new Set();
+    this.allItems = [...remoteItems, ...staticItems].filter((item) => {
+      const key = item.src || item.alt;
+      if (!key || seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+    this.buildFilterButtons();
     this.applyFilter();
     if (typeof Motion !== 'undefined') Motion.refreshReveal(this.grid);
   },
 
-  bindFilters() {
-    if (!this.filtersRoot || this.limit) return;
-    TR.clearChildren(this.filtersRoot);
-
-    const allBtn = this.makeFilterButton('all', 'All');
-    allBtn.classList.add('active');
-    this.filtersRoot.appendChild(allBtn);
-
-    (GALLERY_DATA?.categories || []).forEach((cat) => {
-      this.filtersRoot.appendChild(this.makeFilterButton(cat, cat));
-    });
-
+  bindFilterEvents() {
+    if (!this.filtersRoot || this.filtersBound || this.limit) return;
+    this.filtersBound = true;
     this.filtersRoot.addEventListener('click', (e) => {
       const btn = e.target.closest('[data-gallery-filter]');
       if (!btn) return;
@@ -52,6 +66,25 @@ const GalleryUI = {
         b.classList.toggle('active', b === btn);
       });
       this.applyFilter();
+    });
+  },
+
+  buildFilterButtons() {
+    if (!this.filtersRoot || this.limit) return;
+    TR.clearChildren(this.filtersRoot);
+
+    const allBtn = this.makeFilterButton('all', 'All');
+    allBtn.classList.toggle('active', this.activeCategory === 'all');
+    this.filtersRoot.appendChild(allBtn);
+
+    const cats = new Set(GALLERY_DATA?.categories || []);
+    this.allItems.forEach((item) => {
+      if (item.category) cats.add(item.category);
+    });
+    [...cats].forEach((cat) => {
+      const btn = this.makeFilterButton(cat, cat);
+      btn.classList.toggle('active', this.activeCategory === cat);
+      this.filtersRoot.appendChild(btn);
     });
   },
 
@@ -122,11 +155,11 @@ const GalleryUI = {
     img.width = 600;
     img.height = 400;
     img.alt = item.alt || item.caption || 'TRAVELRAYZ journey photo';
-    img.src = item.src;
-    img.addEventListener('error', () => {
-      img.src = this.FALLBACK_IMAGE;
-      img.classList.add('is-fallback');
-    });
+    if (typeof SheetsAPI !== 'undefined') {
+      SheetsAPI.applyDriveImg(img, item.src, this.FALLBACK_IMAGE, { width: 480, upgradeWidth: 800 });
+    } else {
+      img.src = item.src || this.FALLBACK_IMAGE;
+    }
 
     btn.appendChild(img);
 
@@ -214,12 +247,12 @@ const GalleryUI = {
     if (!item || !this.lbImage) return;
 
     this.lbImage.classList.remove('is-fallback');
-    this.lbImage.src = item.src;
     this.lbImage.alt = item.alt || item.caption || 'Gallery photo';
-    this.lbImage.onerror = () => {
-      this.lbImage.src = this.FALLBACK_IMAGE;
-      this.lbImage.classList.add('is-fallback');
-    };
+    if (typeof SheetsAPI !== 'undefined') {
+      SheetsAPI.applyDriveImg(this.lbImage, item.src, this.FALLBACK_IMAGE, { width: 960, upgradeWidth: 1280, eager: true });
+    } else {
+      this.lbImage.src = item.src || this.FALLBACK_IMAGE;
+    }
 
     TR.setText(this.lbCaption, item.caption || item.alt || '');
     TR.setText(this.lbCounter, `${this.index + 1} / ${this.visibleItems.length}`);

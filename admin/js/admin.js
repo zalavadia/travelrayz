@@ -251,23 +251,34 @@ const AdminApp = {
       const previewUrl = URL.createObjectURL(workFile);
       this.setUploadPreview(field, previewUrl, workFile.name, workFile.size);
 
-      if (preset === 'trip-cover') {
+      if (preset === 'trip-cover' || preset === 'gallery-src' || preset === 'test-photo') {
+        const hiddenId = preset === 'trip-cover' ? 'trip-poster' : preset === 'gallery-src' ? 'gallery-src' : 'test-photo';
+        const driveFieldId = preset === 'trip-cover' ? 'trip-drive-file-id' : null;
         try {
           this.uploading = true;
           this.setUploadProgress(field, 10, 'Compressing…');
           const dataUrl = await this.compressImage(workFile, this.uploadOptionsFor(preset));
           this.setUploadProgress(field, 45, 'Uploading to Drive…');
-          const replaceId = this.editingDriveFileId || '';
+          const replaceId = preset === 'trip-cover' ? (this.editingDriveFileId || '') : '';
           const uploaded = await this.ensureDriveUrl(dataUrl, workFile.name, replaceId, (pct) => {
             this.setUploadProgress(field, 45 + pct * 0.55, 'Uploading to Drive…');
           });
-          document.getElementById('trip-poster').value = uploaded.url;
-          document.getElementById('trip-drive-file-id').value = uploaded.driveFileId;
-          this.editingDriveFileId = uploaded.driveFileId;
+          document.getElementById(hiddenId).value = uploaded.url;
+          if (driveFieldId) {
+            document.getElementById(driveFieldId).value = uploaded.driveFileId;
+            this.editingDriveFileId = uploaded.driveFileId;
+          }
           this.setUploadPreview(field, uploaded.url, workFile.name, workFile.size);
           this.setUploadProgress(field, 100, 'Done');
-          this.toast('Cover image uploaded', 'success');
+          const labels = {
+            'trip-cover': 'Cover image uploaded',
+            'gallery-src': 'Photo uploaded to Drive',
+            'test-photo': 'Profile photo uploaded'
+          };
+          this.toast(labels[preset] || 'Photo uploaded', 'success');
         } catch (err) {
+          document.getElementById(hiddenId).value = '';
+          this.clearUploadField(field);
           this.toast(err.message || 'Upload failed', 'error');
         } finally {
           this.uploading = false;
@@ -303,6 +314,10 @@ const AdminApp = {
         document.getElementById('trip-poster').value = '';
         document.getElementById('trip-drive-file-id').value = '';
         this.editingDriveFileId = '';
+      } else if (preset === 'gallery-src') {
+        document.getElementById('gallery-src').value = '';
+      } else if (preset === 'test-photo') {
+        document.getElementById('test-photo').value = '';
       } else {
         const hidden = field.querySelector('input[type="hidden"]');
         if (hidden) hidden.value = '';
@@ -784,7 +799,8 @@ const AdminApp = {
       document.getElementById('trip-status').value = this.isPublished(trip) ? 'Published' : 'Draft';
       if (trip.poster) {
         const field = document.querySelector('[data-upload="trip-cover"]');
-        this.setUploadPreview(field, trip.poster, 'cover.jpg', 0);
+        const previewUrl = SheetsAPI.resolveImageUrl(trip.poster);
+        this.setUploadPreview(field, previewUrl, 'cover.jpg', 0);
       }
     } else {
       document.getElementById('trip-whatsapp').value = TRAVELRAYZ_CONFIG.company.whatsapp || '';
@@ -886,6 +902,13 @@ const AdminApp = {
         trip.poster = uploaded.url;
         trip.driveFileId = uploaded.driveFileId;
       }
+      if (trip.poster && !trip.driveFileId && typeof SheetsAPI !== 'undefined') {
+        trip.driveFileId = SheetsAPI.extractDriveId(trip.poster);
+      }
+      if (trip.status === 'published' && !trip.poster) {
+        this.toast('Upload a cover image before publishing', 'error');
+        return;
+      }
       await SheetsAPI.saveTrip(trip, isUpdate ? 'update' : 'create');
       this.toast(
         isUpdate ? 'Trip updated successfully' : 'Trip created successfully',
@@ -929,15 +952,29 @@ const AdminApp = {
   bindGallery() {
     document.getElementById('gallery-form')?.addEventListener('submit', async (e) => {
       e.preventDefault();
+      if (this.uploading) {
+        this.toast('Wait for the photo upload to finish', 'error');
+        return;
+      }
       const src = document.getElementById('gallery-src').value.trim();
       const alt = document.getElementById('gallery-alt').value.trim();
-      if (!src || !alt) return;
+      if (!src || !alt) {
+        this.toast('Choose a photo and add alt text', 'error');
+        return;
+      }
       if (!this.sheetsConfigured) {
         this.toast('Configure sheetsApiUrl first', 'error');
         return;
       }
+      const btn = e.submitter || e.target.querySelector('[type="submit"]');
+      btn.disabled = true;
       try {
-        const url = (await this.ensureDriveUrl(src, 'gallery.jpg')).url;
+        let url = src;
+        if (src.startsWith('data:')) {
+          url = (await this.ensureDriveUrl(src, 'gallery.jpg')).url;
+        } else if (!this.isRemoteUrl(src)) {
+          throw new Error('Invalid image — choose a photo again');
+        }
         await SheetsAPI.addGalleryItem({ src: url, alt, status: 'Active' });
         document.getElementById('gallery-form').reset();
         this.clearUploadField(document.querySelector('[data-upload="gallery-src"]'));
@@ -945,6 +982,8 @@ const AdminApp = {
         this.toast('Image added', 'success');
       } catch (err) {
         this.toast(err.message || 'Save failed', 'error');
+      } finally {
+        btn.disabled = false;
       }
     });
   },
@@ -974,12 +1013,15 @@ const AdminApp = {
       list.innerHTML = '<p class="empty-state">No gallery images yet.</p>';
       return;
     }
-    list.innerHTML = items.map((item) => `
+    list.innerHTML = items.map((item) => {
+      const src = SheetsAPI.resolveImageUrl(item.src);
+      return `
       <div class="gallery-card">
-        <img src="${TR.sanitize(item.src)}" alt="${TR.sanitize(item.alt)}" loading="lazy">
+        <img src="${TR.sanitize(src)}" alt="${TR.sanitize(item.alt)}" loading="lazy" referrerpolicy="no-referrer">
         <div class="gallery-card-info">${TR.sanitize(item.alt)}</div>
         <button type="button" class="btn btn-danger btn-sm" data-remove-id="${TR.sanitize(item.id)}">Remove</button>
-      </div>`).join('');
+      </div>`;
+    }).join('');
     list.querySelectorAll('[data-remove-id]').forEach((btn) => {
       btn.addEventListener('click', async () => {
         const ok = await this.confirm('Remove this gallery image?', 'Remove image');
@@ -999,13 +1041,41 @@ const AdminApp = {
   bindTestimonials() {
     document.getElementById('testimonial-form')?.addEventListener('submit', async (e) => {
       e.preventDefault();
-      if (!this.sheetsConfigured) return;
+      if (this.uploading) {
+        this.toast('Wait for the photo upload to finish', 'error');
+        return;
+      }
+      if (!this.sheetsConfigured) {
+        this.toast('Configure sheetsApiUrl in config.js', 'error');
+        return;
+      }
+
+      const name = document.getElementById('test-name').value.trim();
+      const text = document.getElementById('test-text').value.trim();
+      if (!name || !text) {
+        this.toast('Name and testimonial text are required', 'error');
+        return;
+      }
+
+      const btn = e.submitter || e.target.querySelector('[type="submit"]');
+      btn.disabled = true;
+
       try {
         const photoRaw = document.getElementById('test-photo').value.trim();
-        const photo = photoRaw ? (await this.ensureDriveUrl(photoRaw, 'testimonial.jpg')).url : '';
+        let photo = '';
+        if (photoRaw) {
+          if (photoRaw.startsWith('data:')) {
+            photo = (await this.ensureDriveUrl(photoRaw, 'testimonial.jpg')).url;
+          } else if (this.isRemoteUrl(photoRaw)) {
+            photo = photoRaw;
+          } else {
+            throw new Error('Invalid photo — choose the image again');
+          }
+        }
+
         await SheetsAPI.addTestimonial({
-          name: document.getElementById('test-name').value.trim(),
-          text: document.getElementById('test-text').value.trim(),
+          name,
+          text,
           rating: Number(document.getElementById('test-rating').value) || 5,
           photo,
           trip: document.getElementById('test-trip').value.trim(),
@@ -1018,6 +1088,8 @@ const AdminApp = {
         this.toast('Testimonial added', 'success');
       } catch (err) {
         this.toast(err.message || 'Save failed', 'error');
+      } finally {
+        btn.disabled = false;
       }
     });
   },
@@ -1042,16 +1114,19 @@ const AdminApp = {
       list.innerHTML = '<p class="empty-state">No testimonials yet.</p>';
       return;
     }
-    list.innerHTML = items.map((t) => `
+    list.innerHTML = items.map((t) => {
+      const photo = t.photo ? SheetsAPI.resolveImageUrl(t.photo, 200) : '';
+      return `
       <div class="testimonial-card-admin">
-        ${t.photo ? `<img src="${TR.sanitize(t.photo)}" alt="">` : '<span class="avatar-ph">👤</span>'}
+        ${photo ? `<img src="${TR.sanitize(photo)}" alt="" referrerpolicy="no-referrer">` : '<span class="avatar-ph">👤</span>'}
         <div class="content">
           <div class="stars">${'★'.repeat(Math.min(5, t.rating || 5))}</div>
           <p>"${TR.sanitize(t.text)}"</p>
           <div class="meta"><strong>${TR.sanitize(t.name)}</strong>${t.trip ? ` · ${TR.sanitize(t.trip)}` : ''}</div>
         </div>
         <button type="button" class="btn btn-danger btn-sm" data-remove-id="${TR.sanitize(t.id)}">Remove</button>
-      </div>`).join('');
+      </div>`;
+    }).join('');
     list.querySelectorAll('[data-remove-id]').forEach((btn) => {
       btn.addEventListener('click', async () => {
         const ok = await this.confirm('Remove this testimonial?', 'Remove testimonial');

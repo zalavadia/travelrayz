@@ -13,7 +13,7 @@ const SheetsAPI = {
     {
       id: 'demo-1',
       title: 'Maharashtra 3 Jyotirlinga Yatra',
-      image: 'assets/images/maharashtra-3-jyotirlinga-poster.png',
+      image: 'assets/images/hero-spiritual.jpg',
       location: 'Bhimashankar, Grishneshwar, Trimbakeshwar',
       category: 'Spiritual Yatras',
       fullDescription:
@@ -130,6 +130,113 @@ const SheetsAPI = {
     );
   },
 
+  extractDriveId(urlOrId) {
+    const s = String(urlOrId || '').trim();
+    if (!s) return '';
+    if (/^[a-zA-Z0-9_-]{20,}$/.test(s) && !s.includes('/')) return s;
+    const m =
+      s.match(/[?&]id=([^&]+)/) ||
+      s.match(/lh3\.googleusercontent\.com\/d\/([^?/=]+)/) ||
+      s.match(/\/d\/([a-zA-Z0-9_-]+)/);
+    return m ? m[1] : '';
+  },
+
+  driveImageUrl(id, width = 640) {
+    return `https://lh3.googleusercontent.com/d/${id}=w${width}`;
+  },
+
+  driveThumbUrl(id, width = 400) {
+    return `https://drive.google.com/thumbnail?id=${encodeURIComponent(id)}&sz=w${width}`;
+  },
+
+  resolveImageUrl(urlOrId, width = 640) {
+    const s = String(urlOrId || '').trim();
+    if (!s) return '';
+    if (s.startsWith('assets/') || s.startsWith('/') || s.startsWith('data:')) return s;
+    const id = this.extractDriveId(s);
+    if (id) return this.driveImageUrl(id, width);
+    return s;
+  },
+
+  imageProxyUrl(urlOrId) {
+    const id = this.extractDriveId(urlOrId);
+    if (!id || !this.configured()) return '';
+    return `${this.endpoint()}?action=getImage&id=${encodeURIComponent(id)}`;
+  },
+
+  applyDriveImg(img, urlOrId, fallback = 'assets/images/logo-mark.png', options = {}) {
+    const { width = 640, upgradeWidth = 960, eager = false } = options;
+    const id = this.extractDriveId(urlOrId);
+
+    img.referrerPolicy = 'no-referrer';
+    if (eager) {
+      img.loading = 'eager';
+      img.fetchPriority = 'high';
+    }
+
+    const posterWrap = img.closest('.trip-poster, .trip-detail-hero, .gallery-item');
+
+    const setLoading = (on) => {
+      img.classList.toggle('is-img-loading', on);
+      posterWrap?.classList.toggle('is-poster-loading', on);
+    };
+
+    if (!id) {
+      if (fallback) img.src = fallback;
+      return;
+    }
+
+    const fast = this.driveThumbUrl(id, Math.min(width, 420));
+    const target = this.driveImageUrl(id, width);
+    const upgrade = upgradeWidth > width ? this.driveImageUrl(id, upgradeWidth) : '';
+    let stage = 'fast';
+
+    const preloadUpgrade = () => {
+      if (!upgrade || img.dataset.imgUpgraded === '1') return;
+      img.dataset.imgUpgraded = '1';
+      const hi = new Image();
+      hi.referrerPolicy = 'no-referrer';
+      hi.onload = () => {
+        if (img.isConnected) img.src = upgrade;
+      };
+      hi.src = upgrade;
+    };
+
+    img.addEventListener('load', () => {
+      setLoading(false);
+      if (stage === 'fast' && img.src.includes('thumbnail')) {
+        img.src = target;
+        stage = 'target';
+        return;
+      }
+      preloadUpgrade();
+    });
+
+    img.addEventListener('error', () => {
+      if (stage === 'fast') {
+        stage = 'target';
+        img.src = target;
+        return;
+      }
+      if (stage === 'target') {
+        const proxy = this.imageProxyUrl(id);
+        if (proxy) {
+          stage = 'proxy';
+          img.src = proxy;
+          return;
+        }
+      }
+      setLoading(false);
+      if (fallback) {
+        img.src = fallback;
+        img.classList.add('is-fallback');
+      }
+    });
+
+    setLoading(true);
+    img.src = fast;
+  },
+
   whatsappLink(number, tripTitle) {
     const digits = String(number || TRAVELRAYZ_CONFIG.company.whatsapp || '').replace(/\D/g, '');
     if (!digits) return '';
@@ -159,7 +266,7 @@ const SheetsAPI = {
       id: get('id', 'ID') || String(index + 1),
       slug: get('slug'),
       tripName: title,
-      poster: get('image', 'Poster', 'poster'),
+      poster: this.resolveImageUrl(get('driveFileId') || get('image', 'Poster', 'poster')),
       destination: get('location', 'Destination', 'destination'),
       category: get('category', 'Category'),
       description: get('fullDescription', 'shortDescription', 'Description', 'description'),
@@ -220,7 +327,7 @@ const SheetsAPI = {
       itinerary: this.listToJsonField(t.itinerary),
       importantNotes: t.importantNotes || [t.difficulty, t.vehicle].filter(Boolean).join(' · '),
       image: t.image || t.poster || '',
-      driveFileId: t.driveFileId || '',
+      driveFileId: t.driveFileId || this.extractDriveId(t.image || t.poster) || '',
       whatsappNumber: t.whatsappNumber || TRAVELRAYZ_CONFIG.company.whatsapp || '',
       featured: t.featured || 'No',
       soldOut: t.soldOut || t.limitedSeats || 'No',
@@ -237,7 +344,7 @@ const SheetsAPI = {
     };
     return {
       id: String(get('id', 'ID') || index + 1),
-      src: get('src', 'Src', 'url', 'URL'),
+      src: this.resolveImageUrl(get('src', 'Src', 'url', 'URL')),
       alt: get('alt', 'Alt') || 'TRAVELRAYZ journey photo',
       status: get('status', 'Status') || 'Active'
     };
@@ -255,7 +362,7 @@ const SheetsAPI = {
       name: get('name', 'Name'),
       text: get('text', 'Text'),
       rating: Number(get('rating', 'Rating')) || 5,
-      photo: get('photo', 'Photo'),
+      photo: this.resolveImageUrl(get('photo', 'Photo'), 200),
       trip: get('trip', 'Trip'),
       status: get('status', 'Status') || 'Active'
     };
