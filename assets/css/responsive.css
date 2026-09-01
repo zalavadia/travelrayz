@@ -1,8 +1,13 @@
 /* TRAVELRAYZ — Responsive */
 @media (max-width: 1024px) {
+  .footer-main,
   .footer-grid {
     grid-template-columns: 1fr 1fr;
     gap: 2rem 1.5rem;
+  }
+
+  .footer-brand {
+    grid-column: 1 / -1;
   }
 }
 
@@ -30,6 +35,7 @@
 
   .about-grid,
   .contact-grid,
+  .footer-main,
   .footer-grid,
   .mission-vision,
   .founders-grid,

@@ -334,20 +334,20 @@ html[data-theme='light'] .hero-overlay {
 }
 
 html[data-theme='light'] .hero-aurora {
-  opacity: 0.22;
-  mix-blend-mode: soft-light;
+  opacity: 0.52;
+  mix-blend-mode: screen;
 }
 
 html[data-theme='light'] .hero-horizon {
-  opacity: 0.35;
+  opacity: 0.7;
 }
 
 html[data-theme='light'] .hero-particles {
-  opacity: 0.25;
+  opacity: 0.68;
 }
 
 html[data-theme='light'] .hero-grid {
-  opacity: 0.2;
+  opacity: 0.58;
 }
 
 html[data-theme='light'] .hero-brand {

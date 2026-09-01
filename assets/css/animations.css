@@ -223,12 +223,12 @@ html.is-loading .site-shell {
 }
 
 html[data-theme='light'] .ambient-orb {
-  opacity: 0.48;
+  opacity: 0.52;
   filter: blur(70px);
 }
 
 html[data-theme='light'] .ambient-beam {
-  opacity: 0.28;
+  opacity: 0.32;
   mix-blend-mode: multiply;
 }
 

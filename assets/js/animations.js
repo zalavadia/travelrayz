@@ -172,7 +172,9 @@ const Motion = {
       '.about-value-list li',
       '.why-started-pillars li',
       '.reach-tile',
-      '.pillar-editorial li'
+      '.pillar-editorial li',
+      '.footer-cta',
+      '.footer-main'
     ];
 
     const set = new Set(TR.qsa('[data-reveal]'));

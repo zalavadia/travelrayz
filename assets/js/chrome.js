@@ -80,8 +80,21 @@ const SiteChrome = {
 
     return `
   <footer class="footer">
+    <div class="footer-horizon" aria-hidden="true"></div>
+    <div class="footer-watermark" aria-hidden="true">TRAVELRAYZ</div>
     <div class="container">
-      <div class="footer-grid">
+      <div class="footer-cta" data-reveal="scale">
+        <div class="footer-cta__copy">
+          <p class="footer-cta__eyebrow">Start the journey</p>
+          <p class="footer-cta__title">Your next adventure awaits</p>
+        </div>
+        <div class="footer-cta__actions">
+          <a class="btn btn-primary" href="trips.html">Explore Trips</a>
+          <a class="btn btn-outline" href="contact.html">Get in Touch</a>
+        </div>
+      </div>
+
+      <div class="footer-main">
         <div class="footer-brand">
           ${this.logoHTML('index.html', 'TRAVELRAYZ home')}
           <p>${mission}</p>
@@ -91,8 +104,9 @@ const SiteChrome = {
             <a data-social="youtube" href="#" aria-label="YouTube" target="_blank" rel="noopener"></a>
           </div>
         </div>
-        <div>
-          <h4>Quick Links</h4>
+
+        <nav class="footer-col" aria-label="Explore">
+          <h4>Explore</h4>
           <div class="footer-links">
             <a href="trips.html">Upcoming Trips</a>
             <a href="treks.html">Treks</a>
@@ -100,8 +114,9 @@ const SiteChrome = {
             <a href="gallery.html">Gallery</a>
             <a href="about.html">About</a>
           </div>
-        </div>
-        <div>
+        </nav>
+
+        <nav class="footer-col" aria-label="Company">
           <h4>Company</h4>
           <div class="footer-links">
             <a href="testimonials.html">Testimonials</a>
@@ -109,11 +124,42 @@ const SiteChrome = {
             <a href="terms.html">Terms</a>
             <a href="privacy.html">Privacy</a>
           </div>
+        </nav>
+
+        <div class="footer-connect">
+          <h4>Connect</h4>
+          <ul class="footer-chips">
+            <li>
+              <a class="footer-chip" href="tel:">
+                <span class="footer-chip__icon" aria-hidden="true">☎</span>
+                <span class="footer-chip__text" data-company-phone></span>
+              </a>
+            </li>
+            <li>
+              <a class="footer-chip footer-chip--email" href="mailto:">
+                <span class="footer-chip__icon" aria-hidden="true">✉</span>
+                <span class="footer-chip__text" data-company-email></span>
+              </a>
+            </li>
+            <li>
+              <a class="footer-chip footer-chip--wa" data-whatsapp-link href="#" target="_blank" rel="noopener">
+                <span class="footer-chip__icon" aria-hidden="true">◉</span>
+                <span class="footer-chip__text" data-company-whatsapp></span>
+              </a>
+            </li>
+            <li>
+              <span class="footer-chip footer-chip--loc">
+                <span class="footer-chip__icon" aria-hidden="true">⌖</span>
+                <span class="footer-chip__text" data-company-address></span>
+              </span>
+            </li>
+          </ul>
         </div>
       </div>
+
       <div class="footer-bottom">
-        <span>© <span id="year"></span> TRAVELRAYZ. All rights reserved.</span>
-        <span>Travel to Divine. Return with Peace.</span>
+        <span class="footer-copy">© <span id="year"></span> TRAVELRAYZ. All rights reserved.</span>
+        <span class="footer-tagline" data-company-tagline>Travel to Divine. Return with Peace.</span>
       </div>
     </div>
   </footer>`;

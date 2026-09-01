@@ -182,7 +182,7 @@ const AppChrome = {
       const tel = c.phone.startsWith('+') ? c.phone : `+91${c.phone}`;
       if (el.tagName === 'A') el.href = `tel:${tel.replace(/\s/g, '')}`;
       else {
-        const parent = el.closest('a.reach-tile--phone');
+        const parent = el.closest('a.reach-tile--phone, a.footer-chip');
         if (parent) parent.href = `tel:${tel.replace(/\s/g, '')}`;
       }
     });
@@ -191,7 +191,7 @@ const AppChrome = {
       const tel = c.phone2.startsWith('+') ? c.phone2 : `+91${c.phone2}`;
       if (el.tagName === 'A') el.href = `tel:${tel.replace(/\s/g, '')}`;
       else {
-        const parent = el.closest('a.reach-tile--phone');
+        const parent = el.closest('a.reach-tile--phone, a.footer-chip');
         if (parent) parent.href = `tel:${tel.replace(/\s/g, '')}`;
       }
     });
@@ -199,7 +199,7 @@ const AppChrome = {
       el.textContent = c.email;
       if (el.tagName === 'A') el.href = `mailto:${c.email}`;
       else {
-        const parent = el.closest('a[href^="mailto"]');
+        const parent = el.closest('a[href^="mailto"], a.footer-chip--email');
         if (parent) parent.href = `mailto:${c.email}`;
       }
     });
