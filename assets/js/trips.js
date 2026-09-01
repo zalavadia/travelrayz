@@ -408,21 +408,51 @@ const TripsUI = {
 
   renderDetailLoading() {
     TR.clearChildren(this.detailRoot);
-    const wrap = TR.el('div', 'trip-detail-loading');
-    const logo = document.createElement('img');
-    logo.src = 'assets/images/logo-mark.png';
-    logo.alt = '';
-    logo.width = 56;
-    logo.height = 56;
-    logo.className = 'trip-detail-loading-logo';
-    wrap.appendChild(logo);
-    wrap.appendChild(TR.el('p', '', 'Loading trip details…'));
-    this.detailRoot.appendChild(wrap);
+    this.detailRoot.setAttribute('aria-busy', 'true');
+
+    const article = TR.el('article', 'trip-detail trip-detail--skeleton');
+    article.setAttribute('aria-label', 'Loading trip details');
+
+    const status = TR.el('p', 'trip-detail-loading-status', 'Loading trip details…');
+    status.setAttribute('aria-live', 'polite');
+    article.appendChild(status);
+
+    article.appendChild(TR.el('div', 'trip-detail-hero td-sk-hero skeleton-shimmer'));
+
+    const body = TR.el('div', 'trip-detail-body');
+    body.appendChild(TR.el('div', 'td-sk td-sk--cat skeleton-shimmer'));
+    body.appendChild(TR.el('div', 'td-sk td-sk--title skeleton-shimmer'));
+
+    const meta = TR.el('div', 'td-sk-meta');
+    for (let i = 0; i < 4; i += 1) {
+      meta.appendChild(TR.el('span', 'td-sk td-sk--pill skeleton-shimmer'));
+    }
+    body.appendChild(meta);
+
+    body.appendChild(TR.el('div', 'td-sk td-sk--price skeleton-shimmer'));
+
+    for (let i = 0; i < 3; i += 1) {
+      body.appendChild(TR.el('div', 'td-sk td-sk--line skeleton-shimmer'));
+    }
+
+    const grid = TR.el('div', 'td-sk-grid');
+    grid.appendChild(TR.el('div', 'td-sk td-sk--block skeleton-shimmer'));
+    grid.appendChild(TR.el('div', 'td-sk td-sk--block skeleton-shimmer'));
+    body.appendChild(grid);
+
+    const actions = TR.el('div', 'td-sk-actions');
+    actions.appendChild(TR.el('div', 'td-sk td-sk--btn skeleton-shimmer'));
+    actions.appendChild(TR.el('div', 'td-sk td-sk--btn td-sk--btn-outline skeleton-shimmer'));
+    body.appendChild(actions);
+
+    article.appendChild(body);
+    this.detailRoot.appendChild(article);
   },
 
   renderDetailError(title, message, showBrowse, onRetry) {
+    this.detailRoot.removeAttribute('aria-busy');
     TR.clearChildren(this.detailRoot);
-    const box = TR.el('div', 'error-state');
+    const box = TR.el('div', 'error-state trip-detail-error');
     box.appendChild(TR.el('span', 'error-state__icon', '✦'));
     box.appendChild(TR.el('h2', 'trip-detail-error-title', title));
     box.appendChild(TR.el('p', '', message));
@@ -462,6 +492,7 @@ const TripsUI = {
   },
 
   renderDetail(trip, related = []) {
+    this.detailRoot.removeAttribute('aria-busy');
     TR.clearChildren(this.detailRoot);
 
     const article = TR.el('article', 'trip-detail');

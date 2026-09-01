@@ -1,9 +1,10 @@
 /**
  * TRAVELRAYZ Admin — trip CMS dashboard
- * Auth: ADMIN_SECRET validated via Apps Script, stored in sessionStorage only.
+ * Auth: admin ID + password validated via Apps Script, stored in sessionStorage only.
  */
 const AdminApp = {
   AUTH_KEY: 'travelrayz_admin_auth',
+  ADMIN_USER_ID: 'travelrayz',
   GALLERY_KEY: 'travelrayz_gallery',
   TESTIMONIALS_KEY: 'travelrayz_testimonials',
   SETTINGS_KEY: 'travelrayz_settings',
@@ -35,7 +36,7 @@ const AdminApp = {
     if (this.isAuthenticated()) {
       this.showDashboard();
     } else {
-      SheetsAPI.clearAdminSecret();
+      SheetsAPI.clearAdminCredentials();
     }
   },
 
@@ -56,15 +57,15 @@ const AdminApp = {
   /* ── Auth ── */
 
   isAuthenticated() {
-    return sessionStorage.getItem(this.AUTH_KEY) === '1' && !!SheetsAPI.getAdminSecret();
+    return sessionStorage.getItem(this.AUTH_KEY) === '1' && SheetsAPI.hasAdminCredentials();
   },
 
   bindAuth() {
     const toggle = document.getElementById('login-toggle-pw');
-    const input = document.getElementById('login-password');
+    const passwordInput = document.getElementById('login-password');
     toggle?.addEventListener('click', () => {
-      const show = input.type === 'password';
-      input.type = show ? 'text' : 'password';
+      const show = passwordInput.type === 'password';
+      passwordInput.type = show ? 'text' : 'password';
       toggle.querySelector('.icon-eye')?.classList.toggle('hidden', show);
       toggle.querySelector('.icon-eye-off')?.classList.toggle('hidden', !show);
       toggle.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
@@ -73,9 +74,10 @@ const AdminApp = {
     this.loginForm?.addEventListener('submit', async (e) => {
       e.preventDefault();
       this.setLoginError('');
-      const secret = (input?.value || '').trim();
-      if (!secret) {
-        this.setLoginError('Enter the admin secret.');
+      const password = (passwordInput?.value || '').trim();
+      if (!password) {
+        this.setLoginError('Enter your password.');
+        passwordInput?.focus();
         return;
       }
       if (!this.sheetsConfigured) {
@@ -84,21 +86,21 @@ const AdminApp = {
       }
       this.setLoginLoading(true);
       try {
-        await SheetsAPI.validateAdmin(secret);
-        SheetsAPI.setAdminSecret(secret);
-        input.value = '';
+        await SheetsAPI.validateAdmin(this.ADMIN_USER_ID, password);
+        SheetsAPI.setAdminCredentials(this.ADMIN_USER_ID, password);
+        if (passwordInput) passwordInput.value = '';
         this.showDashboard();
         this.toast('Welcome back!', 'success');
       } catch (err) {
-        this.setLoginError(err.message || 'Incorrect admin secret. Please try again.');
-        input.select();
+        this.setLoginError(err.message || 'Incorrect password. Please try again.');
+        passwordInput?.select();
       } finally {
         this.setLoginLoading(false);
       }
     });
 
     this.logoutBtn?.addEventListener('click', () => {
-      SheetsAPI.clearAdminSecret();
+      SheetsAPI.clearAdminCredentials();
       this.dashboard.classList.add('hidden');
       this.loginScreen.classList.remove('hidden');
       this.toast('Logged out');

@@ -2,10 +2,12 @@
  * TRAVELRAYZ — Google Sheets CMS client
  * Talks to Apps Script Web App (GET public · POST JSON as text/plain).
  *
- * Admin secret: sessionStorage key `travelrayz_admin_secret` (never in config.js).
+ * Admin credentials: sessionStorage only (never in config.js).
  */
 const SheetsAPI = {
-  ADMIN_SECRET_KEY: 'travelrayz_admin_secret',
+  ADMIN_USER_KEY: 'travelrayz_admin_user_id',
+  ADMIN_PASSWORD_KEY: 'travelrayz_admin_password',
+  ADMIN_AUTH_KEY: 'travelrayz_admin_auth',
 
   FALLBACK_TRIPS: [
     {
@@ -47,22 +49,33 @@ const SheetsAPI = {
     return Number(TRAVELRAYZ_CONFIG.requestTimeoutMs) || 30000;
   },
 
-  getAdminSecret() {
+  getAdminCredentials() {
     try {
-      return sessionStorage.getItem(this.ADMIN_SECRET_KEY) || '';
+      return {
+        userId: sessionStorage.getItem(this.ADMIN_USER_KEY) || '',
+        password: sessionStorage.getItem(this.ADMIN_PASSWORD_KEY) || ''
+      };
     } catch (_) {
-      return '';
+      return { userId: '', password: '' };
     }
   },
 
-  setAdminSecret(secret) {
-    sessionStorage.setItem(this.ADMIN_SECRET_KEY, secret);
-    sessionStorage.setItem('travelrayz_admin_auth', '1');
+  setAdminCredentials(userId, password) {
+    sessionStorage.setItem(this.ADMIN_USER_KEY, userId);
+    sessionStorage.setItem(this.ADMIN_PASSWORD_KEY, password);
+    sessionStorage.setItem(this.ADMIN_AUTH_KEY, '1');
   },
 
-  clearAdminSecret() {
-    sessionStorage.removeItem(this.ADMIN_SECRET_KEY);
-    sessionStorage.removeItem('travelrayz_admin_auth');
+  clearAdminCredentials() {
+    sessionStorage.removeItem(this.ADMIN_USER_KEY);
+    sessionStorage.removeItem(this.ADMIN_PASSWORD_KEY);
+    sessionStorage.removeItem(this.ADMIN_AUTH_KEY);
+    sessionStorage.removeItem('travelrayz_admin_secret');
+  },
+
+  hasAdminCredentials() {
+    const { userId, password } = this.getAdminCredentials();
+    return !!(userId && password);
   },
 
   async fetchWithTimeout(url, options = {}) {
@@ -262,9 +275,10 @@ const SheetsAPI = {
   async post(payload, { admin = false } = {}) {
     const body = { ...payload };
     if (admin) {
-      const secret = this.getAdminSecret();
-      if (!secret) throw new Error('Admin secret required — log in again');
-      body.adminSecret = secret;
+      const { userId, password } = this.getAdminCredentials();
+      if (!userId || !password) throw new Error('Admin login required — log in again');
+      body.adminUserId = userId;
+      body.adminPassword = password;
     }
     const res = await this.fetchWithTimeout(this.endpoint(), {
       method: 'POST',
@@ -275,8 +289,8 @@ const SheetsAPI = {
     return this.unwrap(await res.json());
   },
 
-  async validateAdmin(secret) {
-    return this.post({ action: 'validateAdmin', adminSecret: secret });
+  async validateAdmin(userId, password) {
+    return this.post({ action: 'validateAdmin', adminUserId: userId, adminPassword: password });
   },
 
   async getPublishedTripsData() {

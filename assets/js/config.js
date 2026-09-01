@@ -1,13 +1,13 @@
 /**
  * TRAVELRAYZ — Public site configuration & API endpoint
  *
- * Admin secret lives in Google Apps Script Script Properties only.
- * Enter it on the admin login screen; it is kept in sessionStorage for the session.
+ * Admin ID and password live in Google Apps Script Script Properties only.
+ * Enter them on the admin login screen; they are kept in sessionStorage for the session.
  */
 const TRAVELRAYZ_CONFIG = {
   /** Google Apps Script Web App URL (ends in /exec) */
   sheetsApiUrl:
-    'https://script.google.com/macros/s/AKfycbwwPKv3T3BGL-IEgl-tdzyWi8iDYm7wXVJow7FO_IxNSwMwd0EjgpE6RvmIYYoNuWTE/exec',
+    'https://script.google.com/macros/s/AKfycbxXOnOoVd2QTCMw164jFY4DilnjHodtj2qPdvisr_Dotg3HuGNnL6c6SkXbALqedZ9o3w/exec',
 
   /** Fetch timeout for Sheets API calls (milliseconds) */
   requestTimeoutMs: 30000,

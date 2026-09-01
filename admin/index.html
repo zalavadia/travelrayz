@@ -46,9 +46,9 @@
         <p class="login-subtitle">Admin Dashboard</p>
       </div>
       <form id="login-form" autocomplete="off" novalidate>
-        <label for="login-password">Admin secret</label>
+        <label for="login-password">Password</label>
         <div class="password-field">
-          <input type="password" id="login-password" placeholder="Enter Apps Script admin secret" required autofocus autocomplete="off">
+          <input type="password" id="login-password" placeholder="Enter admin password" required autofocus autocomplete="current-password">
           <button type="button" class="password-toggle" id="login-toggle-pw" aria-label="Show password" title="Show password">
             <svg class="icon-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
             <svg class="icon-eye-off hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-10-8-10-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 10 8 10 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
@@ -60,7 +60,6 @@
           <span class="btn-spinner hidden" aria-hidden="true"></span>
         </button>
       </form>
-      <p class="login-hint">Set <code>ADMIN_SECRET</code> in Apps Script Script Properties. Never store it in public JavaScript.</p>
     </div>
   </div>
 
@@ -447,7 +446,7 @@
             <div class="form-group"><label for="set-youtube">YouTube</label><input type="url" id="set-youtube"></div>
             <div class="form-divider full"><span>Security</span></div>
             <div class="form-group full">
-              <p class="hint">Admin secret is validated via Apps Script and kept in <code>sessionStorage</code> only. Configure <code>ADMIN_SECRET</code> in Script Properties.</p>
+              <p class="hint">Password is validated via Apps Script and kept in <code>sessionStorage</code> only. Configure <code>ADMIN_USER_ID</code> as <code>travelrayz</code> and <code>ADMIN_PASSWORD</code> in Script Properties.</p>
             </div>
             <div class="form-actions full"><button type="submit" class="btn btn-primary">Save Settings</button></div>
           </form>
