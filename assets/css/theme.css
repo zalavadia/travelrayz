@@ -1,0 +1,52 @@
+/* TRAVELRAYZ — Theme transitions (enabled after first paint) */
+
+html.theme-transitions,
+html.theme-transitions body,
+html.theme-transitions .navbar,
+html.theme-transitions .footer,
+html.theme-transitions .btn,
+html.theme-transitions .trip-card,
+html.theme-transitions .category-card,
+html.theme-transitions .gallery-item,
+html.theme-transitions .enquiry-form,
+html.theme-transitions .form-group input,
+html.theme-transitions .form-group textarea,
+html.theme-transitions .form-group select,
+html.theme-transitions .filter-pill,
+html.theme-transitions .modal,
+html.theme-transitions .toast,
+html.theme-transitions .faq-item,
+html.theme-transitions .reach-tile,
+html.theme-transitions .theme-toggle,
+html.theme-transitions .nav-links a,
+html.theme-transitions .admin-header,
+html.theme-transitions .sidebar,
+html.theme-transitions .glass,
+html.theme-transitions .login-screen,
+html.theme-transitions .panel,
+html.theme-transitions .data-table th,
+html.theme-transitions .data-table td {
+  transition:
+    background-color var(--theme-transition),
+    background var(--theme-transition),
+    color var(--theme-transition),
+    border-color var(--theme-transition),
+    box-shadow var(--theme-transition),
+    fill var(--theme-transition),
+    stroke var(--theme-transition);
+}
+
+/* Never transition hero photos or full-screen loader */
+.hero-media img,
+.page-hero-media,
+.page-loader,
+.page-loader * {
+  transition: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.theme-transitions,
+  html.theme-transitions * {
+    transition: none !important;
+  }
+}

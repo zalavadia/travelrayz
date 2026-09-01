@@ -1,0 +1,243 @@
+/**
+ * TRAVELRAYZ — Inner pages (dark theme)
+ * Cinematic heroes + glass surfaces — home page untouched.
+ */
+
+/* ── Canvas: subtle expedition grid ── */
+html[data-theme='dark'] body:not(.home) {
+  background:
+    radial-gradient(ellipse 80% 45% at 50% -5%, rgba(59, 130, 246, 0.1), transparent 55%),
+    var(--gradient-page);
+}
+
+html[data-theme='dark'] body:not(.home)::before {
+  opacity: 0.045;
+}
+
+html[data-theme='dark'] body:not(.home) .page-reveal {
+  position: relative;
+}
+
+html[data-theme='dark'] body:not(.home) .page-reveal::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    linear-gradient(rgba(56, 189, 248, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(56, 189, 248, 0.04) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: linear-gradient(180deg, transparent 0%, #000 8%, #000 92%, transparent 100%);
+}
+
+html[data-theme='dark'] body:not(.home) .page-reveal > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Page heroes: cobalt aurora band ── */
+html[data-theme='dark'] body:not(.home) .page-hero {
+  background: var(--color-background);
+  min-height: clamp(280px, 38vh, 420px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+html[data-theme='dark'] body:not(.home) .page-hero::before {
+  display: block !important;
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 55% 65% at 12% 35%, rgba(59, 130, 246, 0.28), transparent 58%),
+    radial-gradient(ellipse 48% 55% at 88% 68%, rgba(56, 189, 248, 0.16), transparent 55%),
+    radial-gradient(ellipse 70% 45% at 50% 110%, rgba(59, 130, 246, 0.12), transparent 60%);
+}
+
+html[data-theme='dark'] body:not(.home) .page-hero::after {
+  display: block !important;
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(125, 211, 252, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(125, 211, 252, 0.05) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: radial-gradient(ellipse 75% 75% at 50% 42%, #000 15%, transparent 72%);
+}
+
+html[data-theme='dark'] body:not(.home) .page-hero-media {
+  background:
+    radial-gradient(ellipse 50% 60% at 78% 40%, rgba(59, 130, 246, 0.22), transparent 62%),
+    radial-gradient(ellipse 42% 48% at 15% 72%, rgba(56, 189, 248, 0.12), transparent 55%),
+    linear-gradient(125deg, var(--color-background) 0%, var(--color-surface) 52%, #152040 100%) !important;
+}
+
+html[data-theme='dark'] body:not(.home) .page-hero-badge,
+html[data-theme='dark'] body:not(.home) .page-hero-eyebrow {
+  background: rgba(11, 19, 43, 0.62);
+  border-color: rgba(56, 189, 248, 0.28);
+  box-shadow: 0 0 24px rgba(59, 130, 246, 0.12);
+}
+
+html[data-theme='dark'] body:not(.home) .page-hero-badge::before,
+html[data-theme='dark'] body:not(.home) .page-hero-eyebrow::before {
+  background: var(--color-primary);
+  box-shadow: 0 0 12px rgba(59, 130, 246, 0.85);
+}
+
+html[data-theme='dark'] body:not(.home) .page-hero h1 .ph-accent {
+  color: var(--color-cyan);
+  text-shadow: 0 0 32px rgba(56, 189, 248, 0.35);
+}
+
+html[data-theme='dark'] body:not(.home) .page-hero-desc {
+  color: rgba(248, 250, 252, 0.78);
+}
+
+html[data-theme='dark'] body:not(.home) .page-hero-line {
+  background: linear-gradient(
+    90deg,
+    transparent 6%,
+    rgba(59, 130, 246, 0.45) 38%,
+    rgba(56, 189, 248, 0.95) 50%,
+    rgba(59, 130, 246, 0.45) 62%,
+    transparent 94%
+  );
+  box-shadow: 0 0 20px rgba(56, 189, 248, 0.45);
+  height: 2px;
+}
+
+/* ── Sections: depth bands + crisp headings ── */
+html[data-theme='dark'] body:not(.home):not([data-page='contact']) .section::before,
+html[data-theme='dark'] body:not(.home):not([data-page='contact']) .section:nth-of-type(even)::before {
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.14), transparent 68%);
+  opacity: 0.85;
+}
+
+html[data-theme='dark'] body:not(.home):not([data-page='contact']) .section:nth-of-type(even)::before {
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.1), transparent 68%);
+}
+
+html[data-theme='dark'] body:not(.home):not([data-page='contact']) .section-muted {
+  background:
+    radial-gradient(ellipse 90% 55% at 50% 0%, rgba(59, 130, 246, 0.08), transparent 58%),
+    linear-gradient(180deg, rgba(28, 37, 65, 0.55) 0%, rgba(11, 19, 43, 0.35) 100%);
+  border-block: 1px solid rgba(45, 58, 92, 0.65);
+}
+
+html[data-theme='dark'] body:not(.home):not([data-page='contact']) .section-header h2 {
+  background: none;
+  -webkit-text-fill-color: unset;
+  color: var(--color-text);
+  text-shadow: 0 0 48px rgba(56, 189, 248, 0.12);
+}
+
+html[data-theme='dark'] body:not(.home):not([data-page='contact']) .sub-heading {
+  color: var(--color-cyan);
+  letter-spacing: 0.16em;
+}
+
+html[data-theme='dark'] body:not(.home):not([data-page='contact']) .section-header .sub-heading::before,
+html[data-theme='dark'] body:not(.home):not([data-page='contact']) .section-header .sub-heading::after {
+  background: linear-gradient(90deg, transparent, var(--color-primary), var(--color-cyan), transparent);
+}
+
+/* ── Forms & trip UI (contact page keeps original sections.css styling) ── */
+html[data-theme='dark'] body:not(.home):not([data-page='contact']) .enquiry-form,
+html[data-theme='dark'] body:not(.home):not([data-page='contact']) .contact-panel {
+  background: linear-gradient(160deg, rgba(28, 37, 65, 0.98), rgba(11, 19, 43, 0.92));
+  border: 1px solid rgba(56, 189, 248, 0.18);
+  box-shadow: 0 16px 48px rgba(7, 12, 28, 0.45);
+  backdrop-filter: blur(14px);
+}
+
+html[data-theme='dark'] body:not(.home) .trip-card {
+  background: linear-gradient(160deg, rgba(28, 37, 65, 0.95), rgba(11, 19, 43, 0.9));
+  border-color: rgba(45, 58, 92, 0.85);
+  box-shadow: 0 12px 40px rgba(7, 12, 28, 0.4);
+}
+
+html[data-theme='dark'] body:not(.home) .trip-card:hover {
+  border-color: rgba(56, 189, 248, 0.38);
+  box-shadow: 0 20px 52px rgba(7, 12, 28, 0.48), 0 0 36px rgba(59, 130, 246, 0.12);
+}
+
+html[data-theme='dark'] body:not(.home) .filter-pill {
+  background: rgba(28, 37, 65, 0.85);
+  border-color: rgba(45, 58, 92, 0.9);
+}
+
+html[data-theme='dark'] body:not(.home) .filter-pill.active,
+html[data-theme='dark'] body:not(.home) .filter-pill:hover {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 24px rgba(59, 130, 246, 0.32);
+}
+
+html[data-theme='dark'] body:not(.home) .search-box input,
+html[data-theme='dark'] body:not(.home) .trips-select {
+  background: rgba(28, 37, 65, 0.88);
+  border-color: rgba(45, 58, 92, 0.95);
+}
+
+html[data-theme='dark'] body:not(.home) .search-box input:focus,
+html[data-theme='dark'] body:not(.home) .trips-select:focus {
+  border-color: rgba(56, 189, 248, 0.45);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.18);
+}
+
+/* ── About, gallery & editorial ── */
+html[data-theme='dark'] body:not(.home) .about-content h2,
+html[data-theme='dark'] body:not(.home) .mv-card h4 {
+  background: none;
+  -webkit-text-fill-color: unset;
+  color: var(--color-text);
+}
+
+html[data-theme='dark'] body:not(.home) .about-image {
+  box-shadow: 0 20px 56px rgba(7, 12, 28, 0.5), 0 0 48px rgba(59, 130, 246, 0.1);
+}
+
+html[data-theme='dark'] body:not(.home) .founder-card,
+html[data-theme='dark'] body:not(.home) .feature-tile,
+html[data-theme='dark'] body:not(.home) .faq-item {
+  background: linear-gradient(160deg, rgba(28, 37, 65, 0.96), rgba(11, 19, 43, 0.9));
+  border: 1px solid rgba(45, 58, 92, 0.85);
+  box-shadow: 0 12px 36px rgba(7, 12, 28, 0.38);
+}
+
+html[data-theme='dark'] body:not(.home) .founder-card:hover,
+html[data-theme='dark'] body:not(.home) .feature-tile:hover {
+  border-color: rgba(56, 189, 248, 0.32);
+  box-shadow: 0 18px 44px rgba(7, 12, 28, 0.45), 0 0 28px rgba(59, 130, 246, 0.1);
+}
+
+html[data-theme='dark'] body:not(.home) .gallery-item {
+  border: 1px solid rgba(45, 58, 92, 0.75);
+  box-shadow: 0 10px 32px rgba(7, 12, 28, 0.4);
+}
+
+html[data-theme='dark'] body:not(.home) .gallery-item:hover {
+  border-color: rgba(56, 189, 248, 0.35);
+  box-shadow: 0 16px 44px rgba(7, 12, 28, 0.48), 0 0 32px rgba(59, 130, 246, 0.12);
+}
+
+html[data-theme='dark'] body:not(.home) .about-value-list li {
+  border-color: rgba(45, 58, 92, 0.75);
+  background: rgba(28, 37, 65, 0.55);
+}
+
+/* ── Footer handoff ── */
+html[data-theme='dark'] body:not(.home) .footer {
+  border-top: 1px solid rgba(45, 58, 92, 0.75);
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 0%, rgba(59, 130, 246, 0.08), transparent 55%),
+    var(--footer-bg);
+}

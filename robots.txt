@@ -3,4 +3,4 @@ Allow: /
 Disallow: /admin/
 Disallow: /google-sheet/
 
-Sitemap: https://travelrayz.com/sitemap.xml
+Sitemap: https://www.travelrayz.com/sitemap.xml

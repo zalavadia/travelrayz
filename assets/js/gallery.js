@@ -1,101 +1,230 @@
 /**
- * TRAVELRAYZ — Gallery masonry + lightbox
+ * TRAVELRAYZ — Gallery masonry, filters, accessible lightbox
+ * Data: assets/js/gallery-data.js (GALLERY_DATA)
  */
 const GalleryUI = {
-  images: [
-    { src: 'assets/images/maharashtra-3-jyotirlinga-poster.png', alt: 'Maharashtra 3 Jyotirlinga Yatra poster' },
-    { src: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80', alt: 'Mountain trek sunrise' },
-    { src: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800&q=80', alt: 'Alpine peaks adventure' },
-    { src: 'https://images.unsplash.com/photo-1551632811-561732d1e306?w=800&q=80', alt: 'Camping under stars' },
-    { src: 'https://images.unsplash.com/photo-1486870591958-9b9d0d1dda99?w=800&q=80', alt: 'Misty mountain trail' },
-    { src: 'https://images.unsplash.com/photo-1527489377706-5bf97e608852?w=800&q=80', alt: 'Forest camping night' },
-    { src: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=800&q=80', alt: 'Valley viewpoint' },
-    { src: 'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=800&q=80', alt: 'Lake reflection travel' },
-    { src: 'https://images.unsplash.com/photo-1530789253388-582c481c54b0?w=800&q=80', alt: 'Spiritual temple journey' }
-  ],
+  FALLBACK_IMAGE: 'assets/images/logo-mark.png',
+  allItems: [],
+  visibleItems: [],
+  activeCategory: 'all',
   index: 0,
+  limit: 0,
 
-  init(options = {}) {
+  touchStartX: 0,
+  touchStartY: 0,
+
+  async init(options = {}) {
     this.grid = TR.qs('#gallery-grid');
     this.lightbox = TR.qs('#lightbox');
+    this.filtersRoot = TR.qs('#gallery-filters');
     this.limit = Number(options.limit) > 0 ? Number(options.limit) : 0;
     if (!this.grid) return;
+
     this.bindLightbox();
+    this.bindFilters();
     this.showSkeleton();
-    // Brief loader then paint so image grid feels intentional
+
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    setTimeout(() => {
-      this.render();
-      if (typeof Motion !== 'undefined') Motion.refreshReveal(this.grid);
-    }, reduce ? 40 : 420);
+    await new Promise((r) => setTimeout(r, reduce ? 40 : 380));
+
+    this.allItems = Array.isArray(GALLERY_DATA?.items) ? [...GALLERY_DATA.items] : [];
+    this.applyFilter();
+    if (typeof Motion !== 'undefined') Motion.refreshReveal(this.grid);
+  },
+
+  bindFilters() {
+    if (!this.filtersRoot || this.limit) return;
+    TR.clearChildren(this.filtersRoot);
+
+    const allBtn = this.makeFilterButton('all', 'All');
+    allBtn.classList.add('active');
+    this.filtersRoot.appendChild(allBtn);
+
+    (GALLERY_DATA?.categories || []).forEach((cat) => {
+      this.filtersRoot.appendChild(this.makeFilterButton(cat, cat));
+    });
+
+    this.filtersRoot.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-gallery-filter]');
+      if (!btn) return;
+      this.activeCategory = btn.dataset.galleryFilter || 'all';
+      TR.qsa('[data-gallery-filter]', this.filtersRoot).forEach((b) => {
+        b.classList.toggle('active', b === btn);
+      });
+      this.applyFilter();
+    });
+  },
+
+  makeFilterButton(value, label) {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'filter-pill';
+    btn.dataset.galleryFilter = value;
+    btn.textContent = label;
+    return btn;
+  },
+
+  applyFilter() {
+    let items = this.allItems;
+    if (this.activeCategory !== 'all') {
+      items = items.filter((item) => item.category === this.activeCategory);
+    }
+    this.visibleItems = this.limit ? items.slice(0, this.limit) : items;
+    this.render();
   },
 
   showSkeleton() {
-    const n = this.limit || 8;
+    const n = this.limit || 9;
     this.grid.classList.add('is-content-loading');
     this.grid.setAttribute('aria-busy', 'true');
-    this.grid.innerHTML = Array.from({ length: n }, () => `
-      <figure class="gallery-item is-skeleton" aria-hidden="true">
-        <div class="skeleton-shimmer gallery-skel"></div>
-      </figure>`).join('');
+    TR.clearChildren(this.grid);
+    for (let i = 0; i < n; i += 1) {
+      const fig = TR.el('figure', 'gallery-item is-skeleton');
+      fig.setAttribute('aria-hidden', 'true');
+      fig.appendChild(TR.el('div', 'skeleton-shimmer gallery-skel'));
+      this.grid.appendChild(fig);
+    }
   },
 
   render() {
-    const images = this.limit ? this.images.slice(0, this.limit) : this.images;
     this.grid.classList.remove('is-content-loading');
     this.grid.removeAttribute('aria-busy');
-    this.grid.innerHTML = images
-      .map(
-        (img, i) => `
-      <figure class="gallery-item" data-index="${i}" data-reveal>
-        <img src="${img.src}" alt="${TR.sanitize(img.alt)}" loading="lazy" width="600" height="400">
-      </figure>`
-      )
-      .join('');
-    this.grid.classList.add('content-enter');
+    TR.clearChildren(this.grid);
 
-    TR.qsa('.gallery-item', this.grid).forEach((item) => {
-      item.addEventListener('click', () => this.open(Number(item.dataset.index)));
+    if (!this.visibleItems.length) {
+      const empty = TR.el('p', 'gallery-empty');
+      TR.setText(empty, 'No photos in this category yet. Check back soon.');
+      this.grid.appendChild(empty);
+      return;
+    }
+
+    this.visibleItems.forEach((item, i) => {
+      this.grid.appendChild(this.buildGalleryItem(item, i));
     });
+
+    this.grid.classList.add('content-enter');
+    if (typeof Motion !== 'undefined') Motion.refreshReveal(this.grid);
+  },
+
+  buildGalleryItem(item, index) {
+    const fig = TR.el('figure', 'gallery-item');
+    fig.dataset.index = String(index);
+    fig.dataset.reveal = '';
+
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'gallery-item-btn';
+    btn.setAttribute('aria-label', `View image: ${item.alt || item.caption || 'Gallery photo'}`);
+
+    const img = document.createElement('img');
+    img.loading = 'lazy';
+    img.decoding = 'async';
+    img.width = 600;
+    img.height = 400;
+    img.alt = item.alt || item.caption || 'TRAVELRAYZ journey photo';
+    img.src = item.src;
+    img.addEventListener('error', () => {
+      img.src = this.FALLBACK_IMAGE;
+      img.classList.add('is-fallback');
+    });
+
+    btn.appendChild(img);
+
+    if (item.caption) {
+      const cap = TR.el('figcaption', 'gallery-caption', item.caption);
+      btn.appendChild(cap);
+    }
+
+    btn.addEventListener('click', () => this.open(index));
+    fig.appendChild(btn);
+    return fig;
   },
 
   bindLightbox() {
     if (!this.lightbox) return;
-    TR.qs('.lightbox-close', this.lightbox)?.addEventListener('click', () => this.close());
+
+    this.lbImage = TR.qs('.lightbox-image', this.lightbox);
+    this.lbCaption = TR.qs('.lightbox-caption', this.lightbox);
+    this.lbCounter = TR.qs('.lightbox-counter', this.lightbox);
+    this.lbClose = TR.qs('.lightbox-close', this.lightbox);
+
+    this.lbClose?.addEventListener('click', () => this.close());
     TR.qs('.lightbox-prev', this.lightbox)?.addEventListener('click', () => this.nav(-1));
     TR.qs('.lightbox-next', this.lightbox)?.addEventListener('click', () => this.nav(1));
+
     this.lightbox.addEventListener('click', (e) => {
-      if (e.target === this.lightbox) this.close();
+      if (e.target === this.lightbox || e.target.classList.contains('lightbox-backdrop')) this.close();
     });
-    document.addEventListener('keydown', (e) => {
+
+    this._onKeydown = (e) => {
       if (!this.lightbox.classList.contains('open')) return;
       if (e.key === 'Escape') this.close();
       if (e.key === 'ArrowLeft') this.nav(-1);
       if (e.key === 'ArrowRight') this.nav(1);
-    });
+    };
+    document.addEventListener('keydown', this._onKeydown);
+
+    const stage = TR.qs('.lightbox-stage', this.lightbox) || this.lightbox;
+    stage.addEventListener(
+      'touchstart',
+      (e) => {
+        if (!this.lightbox.classList.contains('open')) return;
+        this.touchStartX = e.changedTouches[0].screenX;
+        this.touchStartY = e.changedTouches[0].screenY;
+      },
+      { passive: true }
+    );
+    stage.addEventListener(
+      'touchend',
+      (e) => {
+        if (!this.lightbox.classList.contains('open')) return;
+        const dx = e.changedTouches[0].screenX - this.touchStartX;
+        const dy = e.changedTouches[0].screenY - this.touchStartY;
+        if (Math.abs(dx) < 48 || Math.abs(dx) < Math.abs(dy)) return;
+        this.nav(dx > 0 ? -1 : 1);
+      },
+      { passive: true }
+    );
   },
 
   open(i) {
+    if (!this.visibleItems.length) return;
     this.index = i;
-    this.update();
+    this.updateLightbox();
     this.lightbox.classList.add('open');
+    this.lightbox.setAttribute('aria-hidden', 'false');
     document.documentElement.classList.add('modal-open');
+    this.lbClose?.focus();
   },
 
   close() {
     this.lightbox.classList.remove('open');
+    this.lightbox.setAttribute('aria-hidden', 'true');
     document.documentElement.classList.remove('modal-open');
   },
 
   nav(dir) {
-    this.index = (this.index + dir + this.images.length) % this.images.length;
-    this.update();
+    if (!this.visibleItems.length) return;
+    this.index = (this.index + dir + this.visibleItems.length) % this.visibleItems.length;
+    this.updateLightbox();
   },
 
-  update() {
-    const img = TR.qs('img', this.lightbox);
-    const item = this.images[this.index];
-    img.src = item.src;
-    img.alt = item.alt;
+  updateLightbox() {
+    const item = this.visibleItems[this.index];
+    if (!item || !this.lbImage) return;
+
+    this.lbImage.classList.remove('is-fallback');
+    this.lbImage.src = item.src;
+    this.lbImage.alt = item.alt || item.caption || 'Gallery photo';
+    this.lbImage.onerror = () => {
+      this.lbImage.src = this.FALLBACK_IMAGE;
+      this.lbImage.classList.add('is-fallback');
+    };
+
+    TR.setText(this.lbCaption, item.caption || item.alt || '');
+    TR.setText(this.lbCounter, `${this.index + 1} / ${this.visibleItems.length}`);
+
+    const title = TR.qs('#lightbox-title', this.lightbox);
+    if (title) TR.setText(title, item.caption || item.alt || 'Gallery image');
   }
 };

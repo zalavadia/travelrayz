@@ -3,6 +3,7 @@
  */
 const AppChrome = {
   init() {
+    if (typeof SiteChrome !== 'undefined') SiteChrome.mount();
     this.lockShell();
     this.bindTheme();
     this.bindNav();
@@ -56,6 +57,7 @@ const AppChrome = {
   },
 
   getStoredTheme() {
+    if (typeof ThemeUI !== 'undefined') return ThemeUI.getCurrentTheme();
     try {
       const saved = localStorage.getItem('travelrayz-theme');
       if (saved === 'light' || saved === 'dark') return saved;
@@ -64,22 +66,11 @@ const AppChrome = {
   },
 
   applyTheme(theme) {
-    const next = theme === 'light' ? 'light' : 'dark';
-    document.documentElement.setAttribute('data-theme', next);
-    try {
-      localStorage.setItem('travelrayz-theme', next);
-    } catch (_) {}
-    TR.qsa('.theme-toggle').forEach((btn) => {
-      const isLight = next === 'light';
-      btn.setAttribute('aria-label', isLight ? 'Switch to dark theme' : 'Switch to light theme');
-      btn.setAttribute('title', isLight ? 'Dark theme' : 'Light theme');
-    });
+    if (typeof ThemeUI !== 'undefined') ThemeUI.applyTheme(theme);
   },
 
   bindTheme() {
-    /* Click handling lives in the early head script so the toggle works
-       even if later bundles fail. Keep applyTheme for label sync. */
-    this.applyTheme(this.getStoredTheme());
+    if (typeof ThemeUI !== 'undefined') ThemeUI.syncToggles();
   },
 
   bindNav() {
@@ -132,40 +123,76 @@ const AppChrome = {
 
   bindForms() {
     const enquiry = TR.qs('#enquiry-form');
-    enquiry?.addEventListener('submit', (e) => {
+    enquiry?.addEventListener('submit', async (e) => {
       e.preventDefault();
+      if (enquiry.dataset.submitting === '1') return;
       const fd = new FormData(enquiry);
-      const name = fd.get('name');
-      const phone = fd.get('phone');
-      const message = fd.get('message');
-      const trip = fd.get('trip') || 'General enquiry';
+      const name = String(fd.get('name') || '').trim();
+      const phone = String(fd.get('phone') || '').trim();
+      const message = String(fd.get('message') || '').trim();
+      const trip = String(fd.get('trip') || 'General enquiry').trim();
 
-      const text = `New enquiry from ${name}%0APhone: ${phone}%0ATrip: ${trip}%0AMessage: ${message}`;
+      if (name.length < 2 || phone.replace(/\D/g, '').length < 10 || message.length < 10) {
+        TR.toast('Please fill name, phone, and a message (10+ characters).');
+        return;
+      }
+
+      enquiry.dataset.submitting = '1';
+      const btn = enquiry.querySelector('[type="submit"]');
+      if (btn) btn.disabled = true;
+
+      let saved = false;
+      if (typeof SheetsAPI !== 'undefined' && SheetsAPI.configured()) {
+        try {
+          await SheetsAPI.saveInquiry({
+            name,
+            phone,
+            message,
+            trip,
+            inquiryType: 'General Inquiry',
+            source: 'book-form'
+          });
+          saved = true;
+          TR.toast('Thank you! We received your enquiry.');
+        } catch (err) {
+          console.warn('[TRAVELRAYZ] Inquiry save failed, opening WhatsApp.', err);
+        }
+      }
+
+      if (!saved) {
+        if (SheetsAPI?.configured?.()) TR.toast('Opening WhatsApp as backup…');
+        else TR.toast('Thank you! Opening WhatsApp…');
+      }
+
+      const text = `Hello TRAVELRAYZ, I would like to enquire.\nName: ${name}\nPhone: ${phone}\nTrip: ${trip}\n${message}`;
       const wa = TRAVELRAYZ_CONFIG.company.whatsapp;
-      TR.toast('Thank you! Opening WhatsApp…');
       setTimeout(() => {
-        window.open(`https://wa.me/${wa}?text=${text}`, '_blank', 'noopener');
-        enquiry.reset();
-      }, 500);
+        window.open(TR.whatsappUrl(wa, text), '_blank', 'noopener');
+        if (saved) enquiry.reset();
+        enquiry.dataset.submitting = '0';
+        if (btn) btn.disabled = false;
+      }, saved ? 400 : 500);
     });
   },
 
   injectCompany() {
     const c = TRAVELRAYZ_CONFIG.company;
     TR.qsa('[data-company-phone]').forEach((el) => {
-      el.textContent = c.phone;
-      if (el.tagName === 'A') el.href = `tel:${c.phone}`;
+      el.textContent = c.phoneDisplay || c.phone;
+      const tel = c.phone.startsWith('+') ? c.phone : `+91${c.phone}`;
+      if (el.tagName === 'A') el.href = `tel:${tel.replace(/\s/g, '')}`;
       else {
         const parent = el.closest('a.reach-tile--phone');
-        if (parent) parent.href = `tel:${c.phone}`;
+        if (parent) parent.href = `tel:${tel.replace(/\s/g, '')}`;
       }
     });
     TR.qsa('[data-company-phone2]').forEach((el) => {
-      el.textContent = c.phone2;
-      if (el.tagName === 'A') el.href = `tel:${c.phone2}`;
+      el.textContent = c.phone2Display || c.phone2;
+      const tel = c.phone2.startsWith('+') ? c.phone2 : `+91${c.phone2}`;
+      if (el.tagName === 'A') el.href = `tel:${tel.replace(/\s/g, '')}`;
       else {
         const parent = el.closest('a.reach-tile--phone');
-        if (parent) parent.href = `tel:${c.phone2}`;
+        if (parent) parent.href = `tel:${tel.replace(/\s/g, '')}`;
       }
     });
     TR.qsa('[data-company-email]').forEach((el) => {
@@ -186,6 +213,9 @@ const AppChrome = {
     });
     TR.qsa('[data-social-instagram-handle]').forEach((el) => {
       el.textContent = c.social.instagramHandle || '@travelrayzz';
+    });
+    TR.qsa('[data-social-linkedin-label]').forEach((el) => {
+      el.textContent = c.social.linkedinLabel || 'Travelrayz';
     });
     TR.qsa('[data-company-address]').forEach((el) => {
       el.textContent = c.address;
@@ -226,12 +256,21 @@ document.addEventListener('DOMContentLoaded', async () => {
     console.error('[TRAVELRAYZ] Motion init failed', err);
   }
 
-  if (typeof GalleryUI !== 'undefined') GalleryUI.init({});
+  if (typeof ContactUI !== 'undefined') ContactUI.init();
+  if (typeof GalleryUI !== 'undefined') {
+    GalleryUI.init({
+      limit: Number(document.body.dataset.galleryLimit) || 0
+    });
+  }
+  if (typeof TestimonialsUI !== 'undefined') TestimonialsUI.init();
   if (typeof TripsUI !== 'undefined') {
-    await TripsUI.init({});
-    const hash = location.hash.match(/trip-(.+)/);
-    if (hash) {
-      setTimeout(() => TripsUI.openModal(hash[1]), 400);
+    if (document.body.dataset.page === 'trip-detail') {
+      await TripsUI.initDetail();
+    } else if (TR.qs('#trips-grid')) {
+      await TripsUI.init({
+        filter: document.body.dataset.tripsFilter || '',
+        limit: Number(document.body.dataset.tripsLimit) || 0
+      });
     }
   }
 

@@ -1,0 +1,462 @@
+/**
+ * TRAVELRAYZ — Light theme polish
+ * Calm, clean daylight UI — overrides noisy legacy light rules.
+ */
+
+html[data-theme='light'] body::before {
+  opacity: 0.012;
+}
+
+/* ── Typography: solid headings, not hollow gradients ── */
+html[data-theme='light'] .section-header h2,
+html[data-theme='light'] .featured-copy h2,
+html[data-theme='light'] .home-cta .cta-panel h2,
+html[data-theme='light'] .mv-card h4,
+html[data-theme='light'] .pillar-editorial h3 {
+  background: none;
+  -webkit-text-fill-color: unset;
+  color: var(--heading);
+}
+
+html[data-theme='light'] .sub-heading {
+  color: var(--color-highlight);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+}
+
+html[data-theme='light'] .ph-accent {
+  color: var(--color-highlight);
+  -webkit-text-fill-color: unset;
+  background: none;
+}
+
+/* ── Remove decorative section blobs ── */
+html[data-theme='light'] .section::before,
+html[data-theme='light'] .section:nth-of-type(even)::before {
+  opacity: 0;
+  display: none;
+}
+
+html[data-theme='light'] .section-muted {
+  background: var(--color-surface-elevated);
+}
+
+/* ── Navigation (light-theme.css defers to navigation.css for nav chrome) ── */
+html[data-theme='light'] .navbar {
+  background: transparent;
+}
+
+html[data-theme='light'] .navbar.scrolled {
+  background: var(--color-navbar);
+  border-bottom: 1px solid var(--color-border);
+  box-shadow: 0 4px 18px rgba(15, 23, 42, 0.06);
+}
+
+html[data-theme='light'] .theme-toggle {
+  background: var(--color-surface);
+  border-color: var(--color-border);
+  color: var(--color-text);
+  box-shadow: var(--shadow);
+}
+
+html[data-theme='light'] body:has(.hero) .navbar:not(.scrolled) .theme-toggle,
+html[data-theme='light'] body:has(.page-hero) .navbar:not(.scrolled) .theme-toggle {
+  background: rgba(11, 19, 43, 0.35);
+  border-color: rgba(255, 255, 255, 0.28);
+  color: #ffffff;
+  box-shadow: 0 4px 16px rgba(11, 19, 43, 0.25);
+}
+
+html[data-theme='light'] .approach-phase__card {
+  background:
+    radial-gradient(circle at 50% 0%, rgba(56, 189, 248, 0.12), transparent 55%),
+    linear-gradient(165deg, rgba(255, 255, 255, 0.96), rgba(224, 242, 254, 0.5));
+  border-color: rgba(14, 165, 233, 0.16);
+  box-shadow: 0 14px 32px rgba(12, 74, 110, 0.07);
+}
+
+html[data-theme='light'] .approach-phase[data-phase='transform'] .approach-phase__card {
+  background:
+    radial-gradient(circle at 50% 0%, rgba(245, 158, 11, 0.1), transparent 55%),
+    linear-gradient(165deg, rgba(255, 255, 255, 0.96), rgba(255, 247, 237, 0.55));
+  border-color: rgba(245, 158, 11, 0.2);
+}
+
+html[data-theme='light'] .approach-phase:hover .approach-phase__card {
+  border-color: rgba(14, 165, 233, 0.3);
+  box-shadow: 0 18px 40px rgba(14, 165, 233, 0.12);
+}
+
+html[data-theme='light'] .approach-phase__index {
+  background: var(--color-surface);
+  border-color: rgba(14, 165, 233, 0.35);
+  box-shadow: 0 0 0 5px rgba(56, 189, 248, 0.1), 0 8px 20px rgba(12, 74, 110, 0.08);
+}
+
+html[data-theme='light'] .approach-meter__node {
+  background:
+    radial-gradient(circle at 35% 28%, rgba(255, 255, 255, 0.35), transparent 42%),
+    linear-gradient(145deg, rgba(22, 166, 201, 0.22), rgba(14, 165, 233, 0.12));
+  border-color: rgba(14, 165, 233, 0.28);
+}
+
+html[data-theme='light'] .approach-meter__node:nth-child(7) {
+  background:
+    radial-gradient(circle at 35% 28%, rgba(255, 255, 255, 0.35), transparent 42%),
+    linear-gradient(145deg, rgba(251, 146, 60, 0.35), rgba(234, 88, 12, 0.15));
+  border-color: rgba(245, 158, 11, 0.35);
+}
+
+html[data-theme='light'] .difference-waypoint__card {
+  background:
+    radial-gradient(circle at var(--card-glow-x, 12%) var(--card-glow-y, 18%), rgba(56, 189, 248, 0.14), transparent 50%),
+    linear-gradient(155deg, rgba(255, 255, 255, 0.96), rgba(224, 242, 254, 0.55));
+  border-color: rgba(14, 165, 233, 0.18);
+  box-shadow: 0 14px 36px rgba(12, 74, 110, 0.08);
+}
+
+html[data-theme='light'] .difference-waypoint:hover .difference-waypoint__card {
+  border-color: rgba(14, 165, 233, 0.34);
+  box-shadow: 0 20px 44px rgba(14, 165, 233, 0.14);
+}
+
+html[data-theme='light'] .difference-waypoint__pin {
+  color: var(--heading);
+  background:
+    radial-gradient(circle at 35% 28%, rgba(255, 255, 255, 0.3), transparent 42%),
+    linear-gradient(145deg, rgba(22, 166, 201, 0.28), rgba(8, 47, 73, 0.16));
+  border-color: rgba(125, 211, 252, 0.38);
+  box-shadow: 0 10px 28px rgba(3, 105, 161, 0.16), 0 0 0 6px rgba(56, 189, 248, 0.08);
+}
+
+html[data-theme='light'] .difference-trail::before {
+  opacity: 0.35;
+}
+
+html[data-theme='light'] .difference-compass__ring {
+  border-color: rgba(14, 165, 233, 0.22);
+  box-shadow: 0 0 0 6px rgba(56, 189, 248, 0.08), inset 0 0 36px rgba(56, 189, 248, 0.1);
+}
+
+html[data-theme='light'] .difference-compass__hub {
+  background: linear-gradient(145deg, rgba(56, 189, 248, 0.28), rgba(14, 165, 233, 0.18));
+  border-color: rgba(14, 165, 233, 0.35);
+}
+
+/* ── Cards & panels: clean white surfaces ── */
+html[data-theme='light'] .feature-tile,
+html[data-theme='light'] .feature-tile--wide {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow);
+  backdrop-filter: none;
+}
+
+html[data-theme='light'] .feature-tile::before {
+  opacity: 0;
+}
+
+html[data-theme='light'] .feature-tile:hover,
+html[data-theme='light'] .feature-tile--wide:hover {
+  border-color: rgba(2, 132, 199, 0.28);
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-3px);
+}
+
+html[data-theme='light'] .trip-card,
+html[data-theme='light'] .trip-detail,
+html[data-theme='light'] .founder-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow);
+}
+
+html[data-theme='light'] .trip-card:hover {
+  border-color: rgba(2, 132, 199, 0.26);
+  box-shadow: var(--shadow-lg);
+}
+
+html[data-theme='light'] .home-cta .cta-panel {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-lg);
+}
+
+html[data-theme='light'] .home-cta .cta-panel::before {
+  opacity: 0;
+}
+
+html[data-theme='light'] .enquiry-form,
+html[data-theme='light'] .contact-panel {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-lg);
+}
+
+/* ── Contact reach tiles ── */
+html[data-theme='light'] .reach-tile {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow);
+  backdrop-filter: none;
+}
+
+html[data-theme='light'] .reach-tile:hover {
+  background: var(--color-surface);
+  border-color: rgba(2, 132, 199, 0.32);
+  box-shadow: var(--shadow-lg);
+}
+
+html[data-theme='light'] .reach-panorama .icon {
+  background: rgba(2, 132, 199, 0.08);
+  border-color: rgba(2, 132, 199, 0.18);
+  box-shadow: none;
+}
+
+html[data-theme='light'] .reach-panorama .icon::before {
+  background: var(--accent);
+}
+
+html[data-theme='light'] .reach-panorama .icon-whatsapp {
+  background: rgba(37, 211, 102, 0.1);
+  border-color: rgba(37, 211, 102, 0.28);
+}
+
+html[data-theme='light'] .reach-tile--email .icon {
+  background: rgba(217, 119, 6, 0.08);
+  border-color: rgba(217, 119, 6, 0.22);
+}
+
+html[data-theme='light'] .reach-tile--email .icon::before {
+  background: var(--color-highlight);
+}
+
+html[data-theme='light'] .map-panel {
+  background: var(--color-surface);
+  border-color: var(--color-border);
+  box-shadow: var(--shadow);
+}
+
+html[data-theme='light'] .map-chip {
+  background: var(--color-surface);
+  border-color: var(--color-border);
+  color: var(--color-text);
+}
+
+/* ── Filters & pills ── */
+html[data-theme='light'] .filter-pill {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  color: var(--text-muted);
+}
+
+html[data-theme='light'] .filter-pill.active,
+html[data-theme='light'] .filter-pill:hover {
+  background: var(--accent);
+  color: #ffffff;
+  border-color: var(--accent);
+  box-shadow: none;
+  font-weight: 600;
+}
+
+html[data-theme='light'] .trips-select {
+  background: var(--color-surface);
+  border-color: var(--color-border);
+  color: var(--color-text);
+}
+
+/* ── Buttons ── */
+html[data-theme='light'] .btn-primary {
+  color: #ffffff;
+  box-shadow: 0 6px 20px color-mix(in srgb, var(--color-primary) 32%, transparent);
+}
+
+html[data-theme='light'] .btn-outline {
+  background: var(--color-surface);
+  border-color: var(--color-border);
+  color: var(--color-text);
+}
+
+html[data-theme='light'] .btn-outline:hover {
+  background: rgba(2, 132, 199, 0.06);
+  border-color: rgba(2, 132, 199, 0.35);
+  color: var(--accent);
+}
+
+html[data-theme='light'] body.home .hero .btn-outline {
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.48);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(8px);
+}
+
+/* ── Home hero: cinematic overlay + crisp type (light theme) ── */
+html[data-theme='light'] body.home .hero-overlay {
+  background:
+    radial-gradient(ellipse 85% 65% at 50% 42%, rgba(11, 19, 43, 0.38) 0%, transparent 62%),
+    linear-gradient(
+      180deg,
+      rgba(11, 19, 43, 0.5) 0%,
+      rgba(11, 19, 43, 0.32) 20%,
+      rgba(11, 19, 43, 0.58) 58%,
+      rgba(11, 19, 43, 0.88) 100%
+    );
+}
+
+html[data-theme='light'] .hero-overlay {
+  background:
+    radial-gradient(ellipse 85% 65% at 50% 42%, rgba(11, 19, 43, 0.32) 0%, transparent 62%),
+    linear-gradient(
+      180deg,
+      rgba(11, 19, 43, 0.38) 0%,
+      rgba(11, 19, 43, 0.22) 28%,
+      rgba(11, 19, 43, 0.65) 100%
+    );
+}
+
+html[data-theme='light'] .hero-aurora,
+html[data-theme='light'] .hero-particles,
+html[data-theme='light'] .hero-grid {
+  opacity: 0.15;
+}
+
+html[data-theme='light'] body.home .hero-aurora {
+  opacity: 0.22;
+  mix-blend-mode: soft-light;
+}
+
+html[data-theme='light'] body.home .hero-tagline {
+  color: var(--color-cyan);
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-shadow: 0 2px 16px rgba(11, 19, 43, 0.65);
+}
+
+html[data-theme='light'] .hero-subtitle {
+  color: rgba(248, 250, 252, 0.92);
+  text-shadow: 0 2px 18px rgba(11, 19, 43, 0.55);
+}
+
+html[data-theme='light'] .hero-title,
+html[data-theme='light'] .hero-headline,
+html[data-theme='light'] .hero-brand,
+html[data-theme='light'] .hero-eyebrow {
+  color: #ffffff;
+  text-shadow: 0 2px 28px rgba(11, 19, 43, 0.65), 0 0 48px rgba(11, 19, 43, 0.35);
+}
+
+html[data-theme='light'] body.home .hero-eyebrow .brand-travel {
+  color: #ffffff;
+}
+
+html[data-theme='light'] body.home .hero-eyebrow .brand-rayz {
+  color: var(--color-orange);
+  text-shadow: 0 2px 16px rgba(11, 19, 43, 0.5);
+}
+
+html[data-theme='light'] body.home .hero-scroll {
+  color: rgba(248, 250, 252, 0.82);
+  text-shadow: 0 1px 12px rgba(11, 19, 43, 0.45);
+}
+
+/* ── Page heroes stay cinematic (dark band) ── */
+html[data-theme='light'] .page-hero {
+  color: #ffffff;
+}
+
+html[data-theme='light'] .page-hero-desc,
+html[data-theme='light'] .page-hero-badge {
+  color: rgba(255, 255, 255, 0.88);
+}
+
+/* ── Ambient effects: subtle ── */
+html[data-theme='light'] .ambient-orb {
+  opacity: 0.1;
+}
+
+html[data-theme='light'] .ambient-beam {
+  opacity: 0.06;
+}
+
+/* ── Footer ── */
+html[data-theme='light'] .footer {
+  background: var(--footer-bg);
+  border-top: 1px solid var(--color-border);
+}
+
+html[data-theme='light'] .social-links a {
+  background: var(--color-surface);
+  border-color: var(--color-border);
+}
+
+/* ── About / editorial blocks ── */
+html[data-theme='light'] .band-row,
+html[data-theme='light'] .band-row:nth-child(even) {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow);
+  backdrop-filter: none;
+}
+
+html[data-theme='light'] .band-row:hover {
+  border-color: rgba(2, 132, 199, 0.28);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-lg);
+}
+
+html[data-theme='light'] .slash-rows li {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow);
+}
+
+html[data-theme='light'] .slash-rows li:hover {
+  background: rgba(2, 132, 199, 0.04);
+  border-color: rgba(2, 132, 199, 0.22);
+}
+
+html[data-theme='light'] .soft-pairs article::before {
+  opacity: 0;
+}
+
+html[data-theme='light'] .feature-tile::before {
+  background: rgba(2, 132, 199, 0.08);
+  border-color: rgba(2, 132, 199, 0.2);
+  box-shadow: none;
+  color: var(--accent);
+}
+
+html[data-theme='light'] .contact-card .icon,
+html[data-theme='light'] .reach-panorama .icon-location {
+  background: rgba(2, 132, 199, 0.08);
+  border-color: rgba(2, 132, 199, 0.18);
+  box-shadow: none;
+}
+
+html[data-theme='light'] .contact-card .icon::before {
+  background: var(--accent);
+}
+
+html[data-theme='light'] .split-benefits::before,
+html[data-theme='light'] .visionary-duo::before {
+  opacity: 0.35;
+}
+
+html[data-theme='light'] .faq-item {
+  border-image: none;
+  border-color: var(--color-border);
+  background: var(--color-surface);
+}
+
+html[data-theme='light'] .featured-pills span {
+  background: var(--color-surface);
+  border-color: var(--color-border);
+  box-shadow: none;
+}
+
+html[data-theme='light'] .float-label {
+  background: var(--color-surface);
+  border-color: var(--color-border);
+  box-shadow: var(--shadow);
+  backdrop-filter: none;
+}

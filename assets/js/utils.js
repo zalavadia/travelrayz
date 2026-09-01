@@ -26,6 +26,59 @@ const TR = {
     return '₹' + num.toLocaleString('en-IN');
   },
 
+  formatDateIN(value, options = {}) {
+    if (value == null || value === '') return '';
+    const d = new Date(value);
+    if (Number.isNaN(d.getTime())) return String(value);
+    return d.toLocaleDateString('en-IN', {
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric',
+      timeZone: 'Asia/Kolkata',
+      ...options
+    });
+  },
+
+  parseDate(value) {
+    if (value == null || value === '') return null;
+    const d = new Date(value);
+    return Number.isNaN(d.getTime()) ? null : d;
+  },
+
+  effectivePrice(trip) {
+    const price = Number(String(trip?.price || '').replace(/[^\d.]/g, '')) || 0;
+    const disc = Number(String(trip?.discountedPrice || '').replace(/[^\d.]/g, '')) || 0;
+    return disc > 0 && disc < price ? disc : price;
+  },
+
+  isSoldOut(trip) {
+    return TR.parseBool(trip?.soldOut) || TR.parseBool(trip?.limitedSeats);
+  },
+
+  isUpcomingTrip(trip) {
+    const d = TR.parseDate(trip?.travelDate);
+    if (!d) return true;
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    return d >= today;
+  },
+
+  setText(el, text) {
+    if (el) el.textContent = text == null ? '' : String(text);
+  },
+
+  clearChildren(el) {
+    if (!el) return;
+    while (el.firstChild) el.removeChild(el.firstChild);
+  },
+
+  el(tag, className, text) {
+    const node = document.createElement(tag);
+    if (className) node.className = className;
+    if (text != null && text !== '') node.textContent = String(text);
+    return node;
+  },
+
   parseBool(v) {
     if (typeof v === 'boolean') return v;
     const s = String(v || '').trim().toLowerCase();

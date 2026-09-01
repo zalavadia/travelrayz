@@ -3,34 +3,13 @@
 <head>
   <script>
     (function () {
-      var KEY = 'travelrayz-theme';
-      function preferred() {
-        try {
-          var t = localStorage.getItem(KEY);
-          if (t === 'light' || t === 'dark') return t;
-        } catch (e) {}
-        return 'dark';
-      }
-      function apply(theme) {
-        var next = theme === 'light' ? 'light' : 'dark';
-        document.documentElement.setAttribute('data-theme', next);
-        try { localStorage.setItem(KEY, next); } catch (e) {}
-        document.querySelectorAll('.theme-toggle').forEach(function (btn) {
-          var light = next === 'light';
-          btn.setAttribute('aria-label', light ? 'Switch to dark theme' : 'Switch to light theme');
-          btn.setAttribute('title', light ? 'Dark theme' : 'Light theme');
-        });
-      }
-      apply(preferred());
-      document.addEventListener('click', function (e) {
-        var btn = e.target && e.target.closest && e.target.closest('.theme-toggle');
-        if (!btn) return;
-        e.preventDefault();
-        var cur = document.documentElement.getAttribute('data-theme') || 'dark';
-        apply(cur === 'light' ? 'dark' : 'light');
-      });
+      try {
+        var t = localStorage.getItem('travelrayz-theme');
+        if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+      } catch (e) {}
     })();
   </script>
+  <script>document.documentElement.classList.add("is-loading");</script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>About TRAVELRAYZ | Founded by Working Professionals</title>
@@ -38,69 +17,37 @@
   <meta name="keywords" content="about TRAVELRAYZ, Pratima Jadhav, Kiran Chormare, corporate outings Mumbai, team building, spiritual tours, premium treks">
   <meta name="author" content="TRAVELRAYZ">
   <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://travelrayz.com/about.html">
+  <link rel="canonical" href="https://www.travelrayz.com/about.html">
   <meta property="og:type" content="website">
   <meta property="og:title" content="About TRAVELRAYZ">
   <meta property="og:description" content="More than trips — we build connections. Experiences that strengthen teams, restore well-being, and create lasting impact.">
-  <meta property="og:image" content="assets/images/maharashtra-3-jyotirlinga-poster.png">
-  <meta property="og:url" content="https://travelrayz.com/about.html">
+  <meta property="og:image" content="https://www.travelrayz.com/assets/images/maharashtra-3-jyotirlinga-poster.png">
+  <meta property="og:url" content="https://www.travelrayz.com/about.html">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="About TRAVELRAYZ">
   <meta name="twitter:description" content="Founded by working professionals, for working professionals.">
-  <meta name="twitter:image" content="assets/images/maharashtra-3-jyotirlinga-poster.png">
+  <meta name="twitter:image" content="https://www.travelrayz.com/assets/images/maharashtra-3-jyotirlinga-poster.png">
   <link rel="icon" href="assets/images/logo-mark.png" type="image/png">
   <link rel="apple-touch-icon" href="assets/images/logo-mark.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/loader-critical.css">
   <link rel="stylesheet" href="assets/css/main.css">
 </head>
-<body>
+<body data-page="about">
   <div class="page-loader" id="page-loader" role="status" aria-live="polite" aria-label="Loading TRAVELRAYZ">
     <div class="page-loader-inner">
       <span class="page-loader-ring" aria-hidden="true"></span>
       <img class="page-loader-logo" src="assets/images/logo-mark.png" alt="" width="120" height="120">
     </div>
   </div>
-  <script>
-    (function () {
-      var el = document.getElementById('page-loader');
-      if (!el) return;
-      function dismiss() {
-        if (!el || el.dataset.done) return;
-        el.dataset.done = '1';
-        el.classList.add('is-done');
-        setTimeout(function () { if (el && el.parentNode) el.parentNode.removeChild(el); }, 550);
-      }
-      setTimeout(dismiss, 900);
-      setTimeout(dismiss, 2500);
-    })();
-  </script>
+  <script src="assets/js/loader.js"></script>
+
 
   <a class="skip-link" href="#main">Skip to content</a>
 
-  <header class="navbar" id="navbar">
-    <div class="nav-inner">
-      <a class="logo" href="index.html" aria-label="TRAVELRAYZ home">
-        <img class="logo-img" src="assets/images/logo-full.png" alt="TRAVELRAYZ" width="220" height="52">
-      </a>
-      <nav class="nav-links" aria-label="Primary">
-        <a href="index.html">Home</a>
-        <a href="upcoming-trips.html">Trips</a>
-        <a href="gallery.html">Gallery</a>
-        <a class="active" href="about.html">About</a>
-        <a href="contact.html">Contact</a>
-      </nav>
-      <div class="nav-actions">
-        <button class="theme-toggle" type="button" aria-label="Switch to light theme" title="Light theme">
-          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 14.5A8.5 8.5 0 0 1 9.5 3 7 7 0 1 0 21 14.5z"/></svg>
-          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
-        </button>
-        <a class="btn btn-primary" href="book.html">Book Now</a>
-        <button class="nav-toggle" type="button" aria-label="Open menu"><span></span><span></span><span></span></button>
-      </div>
-    </div>
-  </header>
+  <div id="site-nav"></div>
 
   <main id="main" class="page-reveal">
     <section class="page-hero page-hero--about" data-hero="about">
@@ -152,7 +99,7 @@
           </div>
           <div class="mv-card">
             <h4>Mission</h4>
-            <p>To design safe, engaging, and purpose-driven experiences that foster team bonding, employee well-being, personal growth, and <em>work-life balance</em> through curated retreats and corporate outings.</p>
+            <p>To design safe, engaging, and purpose-driven experiences that foster team bonding, employee well-being, personal growth, and <em>work-life balance</em> through curated retreats, treks, and corporate outings.</p>
           </div>
         </div>
       </div>
@@ -170,7 +117,7 @@
             <p class="visionary-mark" aria-hidden="true">P</p>
             <div class="visionary-copy">
               <h3>Pratima Jadhav</h3>
-              <p class="visionary-role">HR Manager · Co-Founder</p>
+              <p class="visionary-role">HR Manager and Co-Founder</p>
               <p>With extensive experience in Human Resources, Pratima understands the importance of employee engagement, workplace well-being, and team culture. Her passion for travel and people inspired her to create experiences that help individuals and teams step away from routine, recharge, and build meaningful connections.</p>
             </div>
           </article>
@@ -178,7 +125,7 @@
             <p class="visionary-mark" aria-hidden="true">K</p>
             <div class="visionary-copy">
               <h3>Kiran Chormare</h3>
-              <p class="visionary-role">Software Engineer · Co-Founder</p>
+              <p class="visionary-role">Software Engineer and Co-Founder</p>
               <p>A technology professional with a passion for exploration and adventure, Kiran brings planning, problem-solving, and operational expertise to TRAVELRAYZ. His love for discovering new destinations and creating memorable experiences forms the foundation of every journey curated by TRAVELRAYZ.</p>
             </div>
           </article>
@@ -211,7 +158,7 @@
       <div class="container">
         <div class="section-header">
           <p class="sub-heading">What Guides Us</p>
-          <h2>Our Pillars</h2>
+          <h2>Company Values</h2>
         </div>
         <ul class="pillar-editorial">
           <li>
@@ -308,57 +255,29 @@
         </blockquote>
       </div>
     </section>
+
+    <section class="section home-cta" id="contact-cta">
+      <div class="container">
+        <div class="cta-panel" data-reveal>
+          <p class="sub-heading">Let's Connect</p>
+          <h2>Ready to plan your next experience?</h2>
+          <p>Whether it's a corporate outing, team trek, spiritual yatra or weekend escape — reach out and we'll curate the right journey for your team.</p>
+          <div class="section-actions">
+            <a class="btn btn-primary" href="contact.html">Contact Us</a>
+            <a class="btn btn-outline" href="trips.html">Explore Trips</a>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
 
-  <footer class="footer">
-    <div class="container">
-      <div class="footer-grid">
-        <div class="footer-brand">
-          <a class="logo" href="index.html"><img class="logo-img" src="assets/images/logo-full.png" alt="TRAVELRAYZ" width="220" height="52"></a>
-          <p>Helping organizations build stronger teams, healthier workplaces, and more engaged employees through meaningful experiences beyond the workplace.</p>
-          <div class="social-links">
-            <a data-social="linkedin" href="#" aria-label="LinkedIn" target="_blank" rel="noopener"></a>
-            <a data-social="instagram" href="#" aria-label="Instagram" target="_blank" rel="noopener"></a>
-            <a data-social="youtube" href="#" aria-label="YouTube" target="_blank" rel="noopener"></a>
-          </div>
-        </div>
-        <div>
-          <h4>Quick Links</h4>
-          <div class="footer-links">
-            <a href="upcoming-trips.html">Upcoming Trips</a>
-            <a href="treks.html">Treks</a>
-            <a href="tours.html">Tours</a>
-            <a href="gallery.html">Gallery</a>
-            <a href="about.html">About</a>
-          </div>
-        </div>
-        <div>
-          <h4>Company</h4>
-          <div class="footer-links">
-            <a href="testimonials.html">Testimonials</a>
-            <a href="contact.html">Contact</a>
-            <a href="terms.html">Terms</a>
-            <a href="privacy.html">Privacy</a>
-          </div>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <span>© <span id="year"></span> TRAVELRAYZ. All rights reserved.</span>
-        <span>Travel to Divine. Return with Peace.</span>
-      </div>
-    </div>
-  </footer>
+  <div id="site-footer"></div>
 
-  <div class="float-btns">
-    <a class="float-btn float-whatsapp" data-whatsapp-link href="#" target="_blank" rel="noopener" aria-label="Chat with us on WhatsApp">
-      <span class="fw-circle" aria-hidden="true"></span>
-      <span class="float-label">Talk to us?</span>
-    </a>
-  </div>
-
+  <script src="assets/js/theme.js"></script>
   <script src="assets/js/config.js" defer></script>
   <script src="assets/js/utils.js" defer></script>
   <script src="assets/js/animations.js" defer></script>
+  <script src="assets/js/chrome.js" defer></script>
   <script src="assets/js/main.js" defer></script>
 </body>
 </html>

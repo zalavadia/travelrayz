@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('travelrayz-theme');
+        if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+      } catch (e) {}
+    })();
+  </script>
+  <script>document.documentElement.classList.add("is-loading");</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trip Details | TRAVELRAYZ</title>
+  <meta name="description" content="View full itinerary, inclusions, pricing and booking details for this TRAVELRAYZ trip.">
+  <meta name="author" content="TRAVELRAYZ">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://www.travelrayz.com/trip-details.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Trip Details | TRAVELRAYZ">
+  <meta property="og:description" content="Full trip details — itinerary, inclusions, pricing and booking.">
+  <meta property="og:image" content="https://www.travelrayz.com/assets/images/maharashtra-3-jyotirlinga-poster.png">
+  <meta property="og:url" content="https://www.travelrayz.com/trip-details.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Trip Details | TRAVELRAYZ">
+  <meta name="twitter:description" content="Full trip details from TRAVELRAYZ.">
+  <meta name="twitter:image" content="https://www.travelrayz.com/assets/images/maharashtra-3-jyotirlinga-poster.png">
+  <link rel="icon" href="assets/images/logo-mark.png" type="image/png">
+  <link rel="apple-touch-icon" href="assets/images/logo-mark.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/loader-critical.css">
+  <link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body data-page="trip-detail">
+  <div class="page-loader" id="page-loader" role="status" aria-live="polite" aria-label="Loading TRAVELRAYZ">
+    <div class="page-loader-inner">
+      <span class="page-loader-ring" aria-hidden="true"></span>
+      <img class="page-loader-logo" src="assets/images/logo-mark.png" alt="" width="120" height="120">
+    </div>
+  </div>
+  <script src="assets/js/loader.js"></script>
+
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <div id="site-nav"></div>
+
+  <main id="main" class="page-reveal">
+    <section class="section section--trip-detail">
+      <div class="container">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="index.html">Home</a>
+          <span aria-hidden="true">/</span>
+          <a href="trips.html">Trips</a>
+          <span aria-hidden="true">/</span>
+          <span aria-current="page">Details</span>
+        </nav>
+        <div id="trip-detail"></div>
+      </div>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script src="assets/js/theme.js"></script>
+  <script src="assets/js/config.js" defer></script>
+  <script src="assets/js/utils.js" defer></script>
+  <script src="assets/js/sheets.js" defer></script>
+  <script src="assets/js/trips.js" defer></script>
+  <script src="assets/js/animations.js" defer></script>
+  <script src="assets/js/chrome.js" defer></script>
+  <script src="assets/js/main.js" defer></script>
+</body>
+</html>

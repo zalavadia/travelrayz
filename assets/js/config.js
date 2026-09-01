@@ -1,22 +1,49 @@
 /**
- * TRAVELRAYZ — Global Configuration
- * Edit this file to update company details, API endpoints, and feature flags.
- * Admin password is client-side only (suitable for simple gate, not high security).
+ * TRAVELRAYZ — Public site configuration & API endpoint
+ *
+ * Admin secret lives in Google Apps Script Script Properties only.
+ * Enter it on the admin login screen; it is kept in sessionStorage for the session.
  */
 const TRAVELRAYZ_CONFIG = {
+  /** Google Apps Script Web App URL (ends in /exec) */
+  sheetsApiUrl:
+    'https://script.google.com/macros/s/AKfycbwwPKv3T3BGL-IEgl-tdzyWi8iDYm7wXVJow7FO_IxNSwMwd0EjgpE6RvmIYYoNuWTE/exec',
+
+  /** Fetch timeout for Sheets API calls (milliseconds) */
+  requestTimeoutMs: 30000,
+
+  /** Public company information (safe to expose on the static site) */
   company: {
     name: 'TRAVELRAYZ',
     tagline: 'Travel to Divine. Return with Peace.',
     taglineAlt: 'Beyond the Workplace. Stronger Together.',
     headline: 'Creating Experiences That Strengthen Teams Beyond the Workplace',
+    vision:
+      'To inspire meaningful connections, healthier workplaces, and stronger teams by helping people reconnect with nature, with each other, and themselves through transformative travel experiences.',
     mission:
-      'Helping organizations build stronger teams, healthier workplaces, and more engaged employees through meaningful experiences beyond the workplace.',
+      'To design safe, engaging, and purpose-driven experiences that foster team bonding, employee well-being, personal growth, and work-life balance through curated retreats, treks, and corporate outings.',
+    founders: {
+      pratima: {
+        name: 'Pratima Jadhav',
+        role: 'HR Manager and Co-Founder',
+        phone: '8850824834',
+        phoneDisplay: '+91 88508 24834'
+      },
+      kiran: {
+        name: 'Kiran Chormare',
+        role: 'Software Engineer and Co-Founder',
+        phone: '7208358868',
+        phoneDisplay: '+91 72083 58868'
+      }
+    },
     phone: '7208358868',
+    phoneDisplay: '+91 72083 58868',
     phoneLabel: 'Kiran',
     phone2: '8850824834',
+    phone2Display: '+91 88508 24834',
     phone2Label: 'Pratima',
     whatsapp: '917208453777',
-    whatsappDisplay: '7208453777',
+    whatsappDisplay: '+91 72084 53777',
     email: 'contact@travelrayz.com',
     address: 'Mumbai, Maharashtra',
     website: 'https://www.travelrayz.com',
@@ -31,51 +58,19 @@ const TRAVELRAYZ_CONFIG = {
       facebook: 'https://facebook.com/travelrayz',
       youtube: 'https://youtube.com/@travelrayz'
     }
-  },
-
-  /* Google Apps Script Web App URL — replace after deploying Code.gs */
-  sheetsApiUrl: 'https://script.google.com/macros/s/AKfycbwwPKv3T3BGL-IEgl-tdzyWi8iDYm7wXVJow7FO_IxNSwMwd0EjgpE6RvmIYYoNuWTE/exec',
-
-  /* Simple admin gate (change before going live) */
-  adminPassword: 'travelrayz2026',
-
-  /* Fallback trip when Sheets is unavailable */
-  fallbackTrips: [
-    {
-      id: '1',
-      tripName: 'Maharashtra 3 Jyotirlinga Yatra',
-      poster: 'assets/images/maharashtra-3-jyotirlinga-poster.png',
-      destination: 'Bhimashankar, Grishneshwar, Trimbakeshwar',
-      category: 'Jyotirlinga',
-      description:
-        'A spiritually enriching journey visiting three sacred Jyotirlingas with luxury Urbania travel and pure veg meals. || हर हर महादेव ||',
-      duration: '2 Days / 2 Nights',
-      travelDate: '2026-07-31T21:00:00',
-      price: '7999',
-      seats: '12',
-      difficulty: 'Easy',
-      vehicle: 'Luxury Urbania',
-      inclusions:
-        'Luxury Urbania Travel | 1 Night Hotel Stay | 2 Breakfasts & 2 Dinners (Pure Veg) | Experienced Trip Leader & First Aid',
-      exclusions: 'Personal expenses | Extra meals | Temple donations',
-      pickupPoints: 'Mumbai / Thane (to be confirmed on booking)',
-      itinerary:
-        'Day 0 Night: Departure 9:00 PM | Day 1: Bhimashankar Darshan & travel | Day 2: Grishneshwar & Trimbakeshwar | Return by 12:00 AM',
-      bookingLink: 'https://wa.me/917208453777?text=Hi%20I%20want%20to%20book%20Maharashtra%203%20Jyotirlinga%20Yatra',
-      trending: 'Yes',
-      featured: 'Yes',
-      status: 'Active',
-      limitedSeats: 'Yes'
-    }
-  ]
+  }
 };
 
-/* Persist settings overrides from admin */
+/* Persist non-secret settings overrides from admin (contact details, social links) */
 (function loadSavedSettings() {
   try {
     const saved = localStorage.getItem('travelrayz_settings');
     if (saved) {
       const parsed = JSON.parse(saved);
+      if (parsed.social && TRAVELRAYZ_CONFIG.company.social) {
+        Object.assign(TRAVELRAYZ_CONFIG.company.social, parsed.social);
+        delete parsed.social;
+      }
       Object.assign(TRAVELRAYZ_CONFIG.company, parsed);
     }
   } catch (e) {

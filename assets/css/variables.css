@@ -1,150 +1,262 @@
-/* TRAVELRAYZ — Design Tokens (dark · living aurora) */
-:root {
+/* TRAVELRAYZ — Theme tokens (dark default · premium light twin) */
+
+:root,
+[data-theme='dark'] {
   color-scheme: dark;
-  --primary: #040b14;
-  --accent: #22d3ee;
-  --sky: #7dd3fc;
-  --ice: #ecfeff;
-  --cyan: #06b6d4;
-  --deep: #0369a1;
-  --bg: #010409;
-  --dark: #000000;
-  --text: #e8f4fc;
-  --text-muted: #8ba3b8;
-  --heading: #f0f9ff;
-  --surface: rgba(8, 47, 73, 0.35);
-  --surface-strong: rgba(14, 116, 144, 0.22);
-  --surface-border: rgba(125, 211, 252, 0.18);
-  --nav-scrolled: rgba(0, 0, 0, 0.72);
-  --nav-link: rgba(226, 242, 252, 0.82);
-  --nav-panel: #05080f;
-  --nav-toggle: #ffffff;
-  --btn-outline-bg: rgba(8, 47, 73, 0.25);
-  --btn-outline-border: rgba(125, 211, 252, 0.45);
-  --btn-outline-text: #ffffff;
-  --footer-bg: linear-gradient(180deg, transparent, rgba(6, 182, 212, 0.06) 20%, #000 55%);
-  --footer-text: rgba(255, 255, 255, 0.8);
-  --footer-muted: rgba(186, 230, 253, 0.55);
-  --footer-link: rgba(255, 255, 255, 0.55);
-  --footer-heading: #ffffff;
-  --footer-bottom: rgba(255, 255, 255, 0.4);
-  --footer-border: rgba(34, 211, 238, 0.12);
-  --loader-bg: radial-gradient(ellipse at 50% 42%, rgba(14, 116, 144, 0.35), transparent 55%), #05080f;
-  /* Brand colours sampled from the logo artwork */
-  --brand-orange: #f2822d;
-  --brand-navy: #0a2a4a;
-  --hero-title: #dbebfc;
-  --hero-tagline: #f2822d;
-  --hero-body: rgba(226, 242, 252, 0.84);
-  --glow: 0 0 48px rgba(34, 211, 238, 0.35);
-  --shadow: 0 12px 44px rgba(0, 0, 0, 0.55);
-  --shadow-lg: 0 30px 80px rgba(0, 0, 0, 0.65);
+
+  /* ── Brand palette (dark default) ── */
+  --color-background: #0b132b;
+  --color-background-alt: #141d35;
+  --color-surface: #1c2541;
+  --color-surface-elevated: #243052;
+  --color-text: #f8fafc;
+  --color-text-muted: #94a3b8;
+  --color-border: #2d3a5c;
+  --color-navbar: rgba(28, 37, 65, 0.94);
+  --color-primary: #3b82f6;
+  --color-cyan: #38bdf8;
+  --color-accent-soft: rgba(56, 189, 248, 0.12);
+  --color-accent-tint: #38bdf8;
+  --color-orange: #f59e0b;
+  --color-highlight: #38bdf8;
+  --color-error: #f87171;
+
+  /* Brand aliases */
+  --color-navy: var(--color-background);
+  --color-midnight: var(--color-background-alt);
+  --color-cream: var(--color-text);
+  --color-white: #ffffff;
+
+  /* Semantic mapping */
+  --primary: var(--color-background);
+  --accent: var(--color-cyan);
+  --sky: var(--color-cyan);
+  --brand-orange: var(--color-orange);
+  --brand-navy: var(--color-background);
+  --brand-cyan: var(--color-cyan);
+
+  --bg: var(--color-background);
+  --dark: #070d1e;
+  --text: var(--color-text);
+  --text-muted: var(--color-text-muted);
+  --heading: var(--color-text);
+
+  --surface: rgba(28, 37, 65, 0.92);
+  --surface-strong: var(--color-accent-soft);
+  --surface-border: var(--color-border);
+
+  --nav-scrolled: var(--color-navbar);
+  --nav-link: rgba(248, 250, 252, 0.88);
+  --nav-panel: var(--color-background-alt);
+  --nav-toggle: var(--color-white);
+
+  --btn-outline-bg: rgba(20, 29, 53, 0.55);
+  --btn-outline-border: rgba(56, 189, 248, 0.38);
+  --btn-outline-text: var(--color-text);
+
+  --footer-bg: linear-gradient(180deg, transparent, rgba(20, 29, 53, 0.45) 18%, var(--color-background) 52%);
+  --footer-text: rgba(248, 250, 252, 0.84);
+  --footer-muted: var(--color-text-muted);
+  --footer-link: rgba(248, 250, 252, 0.62);
+  --footer-heading: var(--color-text);
+  --footer-bottom: rgba(148, 163, 184, 0.72);
+  --footer-border: rgba(45, 58, 92, 0.65);
+
+  --hero-title: var(--color-text);
+  --hero-tagline: var(--color-orange);
+  --hero-body: rgba(248, 250, 252, 0.86);
+  --hero-overlay-strong: rgba(11, 19, 43, 0.72);
+  --hero-overlay-soft: rgba(11, 19, 43, 0.38);
+  --page-hero-overlay: linear-gradient(
+    180deg,
+    rgba(11, 19, 43, 0.55) 0%,
+    rgba(11, 19, 43, 0.35) 45%,
+    rgba(7, 12, 28, 0.82) 100%
+  );
+
+  --glow: 0 0 48px rgba(56, 189, 248, 0.28);
+  --glow-orange: 0 0 36px rgba(245, 158, 11, 0.28);
+  --shadow: 0 12px 44px rgba(7, 12, 28, 0.45);
+  --shadow-lg: 0 28px 72px rgba(7, 12, 28, 0.55);
+
+  --modal-overlay: rgba(11, 19, 43, 0.84);
+  --lightbox-bg: rgba(7, 12, 28, 0.92);
+  --gallery-hover: rgba(11, 19, 43, 0.52);
+  --skeleton-base: rgba(56, 189, 248, 0.08);
+  --skeleton-shine: rgba(56, 189, 248, 0.16);
+  --toast-bg: linear-gradient(135deg, var(--color-background-alt), var(--color-background));
+  --toast-border: rgba(56, 189, 248, 0.38);
+  --toast-text: var(--color-text);
+
+  --logo-backdrop: transparent;
+  --logo-shadow: drop-shadow(0 0 10px rgba(56, 189, 248, 0.18));
+
+  --gradient-hero: linear-gradient(
+    180deg,
+    rgba(11, 19, 43, 0.35) 0%,
+    rgba(11, 19, 43, 0.62) 38%,
+    rgba(7, 12, 28, 0.88) 100%
+  );
+
+  --gradient-accent: linear-gradient(135deg, #2563eb 0%, var(--color-primary) 48%, #60a5fa 100%);
+  --gradient-cyan: linear-gradient(120deg, #0ea5e9 0%, var(--color-cyan) 50%, #7dd3fc 100%);
+
+  --gradient-page:
+    radial-gradient(ellipse 90% 55% at 50% -12%, rgba(56, 189, 248, 0.14) 0%, transparent 52%),
+    linear-gradient(180deg, var(--color-background) 0%, #080f22 48%, var(--color-background-alt) 100%);
+
+  --gradient-card: linear-gradient(
+    155deg,
+    rgba(56, 189, 248, 0.1) 0%,
+    rgba(28, 37, 65, 0.92) 42%,
+    rgba(11, 19, 43, 0.96) 100%
+  );
+
+  --gradient-border: linear-gradient(
+    135deg,
+    rgba(56, 189, 248, 0.5),
+    rgba(59, 130, 246, 0.35) 50%,
+    rgba(56, 189, 248, 0.25) 100%
+  );
+
+  --gradient-text: linear-gradient(115deg, var(--color-text) 5%, #ffffff 35%, var(--color-cyan) 72%, #bae6fd 100%);
+  --gradient-heading: linear-gradient(120deg, var(--color-text) 15%, #ffffff 45%, var(--color-cyan) 85%);
+
   --radius: 14px;
   --radius-lg: 22px;
   --radius-sm: 10px;
   --nav-h: 72px;
+
   --font-heading: 'Cormorant Garamond', Georgia, serif;
   --font-sub: 'Outfit', sans-serif;
   --font-body: 'Outfit', sans-serif;
-  --transition: 0.35s cubic-bezier(0.22, 1, 0.36, 1);
-  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --text-xs: clamp(0.72rem, 0.68rem + 0.18vw, 0.78rem);
+  --text-sm: clamp(0.82rem, 0.78rem + 0.22vw, 0.92rem);
+  --text-base: clamp(0.95rem, 0.9rem + 0.28vw, 1.05rem);
+  --text-lg: clamp(1.08rem, 1rem + 0.45vw, 1.22rem);
+  --text-xl: clamp(1.32rem, 1.15rem + 0.75vw, 1.65rem);
+  --text-2xl: clamp(1.72rem, 1.45rem + 1.2vw, 2.25rem);
+  --text-3xl: clamp(2.1rem, 1.72rem + 1.75vw, 3rem);
+  --text-4xl: clamp(2.55rem, 2rem + 2.4vw, 3.75rem);
+
+  --section-y: clamp(4rem, 3rem + 4vw, 5.75rem);
   --container: 1120px;
-  --gradient-hero: linear-gradient(
-    180deg,
-    rgba(0, 20, 40, 0.35) 0%,
-    rgba(0, 0, 0, 0.55) 35%,
-    rgba(0, 0, 0, 0.82) 100%
-  );
-  --gradient-accent: linear-gradient(120deg, #0e7490 0%, #22d3ee 40%, #a5f3fc 70%, #38bdf8 100%);
-  --gradient-sky: linear-gradient(130deg, #000 0%, #0c4a6e 38%, #0891b2 68%, #67e8f9 100%);
-  --gradient-page:
-    radial-gradient(ellipse 100% 70% at 50% -15%, rgba(14, 116, 144, 0.55) 0%, transparent 58%),
-    radial-gradient(ellipse 55% 45% at 100% 30%, rgba(34, 211, 238, 0.18) 0%, transparent 55%),
-    radial-gradient(ellipse 50% 40% at 0% 70%, rgba(6, 182, 212, 0.16) 0%, transparent 50%),
-    radial-gradient(ellipse 70% 50% at 50% 100%, rgba(3, 105, 161, 0.2) 0%, transparent 55%),
-    linear-gradient(180deg, #000000 0%, #010409 45%, #06101c 100%);
-  --gradient-card: linear-gradient(
-    155deg,
-    rgba(34, 211, 238, 0.16) 0%,
-    rgba(8, 47, 73, 0.35) 35%,
-    rgba(0, 0, 0, 0.45) 100%
-  );
-  --gradient-border: linear-gradient(
-    135deg,
-    rgba(165, 243, 252, 0.7),
-    rgba(34, 211, 238, 0.15) 40%,
-    rgba(14, 165, 233, 0.55) 100%
-  );
-  --gradient-text: linear-gradient(115deg, #ffffff 5%, #ecfeff 30%, #67e8f9 55%, #22d3ee 85%, #7dd3fc 100%);
-  --gradient-heading: linear-gradient(120deg, #f0f9ff 20%, #a5f3fc 70%, #22d3ee);
+  --container-narrow: 760px;
+
+  --transition: 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  --theme-transition: 0.25s ease;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --focus-ring: 2px solid var(--color-cyan);
+  --focus-offset: 3px;
 }
 
-/* Light · sunrise alpine sky (daylight twin of dark aurora) */
-html[data-theme='light'] {
+[data-theme='light'] {
   color-scheme: light;
-  --primary: #0a3d5c;
-  --accent: #0c8bb0;
-  --sky: #0284c7;
-  --ice: #f5fbff;
-  --cyan: #0e7490;
-  --deep: #075985;
-  --bg: #eef6fb;
-  --dark: #0b1220;
-  --text: #0c243d;
-  --text-muted: #3d5a72;
-  --heading: #082338;
-  --surface: rgba(255, 255, 255, 0.72);
-  --surface-strong: rgba(14, 165, 233, 0.12);
-  --surface-border: rgba(8, 145, 178, 0.22);
-  --nav-scrolled: rgba(4, 14, 26, 0.94);
-  --nav-link: rgba(226, 242, 252, 0.82);
-  --nav-panel: #05121f;
-  --nav-toggle: #ffffff;
-  --btn-outline-bg: rgba(255, 255, 255, 0.7);
-  --btn-outline-border: rgba(8, 145, 178, 0.42);
-  --btn-outline-text: #0c243d;
-  --footer-bg: linear-gradient(180deg, #0b2036 0%, #050e1a 100%);
-  --footer-text: rgba(255, 255, 255, 0.8);
-  --footer-muted: rgba(186, 230, 253, 0.55);
-  --footer-link: rgba(255, 255, 255, 0.55);
-  --footer-heading: #ffffff;
-  --footer-bottom: rgba(255, 255, 255, 0.4);
-  --footer-border: rgba(34, 211, 238, 0.15);
-  --loader-bg: radial-gradient(ellipse at 50% 42%, rgba(14, 165, 233, 0.22), transparent 55%), #eef6fb;
-  --brand-orange: #d97706;
-  --brand-navy: #0a2a4a;
-  --hero-title: #0a2a4a;
-  --hero-tagline: #c2410c;
-  --hero-body: rgba(8, 35, 56, 0.88);
-  --glow: 0 0 42px rgba(14, 165, 233, 0.28);
-  --shadow: 0 14px 36px rgba(12, 74, 110, 0.1);
-  --shadow-lg: 0 28px 64px rgba(12, 74, 110, 0.14);
+
+  /* ── Brand palette (light) ── */
+  --color-background: #f8fafc;
+  --color-background-alt: #e0f2fe;
+  --color-surface: #ffffff;
+  --color-surface-elevated: #e0f2fe;
+  --color-text: #0f172a;
+  --color-text-muted: #64748b;
+  --color-border: #e2e8f0;
+  --color-navbar: rgba(255, 255, 255, 0.96);
+  --color-primary: #2563eb;
+  --color-cyan: #2563eb;
+  --color-accent-soft: #e0f2fe;
+  --color-accent-tint: #7dd3fc;
+  --color-orange: #d97706;
+  --color-highlight: #7dd3fc;
+  --color-error: #dc2626;
+
+  --color-cream: var(--color-text);
+  --heading: var(--color-text);
+  --accent: var(--color-primary);
+  --sky: var(--color-accent-tint);
+  --bg: var(--color-background);
+  --text: var(--color-text);
+  --primary: var(--color-background);
+
+  --surface: #ffffff;
+  --surface-strong: var(--color-accent-soft);
+  --surface-border: var(--color-border);
+
+  --nav-scrolled: var(--color-navbar);
+  --nav-link: rgba(15, 23, 42, 0.86);
+  --nav-panel: #ffffff;
+  --nav-toggle: var(--color-text);
+
+  --btn-outline-bg: #ffffff;
+  --btn-outline-border: var(--color-border);
+  --btn-outline-text: var(--color-text);
+
+  --footer-bg: linear-gradient(180deg, #ffffff 0%, var(--color-background) 100%);
+  --footer-text: var(--color-text);
+  --footer-muted: var(--color-text-muted);
+  --footer-link: rgba(15, 23, 42, 0.68);
+  --footer-heading: var(--color-text);
+  --footer-bottom: var(--color-text-muted);
+  --footer-border: var(--color-border);
+
+  --hero-title: var(--color-text);
+  --hero-tagline: var(--color-orange);
+  --hero-body: rgba(15, 23, 42, 0.84);
+  --hero-overlay-strong: rgba(248, 250, 252, 0.45);
+  --hero-overlay-soft: rgba(255, 255, 255, 0.35);
+  --page-hero-overlay: linear-gradient(
+    180deg,
+    rgba(11, 19, 43, 0.55) 0%,
+    rgba(11, 19, 43, 0.38) 50%,
+    rgba(7, 12, 28, 0.72) 100%
+  );
+
+  --glow: 0 0 32px rgba(37, 99, 235, 0.14);
+  --glow-orange: 0 0 24px rgba(217, 119, 6, 0.16);
+  --shadow: 0 4px 22px rgba(15, 23, 42, 0.06);
+  --shadow-lg: 0 14px 40px rgba(15, 23, 42, 0.1);
+
+  --modal-overlay: rgba(15, 23, 42, 0.5);
+  --lightbox-bg: rgba(11, 19, 43, 0.9);
+  --gallery-hover: rgba(15, 23, 42, 0.45);
+  --skeleton-base: rgba(15, 23, 42, 0.05);
+  --skeleton-shine: rgba(125, 211, 252, 0.35);
+  --toast-bg: #ffffff;
+  --toast-border: rgba(37, 99, 235, 0.22);
+  --toast-text: var(--color-text);
+
+  --logo-backdrop: transparent;
+  --logo-shadow: none;
+
   --gradient-hero: linear-gradient(
     180deg,
-    rgba(255, 255, 255, 0.35) 0%,
-    rgba(224, 242, 254, 0.45) 40%,
-    rgba(186, 230, 253, 0.55) 100%
+    rgba(248, 250, 252, 0.25) 0%,
+    rgba(11, 19, 43, 0.5) 100%
   );
-  --gradient-accent: linear-gradient(120deg, #0e7490 0%, #22d3ee 48%, #67e8f9 100%);
-  --gradient-sky: linear-gradient(130deg, #fff7ed 0%, #e0f2fe 38%, #7dd3fc 72%, #38bdf8 100%);
-  --gradient-page:
-    radial-gradient(ellipse 90% 55% at 50% -12%, rgba(251, 146, 60, 0.16) 0%, transparent 52%),
-    radial-gradient(ellipse 70% 50% at 100% 18%, rgba(56, 189, 248, 0.22) 0%, transparent 55%),
-    radial-gradient(ellipse 55% 45% at 0% 55%, rgba(34, 211, 238, 0.14) 0%, transparent 50%),
-    radial-gradient(ellipse 80% 50% at 50% 100%, rgba(14, 165, 233, 0.12) 0%, transparent 55%),
-    linear-gradient(180deg, #f8fcff 0%, #eaf5fb 42%, #e2f0f8 100%);
-  --gradient-card: linear-gradient(
-    155deg,
-    rgba(255, 255, 255, 0.92) 0%,
-    rgba(224, 242, 254, 0.65) 48%,
-    rgba(186, 230, 253, 0.35) 100%
-  );
+
+  --gradient-page: linear-gradient(180deg, var(--color-background) 0%, #f1f5f9 100%);
+
+  --gradient-card: linear-gradient(180deg, #ffffff 0%, var(--color-background) 100%);
+
+  --gradient-accent: linear-gradient(135deg, #1d4ed8 0%, var(--color-primary) 48%, #3b82f6 100%);
+  --gradient-cyan: linear-gradient(120deg, #2563eb 0%, var(--color-accent-tint) 50%, #bae6fd 100%);
+
   --gradient-border: linear-gradient(
     135deg,
-    rgba(251, 146, 60, 0.45),
-    rgba(34, 211, 238, 0.35) 45%,
-    rgba(14, 165, 233, 0.5) 100%
+    rgba(37, 99, 235, 0.22),
+    rgba(125, 211, 252, 0.35) 50%,
+    rgba(224, 242, 254, 0.8) 100%
   );
-  --gradient-text: linear-gradient(115deg, #0a2a4a 5%, #0c4a6e 40%, #0891b2 100%);
-  --gradient-heading: linear-gradient(120deg, #082338 8%, #0c4a6e 48%, #0891b2 88%, #d97706 130%);
+
+  --gradient-text: linear-gradient(120deg, var(--color-text) 0%, var(--color-primary) 100%);
+  --gradient-heading: linear-gradient(120deg, var(--color-text) 0%, var(--color-primary) 100%);
+}
+
+/* Page loader — always deep navy (both themes) */
+:root,
+[data-theme='dark'],
+[data-theme='light'] {
+  --loader-bg: radial-gradient(ellipse at 50% 42%, rgba(56, 189, 248, 0.28), transparent 55%), #0b132b;
 }

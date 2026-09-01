@@ -20,26 +20,11 @@ const Motion = {
 
   initLoader() {
     const loader = document.getElementById('page-loader');
-    if (!loader || this._loaderArmed || loader.dataset.done) return;
-    this._loaderArmed = true;
-
-    let finished = false;
-    const hide = () => {
-      if (finished || !loader.isConnected || loader.dataset.done) return;
-      finished = true;
-      loader.dataset.done = '1';
-      loader.classList.add('is-done');
-      document.documentElement.classList.add('is-loaded');
-      setTimeout(() => {
-        if (loader.isConnected) loader.remove();
-      }, 550);
-    };
-
-    // Don't wait for window "load" — fonts/maps/iframes can delay it indefinitely.
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const delay = reduce ? 80 : 650;
-    setTimeout(hide, delay);
-    setTimeout(hide, 2200); // hard failsafe
+    if (!loader || loader.dataset.armed === '1' || loader.dataset.done === '1') return;
+    if (typeof PageLoader !== 'undefined') {
+      PageLoader.init();
+      this._loaderArmed = true;
+    }
   },
 
   injectAmbient() {
@@ -179,7 +164,8 @@ const Motion = {
       '.cta-panel',
       '.journey-strip',
       '.band-row',
-      '.feature-tile',
+      '.difference-waypoint',
+      '.approach-phase',
       '.benefit-panel',
       '.visionary',
       '.story-timeline li',

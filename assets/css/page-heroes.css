@@ -1,15 +1,15 @@
 /* TRAVELRAYZ — Centered page heroes (badge + title + description) */
 
 .page-hero {
-  --ph-accent: var(--brand-orange, #f2822d);
-  --ph-cyan: #22d3ee;
-  --ph-navy: var(--brand-navy, #0a2a4a);
+  --ph-accent: var(--color-cyan);
+  --ph-cyan: var(--color-cyan);
+  --ph-navy: var(--color-background);
   position: relative;
   padding: calc(var(--nav-h) + 2.75rem) 0 2.75rem;
   color: #fff;
   overflow: hidden;
   isolation: isolate;
-  background: #070b12;
+  background: var(--color-navy);
   text-align: center;
 }
 
@@ -30,9 +30,9 @@
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse 55% 70% at 78% 45%, rgba(242, 130, 45, 0.22), transparent 62%),
-    radial-gradient(ellipse 40% 50% at 18% 70%, rgba(34, 211, 238, 0.08), transparent 55%),
-    linear-gradient(115deg, #070b12 0%, #0c1522 48%, #101820 100%);
+    radial-gradient(ellipse 55% 70% at 78% 45%, rgba(59, 130, 246, 0.2), transparent 62%),
+    radial-gradient(ellipse 40% 50% at 18% 70%, rgba(56, 189, 248, 0.1), transparent 55%),
+    linear-gradient(115deg, var(--color-background) 0%, var(--color-surface) 48%, #152040 100%);
 }
 
 .page-hero-shade {
@@ -50,53 +50,53 @@
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse 50% 40% at 50% 100%, rgba(242, 130, 45, 0.12), transparent 60%);
+    radial-gradient(ellipse 50% 40% at 50% 100%, rgba(59, 130, 246, 0.14), transparent 60%);
 }
 
 .page-hero--trips .page-hero-media {
   background:
-    radial-gradient(ellipse 55% 70% at 78% 45%, rgba(242, 130, 45, 0.24), transparent 62%),
-    linear-gradient(115deg, #070b12, #0d1c2c 55%, #123248);
+    radial-gradient(ellipse 55% 70% at 78% 45%, rgba(245, 130, 32, 0.24), transparent 62%),
+    linear-gradient(115deg, var(--color-navy), #0d1c2c 55%, #123248);
 }
 .page-hero--gallery .page-hero-media {
   background:
-    radial-gradient(ellipse 55% 70% at 78% 45%, rgba(242, 130, 45, 0.2), transparent 62%),
+    radial-gradient(ellipse 55% 70% at 78% 45%, rgba(245, 130, 32, 0.2), transparent 62%),
     linear-gradient(115deg, #080a10, #141c2c 55%, #0f2f44);
 }
 .page-hero--treks .page-hero-media {
   background:
-    radial-gradient(ellipse 55% 70% at 78% 45%, rgba(242, 130, 45, 0.22), transparent 62%),
-    linear-gradient(115deg, #070b12, #0e2030 55%, #14384a);
+    radial-gradient(ellipse 55% 70% at 78% 45%, rgba(245, 130, 32, 0.22), transparent 62%),
+    linear-gradient(115deg, var(--color-navy), #0e2030 55%, #14384a);
 }
 .page-hero--tours .page-hero-media {
   background:
-    radial-gradient(ellipse 55% 70% at 78% 45%, rgba(242, 130, 45, 0.22), transparent 62%),
-    linear-gradient(115deg, #070b12, #0f2234 55%, #0f3d52);
+    radial-gradient(ellipse 55% 70% at 78% 45%, rgba(245, 130, 32, 0.22), transparent 62%),
+    linear-gradient(115deg, var(--color-navy), #0f2234 55%, #0f3d52);
 }
 .page-hero--about .page-hero-media {
   background:
-    radial-gradient(ellipse 55% 70% at 78% 45%, rgba(242, 130, 45, 0.24), transparent 62%),
-    linear-gradient(115deg, #070b12, #0c1b2a 55%, #123a4e);
+    radial-gradient(ellipse 55% 70% at 78% 45%, rgba(245, 130, 32, 0.24), transparent 62%),
+    linear-gradient(115deg, var(--color-navy), #0c1b2a 55%, #123a4e);
 }
 .page-hero--contact .page-hero-media {
   background:
-    radial-gradient(ellipse 55% 70% at 78% 45%, rgba(242, 130, 45, 0.22), transparent 62%),
-    linear-gradient(115deg, #070b12, #0d1f30 55%, #114456);
+    radial-gradient(ellipse 55% 70% at 78% 45%, rgba(245, 130, 32, 0.22), transparent 62%),
+    linear-gradient(115deg, var(--color-navy), #0d1f30 55%, #114456);
 }
 .page-hero--book .page-hero-media {
   background:
-    radial-gradient(ellipse 55% 70% at 78% 45%, rgba(242, 130, 45, 0.26), transparent 62%),
-    linear-gradient(115deg, #070b12, #0c1a28 55%, #123d4e);
+    radial-gradient(ellipse 55% 70% at 78% 45%, rgba(245, 130, 32, 0.26), transparent 62%),
+    linear-gradient(115deg, var(--color-navy), #0c1a28 55%, #123d4e);
 }
 .page-hero--testimonials .page-hero-media {
   background:
-    radial-gradient(ellipse 55% 70% at 78% 45%, rgba(242, 130, 45, 0.2), transparent 62%),
+    radial-gradient(ellipse 55% 70% at 78% 45%, rgba(245, 130, 32, 0.2), transparent 62%),
     linear-gradient(115deg, #0a0910, #1a1626 55%, #123448);
 }
 .page-hero--legal .page-hero-media {
   background:
-    radial-gradient(ellipse 55% 70% at 78% 45%, rgba(242, 130, 45, 0.16), transparent 62%),
-    linear-gradient(115deg, #070b12, #101820 55%, #1a3040);
+    radial-gradient(ellipse 55% 70% at 78% 45%, rgba(245, 130, 32, 0.16), transparent 62%),
+    linear-gradient(115deg, var(--color-navy), #101820 55%, #1a3040);
 }
 
 .page-hero-inner {
@@ -145,8 +145,8 @@
   height: 7px;
   border-radius: 50%;
   flex-shrink: 0;
-  background: var(--ph-accent);
-  box-shadow: 0 0 10px rgba(242, 130, 45, 0.85);
+  background: var(--color-primary);
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.85);
 }
 
 .page-hero h1 {
@@ -193,17 +193,17 @@
   left: 0;
   right: 0;
   bottom: 0;
-  height: 1px;
+  height: 2px;
   z-index: 2;
   background: linear-gradient(
     90deg,
     transparent 8%,
-    rgba(242, 130, 45, 0.55) 42%,
-    rgba(242, 130, 45, 0.9) 50%,
-    rgba(242, 130, 45, 0.55) 58%,
+    rgba(59, 130, 246, 0.5) 42%,
+    rgba(56, 189, 248, 0.95) 50%,
+    rgba(59, 130, 246, 0.5) 58%,
     transparent 92%
   );
-  box-shadow: 0 0 14px rgba(242, 130, 45, 0.35);
+  box-shadow: 0 0 18px rgba(56, 189, 248, 0.4);
 }
 
 .page-hero-motif,
@@ -220,7 +220,7 @@ html[data-theme='light'] .page-hero {
 }
 
 html[data-theme='light'] .page-hero-line {
-  box-shadow: 0 0 14px rgba(242, 130, 45, 0.45);
+  box-shadow: 0 0 18px rgba(56, 189, 248, 0.45);
 }
 
 @media (max-width: 700px) {

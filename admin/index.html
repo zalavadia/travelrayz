@@ -1,36 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script>
+(function () {
+    const THEME_KEY = "travelrayz-theme";
+    let theme = "dark";
+    try {
+        const savedTheme = localStorage.getItem(THEME_KEY);
+        if (savedTheme === "dark" || savedTheme === "light") theme = savedTheme;
+    } catch (e) {}
+    document.documentElement.setAttribute("data-theme", theme);
+})();
+  </script>
+  <script>document.documentElement.classList.add("is-loading");</script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TRAVELRAYZ Admin</title>
+  <meta name="robots" content="noindex, nofollow">
+  <title>Admin | TRAVELRAYZ</title>
   <link rel="icon" href="../assets/images/logo-mark.png" type="image/png">
   <link rel="apple-touch-icon" href="../assets/images/logo-mark.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/loader-critical.css">
   <link rel="stylesheet" href="css/admin.css">
 </head>
 <body>
+  <div class="page-loader" id="page-loader" role="status" aria-live="polite" aria-label="Loading TRAVELRAYZ">
+    <div class="page-loader-inner">
+      <span class="page-loader-ring" aria-hidden="true"></span>
+      <img class="page-loader-logo" src="../assets/images/logo-mark.png" alt="" width="120" height="120">
+    </div>
+  </div>
+  <script src="../assets/js/loader.js"></script>
 
-  <!-- Login gate -->
+  <!-- Login -->
   <div id="login-screen" class="login-screen">
+    <button class="theme-toggle" type="button" aria-label="Switch theme" title="Toggle theme" aria-pressed="false">
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 14.5A8.5 8.5 0 0 1 9.5 3 7 7 0 1 0 21 14.5z"/></svg>
+    </button>
     <div class="login-card glass">
       <div class="login-brand">
-        <img src="../assets/images/logo-mark.png" alt="TRAVELRAYZ" width="48" height="48">
-        <h1>TRAVELRAYZ</h1>
-        <p>Admin Panel</p>
+        <img class="login-logo" src="../assets/images/logo-full.png" alt="TRAVELRAYZ" width="220" height="52">
+        <p class="login-subtitle">Admin Dashboard</p>
       </div>
-      <form id="login-form" autocomplete="off">
-        <label for="login-password">Password</label>
-        <input type="password" id="login-password" placeholder="Enter admin password" required autofocus>
-        <button type="submit" class="btn btn-primary">Enter Dashboard</button>
+      <form id="login-form" autocomplete="off" novalidate>
+        <label for="login-password">Admin secret</label>
+        <div class="password-field">
+          <input type="password" id="login-password" placeholder="Enter Apps Script admin secret" required autofocus autocomplete="off">
+          <button type="button" class="password-toggle" id="login-toggle-pw" aria-label="Show password" title="Show password">
+            <svg class="icon-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
+            <svg class="icon-eye-off hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-10-8-10-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 10 8 10 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+          </button>
+        </div>
+        <p id="login-error" class="login-error hidden" role="alert"></p>
+        <button type="submit" class="btn btn-primary btn-block" id="login-submit">
+          <span class="btn-label">Enter Dashboard</span>
+          <span class="btn-spinner hidden" aria-hidden="true"></span>
+        </button>
       </form>
-      <p class="login-hint">Default password is set in <code>config.js</code></p>
+      <p class="login-hint">Set <code>ADMIN_SECRET</code> in Apps Script Script Properties. Never store it in public JavaScript.</p>
     </div>
   </div>
 
-  <!-- Main dashboard (hidden until auth) -->
+  <!-- Dashboard -->
   <div id="dashboard" class="dashboard hidden">
     <header class="admin-header">
       <div class="header-left">
@@ -38,79 +72,114 @@
         <span class="header-title">TRAVELRAYZ Admin</span>
       </div>
       <div class="header-right">
-        <a href="../index.html" class="btn btn-ghost" target="_blank" rel="noopener">View Site</a>
+        <button class="theme-toggle" type="button" aria-label="Switch theme" title="Toggle theme" aria-pressed="false">
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 14.5A8.5 8.5 0 0 1 9.5 3 7 7 0 1 0 21 14.5z"/></svg>
+        </button>
+        <a href="../trips.html" class="btn btn-ghost" target="_blank" rel="noopener">View Trips</a>
         <button type="button" id="logout-btn" class="btn btn-outline">Logout</button>
       </div>
     </header>
 
     <div class="admin-layout">
-      <!-- Sidebar navigation -->
       <aside class="sidebar">
-        <nav class="sidebar-nav">
-          <button type="button" class="nav-item active" data-panel="trips">
-            <span class="nav-icon">✈</span> Trips
-          </button>
-          <button type="button" class="nav-item" data-panel="gallery">
-            <span class="nav-icon">🖼</span> Gallery
-          </button>
-          <button type="button" class="nav-item" data-panel="testimonials">
-            <span class="nav-icon">★</span> Testimonials
-          </button>
-          <button type="button" class="nav-item" data-panel="settings">
-            <span class="nav-icon">⚙</span> Settings
-          </button>
-          <button type="button" class="nav-item" data-panel="export">
-            <span class="nav-icon">↓</span> Export
-          </button>
+        <nav class="sidebar-nav" aria-label="Admin navigation">
+          <button type="button" class="nav-item active" data-panel="trips"><span class="nav-icon">✈</span> Trips</button>
+          <button type="button" class="nav-item" data-panel="gallery"><span class="nav-icon">🖼</span> Gallery</button>
+          <button type="button" class="nav-item" data-panel="testimonials"><span class="nav-icon">★</span> Testimonials</button>
+          <button type="button" class="nav-item" data-panel="settings"><span class="nav-icon">⚙</span> Settings</button>
+          <button type="button" class="nav-item" data-panel="export"><span class="nav-icon">↓</span> Export</button>
         </nav>
       </aside>
 
       <main class="admin-main">
 
-        <!-- Trips panel -->
+        <!-- Trips -->
         <section id="panel-trips" class="panel active">
           <div class="panel-header">
-            <h2>Trips</h2>
-            <p class="panel-desc">Manage trips via Google Sheets CMS</p>
+            <h2>Trip Management</h2>
+            <p class="panel-desc">Create, publish and manage trips synced to Google Sheets</p>
           </div>
 
           <div id="sheets-warning" class="alert alert-warning hidden">
-            Google Apps Script URL is not configured. Trips are read-only from fallback data.
-            Set <code>sheetsApiUrl</code> in <code>config.js</code> to enable saves.
+            Set <code>sheetsApiUrl</code> in <code>config.js</code> and deploy <code>Code.gs</code> as a Web App to enable live saves.
           </div>
 
-          <div class="toolbar">
-            <input type="search" id="trip-search" class="input" placeholder="Search trips…">
-            <select id="trip-filter-category" class="select">
-              <option value="">All categories</option>
-            </select>
-            <select id="trip-filter-status" class="select">
-              <option value="">All statuses</option>
-              <option value="Active">Active</option>
-              <option value="Inactive">Inactive</option>
-            </select>
-            <button type="button" id="trip-add-btn" class="btn btn-primary">+ Add Trip</button>
+          <div id="stats-grid" class="stats-grid" aria-live="polite">
+            <article class="stat-card glass">
+              <p class="stat-label">Total trips</p>
+              <p class="stat-value" id="stat-total">—</p>
+            </article>
+            <article class="stat-card glass">
+              <p class="stat-label">Published</p>
+              <p class="stat-value stat-value--success" id="stat-published">—</p>
+            </article>
+            <article class="stat-card glass">
+              <p class="stat-label">Drafts</p>
+              <p class="stat-value" id="stat-drafts">—</p>
+            </article>
+            <article class="stat-card glass">
+              <p class="stat-label">Upcoming</p>
+              <p class="stat-value stat-value--accent" id="stat-upcoming">—</p>
+            </article>
+            <article class="stat-card glass">
+              <p class="stat-label">Sold out</p>
+              <p class="stat-value stat-value--warn" id="stat-soldout">—</p>
+            </article>
+            <article class="stat-card glass">
+              <p class="stat-label">Available seats</p>
+              <p class="stat-value" id="stat-seats">—</p>
+            </article>
           </div>
 
-          <div class="table-wrap">
-            <table class="data-table" id="trips-table">
-              <thead>
-                <tr>
-                  <th>Trip</th>
-                  <th>Destination</th>
-                  <th>Category</th>
-                  <th>Date</th>
-                  <th>Price</th>
-                  <th>Status</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody id="trips-tbody"></tbody>
-            </table>
+          <div id="trips-error" class="error-state hidden">
+            <img src="../assets/images/logo-mark.png" alt="" width="48" height="48" class="error-state-logo">
+            <p id="trips-error-msg">Could not load trips.</p>
+            <button type="button" class="btn btn-primary" id="trips-retry-btn">Retry</button>
+          </div>
+
+          <div id="trips-content">
+            <div class="toolbar">
+              <input type="search" id="trip-search" class="input" placeholder="Search by title, location, category…" aria-label="Search trips">
+              <select id="trip-filter-category" class="select" aria-label="Filter by category">
+                <option value="">All categories</option>
+              </select>
+              <select id="trip-filter-status" class="select" aria-label="Filter by status">
+                <option value="">All statuses</option>
+                <option value="Published">Published</option>
+                <option value="Draft">Draft</option>
+              </select>
+              <button type="button" id="trip-add-btn" class="btn btn-primary">+ Add Trip</button>
+            </div>
+
+            <div class="table-wrap">
+              <table class="data-table" id="trips-table">
+                <thead>
+                  <tr>
+                    <th>Trip</th>
+                    <th>Location</th>
+                    <th>Category</th>
+                    <th>Start</th>
+                    <th>Price</th>
+                    <th>Seats</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="trips-tbody"></tbody>
+              </table>
+            </div>
+
+            <div id="trips-empty" class="empty-state-panel hidden">
+              <img src="../assets/images/logo-mark.png" alt="" width="56" height="56">
+              <h3>No trips yet</h3>
+              <p>Create your first trip to show it on the public site after publishing.</p>
+              <button type="button" class="btn btn-primary" id="trip-add-empty">+ Add Trip</button>
+            </div>
           </div>
 
           <!-- Trip form modal -->
-          <div id="trip-modal" class="modal hidden">
+          <div id="trip-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="trip-form-title">
             <div class="modal-backdrop" data-close-modal></div>
             <div class="modal-content glass">
               <div class="modal-header">
@@ -118,153 +187,178 @@
                 <button type="button" class="modal-close" data-close-modal aria-label="Close">&times;</button>
               </div>
               <form id="trip-form" class="form-grid">
-                <input type="hidden" id="trip-id" name="id">
+                <input type="hidden" id="trip-id">
+                <input type="hidden" id="trip-drive-file-id" value="">
+                <input type="hidden" id="trip-poster" value="">
+
+                <div class="form-section full"><span>Basics</span></div>
 
                 <div class="form-group">
-                  <label for="trip-name">Trip Name *</label>
-                  <input type="text" id="trip-name" name="tripName" required>
+                  <label for="trip-title">Trip title *</label>
+                  <input type="text" id="trip-title" required placeholder="Maharashtra 3 Jyotirlinga Yatra">
                 </div>
                 <div class="form-group">
-                  <label for="trip-destination">Destination *</label>
-                  <input type="text" id="trip-destination" name="destination" required>
+                  <label for="trip-slug">URL slug</label>
+                  <input type="text" id="trip-slug" placeholder="auto-generated-from-title">
+                  <span class="hint">Editable — used for readable trip identifiers</span>
+                </div>
+                <div class="form-group">
+                  <label for="trip-location">Location *</label>
+                  <input type="text" id="trip-location" required placeholder="Bhimashankar, Maharashtra">
+                </div>
+                <div class="form-group">
+                  <label for="trip-meeting-point">Meeting point</label>
+                  <input type="text" id="trip-meeting-point" placeholder="Mumbai / Thane pickup">
+                </div>
+                <div class="form-group">
+                  <label for="trip-category">Category</label>
+                  <input type="text" id="trip-category" list="category-suggestions" placeholder="Spiritual Yatras">
+                  <datalist id="category-suggestions">
+                    <option value="Corporate Treks"><option value="Team Building"><option value="Digital Detox">
+                    <option value="Offsites"><option value="Weekend Trips"><option value="Adventure">
+                    <option value="Camping"><option value="Spiritual Yatras"><option value="Family Tours"><option value="Premium Tours">
+                  </datalist>
+                </div>
+                <div class="form-group">
+                  <label for="trip-duration">Duration</label>
+                  <input type="text" id="trip-duration" placeholder="2 Days / 2 Nights">
+                </div>
+
+                <div class="form-section full"><span>Schedule &amp; pricing</span></div>
+
+                <div class="form-group">
+                  <label for="trip-start-date">Start date</label>
+                  <input type="datetime-local" id="trip-start-date">
+                </div>
+                <div class="form-group">
+                  <label for="trip-end-date">End date</label>
+                  <input type="datetime-local" id="trip-end-date">
+                </div>
+                <div class="form-group">
+                  <label for="trip-price">Price (INR)</label>
+                  <input type="number" id="trip-price" min="0" step="1" placeholder="7999">
+                </div>
+                <div class="form-group">
+                  <label for="trip-discounted-price">Discounted price (INR)</label>
+                  <input type="number" id="trip-discounted-price" min="0" step="1" placeholder="Optional">
+                </div>
+                <div class="form-group">
+                  <label for="trip-seats">Available seats</label>
+                  <input type="number" id="trip-seats" min="0" step="1">
+                </div>
+                <div class="form-group">
+                  <label for="trip-max-group">Maximum group size</label>
+                  <input type="number" id="trip-max-group" min="0" step="1">
+                </div>
+
+                <div class="form-section full"><span>Descriptions</span></div>
+
+                <div class="form-group full">
+                  <label for="trip-short-desc">Short description</label>
+                  <textarea id="trip-short-desc" rows="2" maxlength="280" placeholder="One-line summary for cards"></textarea>
                 </div>
                 <div class="form-group full">
-                  <label>Poster photo</label>
-                  <div class="upload-field" data-upload="trip-poster">
-                    <input type="hidden" id="trip-poster" name="poster" value="">
-                    <input type="file" id="trip-poster-file" accept="image/jpeg,image/png,image/webp,image/gif" hidden>
-                    <div class="upload-drop" data-upload-trigger>
+                  <label for="trip-full-desc">Full description</label>
+                  <textarea id="trip-full-desc" rows="4" placeholder="Detailed trip overview"></textarea>
+                </div>
+                <div class="form-group full">
+                  <label for="trip-inclusions">Inclusions</label>
+                  <textarea id="trip-inclusions" rows="3" placeholder="One per line or separate with |"></textarea>
+                </div>
+                <div class="form-group full">
+                  <label for="trip-exclusions">Exclusions</label>
+                  <textarea id="trip-exclusions" rows="2" placeholder="One per line or separate with |"></textarea>
+                </div>
+                <div class="form-group full">
+                  <label for="trip-itinerary">Day-wise itinerary</label>
+                  <textarea id="trip-itinerary" rows="5" placeholder="Day 1: …&#10;Day 2: …&#10;One line per day"></textarea>
+                </div>
+                <div class="form-group full">
+                  <label for="trip-notes">Important notes</label>
+                  <textarea id="trip-notes" rows="2" placeholder="Difficulty, vehicle, dress code, etc."></textarea>
+                </div>
+
+                <div class="form-section full"><span>Booking &amp; visibility</span></div>
+
+                <div class="form-group">
+                  <label for="trip-whatsapp">WhatsApp booking number</label>
+                  <input type="text" id="trip-whatsapp" placeholder="917208453777">
+                  <span class="hint">Country code, no + or spaces</span>
+                </div>
+                <div class="form-group">
+                  <label for="trip-status">Status</label>
+                  <select id="trip-status">
+                    <option value="Draft">Draft</option>
+                    <option value="Published">Published</option>
+                  </select>
+                </div>
+                <div class="form-group full checkbox-row">
+                  <label class="checkbox-label">
+                    <input type="checkbox" id="trip-featured">
+                    <span>Featured trip</span>
+                  </label>
+                  <label class="checkbox-label">
+                    <input type="checkbox" id="trip-sold-out">
+                    <span>Sold out</span>
+                  </label>
+                </div>
+
+                <div class="form-section full"><span>Cover image</span></div>
+
+                <div class="form-group full">
+                  <div class="upload-field" data-upload="trip-cover">
+                    <input type="file" id="trip-cover-file" accept="image/jpeg,image/png,image/webp" hidden>
+                    <div class="upload-drop" data-upload-trigger tabindex="0" role="button" aria-label="Upload cover image">
                       <div class="upload-preview hidden" data-upload-preview>
-                        <img alt="Poster preview">
+                        <img alt="Cover preview">
                       </div>
                       <div class="upload-placeholder" data-upload-placeholder>
                         <span class="upload-icon" aria-hidden="true">⬆</span>
-                        <span>Click or drop a photo</span>
-                        <span class="hint">JPG, PNG or WebP · auto-compressed for Sheets</span>
+                        <span>Click or drop cover image</span>
+                        <span class="hint">JPG, JPEG, PNG, WEBP · max 5 MB</span>
+                      </div>
+                      <div class="upload-progress hidden" data-upload-progress>
+                        <div class="upload-progress-bar" data-upload-bar></div>
+                        <span data-upload-status>Uploading…</span>
                       </div>
                     </div>
+                    <div class="upload-meta hidden" data-upload-meta></div>
                     <div class="upload-actions">
-                      <button type="button" class="btn btn-ghost btn-sm" data-upload-trigger>Choose photo</button>
+                      <button type="button" class="btn btn-ghost btn-sm" data-upload-trigger>Choose image</button>
                       <button type="button" class="btn btn-danger btn-sm hidden" data-upload-clear>Remove</button>
                     </div>
                   </div>
                 </div>
-                <div class="form-group">
-                  <label for="trip-category">Category</label>
-                  <input type="text" id="trip-category" name="category" placeholder="Jyotirlinga, Trek, etc.">
-                </div>
-                <div class="form-group">
-                  <label for="trip-duration">Duration</label>
-                  <input type="text" id="trip-duration" name="duration" placeholder="2 Days / 2 Nights">
-                </div>
-                <div class="form-group">
-                  <label for="trip-date">Travel Date</label>
-                  <input type="datetime-local" id="trip-date" name="travelDate">
-                </div>
-                <div class="form-group">
-                  <label for="trip-price">Price (INR)</label>
-                  <input type="number" id="trip-price" name="price" min="0" step="1">
-                </div>
-                <div class="form-group">
-                  <label for="trip-seats">Seats</label>
-                  <input type="number" id="trip-seats" name="seats" min="0">
-                </div>
-                <div class="form-group full">
-                  <label for="trip-description">Description</label>
-                  <textarea id="trip-description" name="description" rows="3"></textarea>
-                </div>
-                <div class="form-group">
-                  <label for="trip-vehicle">Vehicle</label>
-                  <input type="text" id="trip-vehicle" name="vehicle">
-                </div>
-                <div class="form-group">
-                  <label for="trip-booking">Booking Link</label>
-                  <input type="text" id="trip-booking" name="bookingLink" placeholder="URL or NA">
-                  <span class="hint">Optional — use NA to fall back to WhatsApp</span>
-                </div>
-                <div class="form-group full">
-                  <label for="trip-inclusions">Inclusions</label>
-                  <textarea id="trip-inclusions" name="inclusions" rows="2" placeholder="Separate with | or new lines"></textarea>
-                </div>
-                <div class="form-group full">
-                  <label for="trip-exclusions">Exclusions</label>
-                  <textarea id="trip-exclusions" name="exclusions" rows="2"></textarea>
-                </div>
-                <div class="form-group full">
-                  <label for="trip-pickup">Pickup Points</label>
-                  <textarea id="trip-pickup" name="pickupPoints" rows="2"></textarea>
-                </div>
-                <div class="form-group full">
-                  <label for="trip-itinerary">Itinerary</label>
-                  <textarea id="trip-itinerary" name="itinerary" rows="3"></textarea>
-                </div>
-                <div class="form-group">
-                  <label for="trip-difficulty">Difficulty</label>
-                  <select id="trip-difficulty" name="difficulty">
-                    <option value="Easy">Easy</option>
-                    <option value="Moderate">Moderate</option>
-                    <option value="Hard">Hard</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label for="trip-trending">Trending</label>
-                  <select id="trip-trending" name="trending">
-                    <option value="No">No</option>
-                    <option value="Yes">Yes</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label for="trip-featured">Featured</label>
-                  <select id="trip-featured" name="featured">
-                    <option value="No">No</option>
-                    <option value="Yes">Yes</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label for="trip-status">Status</label>
-                  <select id="trip-status" name="status">
-                    <option value="Active">Active</option>
-                    <option value="Inactive">Inactive</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label for="trip-limited">Limited Seats</label>
-                  <select id="trip-limited" name="limitedSeats">
-                    <option value="No">No</option>
-                    <option value="Yes">Yes</option>
-                  </select>
-                </div>
 
                 <div class="form-actions full">
                   <button type="button" class="btn btn-ghost" data-close-modal>Cancel</button>
-                  <button type="submit" class="btn btn-primary" id="trip-save-btn">Save Trip</button>
+                  <button type="submit" class="btn btn-primary" id="trip-save-btn">
+                    <span class="btn-label">Save Trip</span>
+                    <span class="btn-spinner hidden" aria-hidden="true"></span>
+                  </button>
                 </div>
               </form>
             </div>
           </div>
         </section>
 
-        <!-- Gallery panel -->
+        <!-- Gallery -->
         <section id="panel-gallery" class="panel">
           <div class="panel-header">
             <h2>Gallery</h2>
-            <p class="panel-desc">Photos are compressed in-browser and stored in localStorage (<code>travelrayz_gallery</code>)</p>
+            <p class="panel-desc">Photos upload to Google Drive. URLs are stored in the Gallery sheet.</p>
           </div>
-
           <form id="gallery-form" class="form-grid compact">
             <div class="form-group full">
               <label>Photo</label>
               <div class="upload-field" data-upload="gallery-src">
                 <input type="hidden" id="gallery-src" value="">
-                <input type="file" id="gallery-src-file" accept="image/jpeg,image/png,image/webp,image/gif" hidden>
+                <input type="file" id="gallery-src-file" accept="image/jpeg,image/png,image/webp" hidden>
                 <div class="upload-drop" data-upload-trigger>
-                  <div class="upload-preview hidden" data-upload-preview>
-                    <img alt="Gallery preview">
-                  </div>
+                  <div class="upload-preview hidden" data-upload-preview><img alt="Gallery preview"></div>
                   <div class="upload-placeholder" data-upload-placeholder>
                     <span class="upload-icon" aria-hidden="true">⬆</span>
                     <span>Click or drop a photo</span>
-                    <span class="hint">Compressed and saved in this browser</span>
                   </div>
                 </div>
                 <div class="upload-actions">
@@ -281,17 +375,15 @@
               <button type="submit" class="btn btn-primary">Add Image</button>
             </div>
           </form>
-
           <div id="gallery-list" class="card-grid"></div>
         </section>
 
-        <!-- Testimonials panel -->
+        <!-- Testimonials -->
         <section id="panel-testimonials" class="panel">
           <div class="panel-header">
             <h2>Testimonials</h2>
-            <p class="panel-desc">Stored in localStorage (<code>travelrayz_testimonials</code>)</p>
+            <p class="panel-desc">Saved to the Testimonials sheet.</p>
           </div>
-
           <form id="testimonial-form" class="form-grid compact">
             <div class="form-group">
               <label for="test-name">Name</label>
@@ -309,15 +401,12 @@
               <label>Photo</label>
               <div class="upload-field" data-upload="test-photo">
                 <input type="hidden" id="test-photo" value="">
-                <input type="file" id="test-photo-file" accept="image/jpeg,image/png,image/webp,image/gif" hidden>
+                <input type="file" id="test-photo-file" accept="image/jpeg,image/png,image/webp" hidden>
                 <div class="upload-drop" data-upload-trigger>
-                  <div class="upload-preview hidden" data-upload-preview>
-                    <img alt="Photo preview">
-                  </div>
+                  <div class="upload-preview hidden" data-upload-preview><img alt="Photo preview"></div>
                   <div class="upload-placeholder" data-upload-placeholder>
                     <span class="upload-icon" aria-hidden="true">⬆</span>
-                    <span>Click or drop a photo</span>
-                    <span class="hint">Optional · face or trip snapshot</span>
+                    <span>Optional profile photo</span>
                   </div>
                 </div>
                 <div class="upload-actions">
@@ -334,93 +423,51 @@
               <button type="submit" class="btn btn-primary">Add Testimonial</button>
             </div>
           </form>
-
           <div id="testimonials-list" class="card-list"></div>
         </section>
 
-        <!-- Settings panel -->
+        <!-- Settings -->
         <section id="panel-settings" class="panel">
           <div class="panel-header">
             <h2>Settings</h2>
-            <p class="panel-desc">Company details merge into site config on load</p>
+            <p class="panel-desc">Public company details (stored locally for this browser)</p>
           </div>
-
           <form id="settings-form" class="form-grid">
-            <div class="form-group">
-              <label for="set-name">Company Name</label>
-              <input type="text" id="set-name" name="name">
-            </div>
-            <div class="form-group">
-              <label for="set-tagline">Tagline</label>
-              <input type="text" id="set-tagline" name="tagline">
-            </div>
-            <div class="form-group">
-              <label for="set-phone">Phone</label>
-              <input type="tel" id="set-phone" name="phone">
-            </div>
-            <div class="form-group">
-              <label for="set-phone2">Phone 2</label>
-              <input type="tel" id="set-phone2" name="phone2">
-            </div>
-            <div class="form-group">
-              <label for="set-whatsapp">WhatsApp (with country code)</label>
-              <input type="text" id="set-whatsapp" name="whatsapp">
-            </div>
-            <div class="form-group">
-              <label for="set-email">Email</label>
-              <input type="email" id="set-email" name="email">
-            </div>
-            <div class="form-group full">
-              <label for="set-address">Address</label>
-              <input type="text" id="set-address" name="address">
-            </div>
-            <div class="form-group full">
-              <label for="set-maps">Google Maps Embed URL</label>
-              <input type="url" id="set-maps" name="mapsEmbed">
-            </div>
-            <div class="form-group">
-              <label for="set-instagram">Instagram</label>
-              <input type="url" id="set-instagram" name="instagram">
-            </div>
-            <div class="form-group">
-              <label for="set-facebook">Facebook</label>
-              <input type="url" id="set-facebook" name="facebook">
-            </div>
-            <div class="form-group">
-              <label for="set-youtube">YouTube</label>
-              <input type="url" id="set-youtube" name="youtube">
-            </div>
-
+            <div class="form-group"><label for="set-name">Company Name</label><input type="text" id="set-name"></div>
+            <div class="form-group"><label for="set-tagline">Tagline</label><input type="text" id="set-tagline"></div>
+            <div class="form-group"><label for="set-phone">Phone</label><input type="tel" id="set-phone"></div>
+            <div class="form-group"><label for="set-phone2">Phone 2</label><input type="tel" id="set-phone2"></div>
+            <div class="form-group"><label for="set-whatsapp">WhatsApp</label><input type="text" id="set-whatsapp"></div>
+            <div class="form-group"><label for="set-email">Email</label><input type="email" id="set-email"></div>
+            <div class="form-group full"><label for="set-address">Address</label><input type="text" id="set-address"></div>
+            <div class="form-group full"><label for="set-maps">Google Maps Embed URL</label><input type="url" id="set-maps"></div>
+            <div class="form-group"><label for="set-instagram">Instagram</label><input type="url" id="set-instagram"></div>
+            <div class="form-group"><label for="set-linkedin">LinkedIn</label><input type="url" id="set-linkedin"></div>
+            <div class="form-group"><label for="set-facebook">Facebook</label><input type="url" id="set-facebook"></div>
+            <div class="form-group"><label for="set-youtube">YouTube</label><input type="url" id="set-youtube"></div>
             <div class="form-divider full"><span>Security</span></div>
-
             <div class="form-group full">
-              <label for="set-admin-pass">Admin Password</label>
-              <input type="password" id="set-admin-pass" placeholder="Leave blank to keep current">
-              <small class="hint">Saved to localStorage (<code>travelrayz_admin_password</code>)</small>
+              <p class="hint">Admin secret is validated via Apps Script and kept in <code>sessionStorage</code> only. Configure <code>ADMIN_SECRET</code> in Script Properties.</p>
             </div>
-
-            <div class="form-actions full">
-              <button type="submit" class="btn btn-primary">Save Settings</button>
-            </div>
+            <div class="form-actions full"><button type="submit" class="btn btn-primary">Save Settings</button></div>
           </form>
         </section>
 
-        <!-- Export panel -->
+        <!-- Export -->
         <section id="panel-export" class="panel">
           <div class="panel-header">
             <h2>Export</h2>
-            <p class="panel-desc">Download JSON backups of your data</p>
+            <p class="panel-desc">Download JSON backups</p>
           </div>
-
           <div class="export-cards">
             <div class="export-card glass">
               <h3>Trips JSON</h3>
-              <p>All trips currently loaded in the admin (including inactive).</p>
+              <p>All trips loaded in admin (including drafts).</p>
               <button type="button" id="export-trips" class="btn btn-primary">Download Trips</button>
             </div>
             <div class="export-card glass">
               <h3>Settings JSON</h3>
-              <p>Company settings from config + localStorage overrides.</p>
+              <p>Company settings from config + local overrides.</p>
               <button type="button" id="export-settings" class="btn btn-primary">Download Settings</button>
             </div>
           </div>
@@ -430,10 +477,22 @@
     </div>
   </div>
 
-  <!-- Toast notification -->
+  <!-- Confirm modal -->
+  <div id="confirm-modal" class="modal hidden" role="alertdialog" aria-modal="true" aria-labelledby="confirm-title">
+    <div class="modal-backdrop" data-confirm-cancel></div>
+    <div class="confirm-dialog glass">
+      <h3 id="confirm-title">Confirm action</h3>
+      <p id="confirm-message"></p>
+      <div class="confirm-actions">
+        <button type="button" class="btn btn-ghost" data-confirm-cancel>Cancel</button>
+        <button type="button" class="btn btn-danger" id="confirm-ok">Confirm</button>
+      </div>
+    </div>
+  </div>
+
   <div id="toast" class="toast" aria-live="polite"></div>
 
-  <!-- Shared site scripts (order matters) -->
+  <script src="../assets/js/theme.js"></script>
   <script src="../assets/js/config.js"></script>
   <script src="../assets/js/utils.js"></script>
   <script src="../assets/js/sheets.js"></script>

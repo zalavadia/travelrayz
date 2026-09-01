@@ -3,56 +3,36 @@
 <head>
   <script>
     (function () {
-      var KEY = 'travelrayz-theme';
-      function preferred() {
-        try {
-          var t = localStorage.getItem(KEY);
-          if (t === 'light' || t === 'dark') return t;
-        } catch (e) {}
-        return 'dark';
-      }
-      function apply(theme) {
-        var next = theme === 'light' ? 'light' : 'dark';
-        document.documentElement.setAttribute('data-theme', next);
-        try { localStorage.setItem(KEY, next); } catch (e) {}
-        document.querySelectorAll('.theme-toggle').forEach(function (btn) {
-          var light = next === 'light';
-          btn.setAttribute('aria-label', light ? 'Switch to dark theme' : 'Switch to light theme');
-          btn.setAttribute('title', light ? 'Dark theme' : 'Light theme');
-        });
-      }
-      apply(preferred());
-      document.addEventListener('click', function (e) {
-        var btn = e.target && e.target.closest && e.target.closest('.theme-toggle');
-        if (!btn) return;
-        e.preventDefault();
-        var cur = document.documentElement.getAttribute('data-theme') || 'dark';
-        apply(cur === 'light' ? 'dark' : 'light');
-      });
+      try {
+        var t = localStorage.getItem('travelrayz-theme');
+        if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+      } catch (e) {}
     })();
   </script>
+  <script>document.documentElement.classList.add("is-loading");</script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TRAVELRAYZ | Travel to Divine. Return with Peace.</title>
-  <meta name="description" content="TRAVELRAYZ creates experiences that strengthen teams beyond the workplace — corporate treks, digital detox, offsites, yatras and premium tours from Mumbai.">
+  <title>TRAVELRAYZ | Creating Experiences That Strengthen Teams Beyond the Workplace</title>
+  <meta name="description" content="TRAVELRAYZ creates experiences that strengthen teams beyond the workplace — corporate treks, digital detox, offsites, spiritual yatras and premium tours from Mumbai.">
   <meta name="keywords" content="TRAVELRAYZ, corporate outings, team building, digital detox, Maharashtra yatra, Jyotirlinga, treks, weekend trips">
   <meta name="author" content="TRAVELRAYZ">
   <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://travelrayz.com/">
+  <link rel="canonical" href="https://www.travelrayz.com/">
   <meta property="og:type" content="website">
   <meta property="og:title" content="TRAVELRAYZ | Beyond the Workplace. Stronger Together.">
   <meta property="og:description" content="Creating experiences that strengthen teams beyond the workplace — curated journeys that build connection and lasting impact.">
-  <meta property="og:image" content="assets/images/maharashtra-3-jyotirlinga-poster.png">
-  <meta property="og:url" content="https://travelrayz.com/">
+  <meta property="og:image" content="https://www.travelrayz.com/assets/images/maharashtra-3-jyotirlinga-poster.png">
+  <meta property="og:url" content="https://www.travelrayz.com/">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="TRAVELRAYZ">
-  <meta name="twitter:description" content="Travel to Divine. Return with Peace.">
-  <meta name="twitter:image" content="assets/images/maharashtra-3-jyotirlinga-poster.png">
+  <meta name="twitter:description" content="Beyond the Workplace. Stronger Together.">
+  <meta name="twitter:image" content="https://www.travelrayz.com/assets/images/maharashtra-3-jyotirlinga-poster.png">
   <link rel="icon" href="assets/images/logo-mark.png" type="image/png">
   <link rel="apple-touch-icon" href="assets/images/logo-mark.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/loader-critical.css">
   <link rel="stylesheet" href="assets/css/main.css">
   <script type="application/ld+json">
   {
@@ -60,7 +40,7 @@
     "@type": "TravelAgency",
     "name": "TRAVELRAYZ",
     "description": "Creating experiences that strengthen teams beyond the workplace. Corporate outings, treks, yatras and curated experiences from Mumbai.",
-    "url": "https://travelrayz.com",
+    "url": "https://www.travelrayz.com",
     "telephone": ["+91-7208358868", "+91-8850824834", "+91-7208453777"],
     "email": "contact@travelrayz.com",
     "address": { "@type": "PostalAddress", "addressLocality": "Mumbai", "addressRegion": "Maharashtra", "addressCountry": "IN" },
@@ -73,57 +53,23 @@
   }
   </script>
 </head>
-<body class="home">
+<body class="home" data-page="home" data-trips-limit="3" data-trips-filter="featured" data-gallery-limit="6">
   <div class="page-loader" id="page-loader" role="status" aria-live="polite" aria-label="Loading TRAVELRAYZ">
     <div class="page-loader-inner">
       <span class="page-loader-ring" aria-hidden="true"></span>
       <img class="page-loader-logo" src="assets/images/logo-mark.png" alt="" width="120" height="120">
     </div>
   </div>
-  <script>
-    (function () {
-      var el = document.getElementById('page-loader');
-      if (!el) return;
-      function dismiss() {
-        if (!el || el.dataset.done) return;
-        el.dataset.done = '1';
-        el.classList.add('is-done');
-        setTimeout(function () { if (el && el.parentNode) el.parentNode.removeChild(el); }, 550);
-      }
-      setTimeout(dismiss, 900);
-      setTimeout(dismiss, 2500);
-    })();
-  </script>
+  <script src="assets/js/loader.js"></script>
 
   <a class="skip-link" href="#main">Skip to content</a>
 
-  <header class="navbar" id="navbar">
-    <div class="nav-inner">
-      <a class="logo" href="index.html" aria-label="TRAVELRAYZ home">
-        <img class="logo-img" src="assets/images/logo-full.png" alt="TRAVELRAYZ" width="220" height="52">
-      </a>
-      <nav class="nav-links" aria-label="Primary">
-        <a class="active" href="index.html" aria-current="page">Home</a>
-        <a href="upcoming-trips.html">Trips</a>
-        <a href="gallery.html">Gallery</a>
-        <a href="about.html">About</a>
-        <a href="contact.html">Contact</a>
-      </nav>
-      <div class="nav-actions">
-        <button class="theme-toggle" type="button" aria-label="Switch to light theme" title="Light theme">
-          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 14.5A8.5 8.5 0 0 1 9.5 3 7 7 0 1 0 21 14.5z"/></svg>
-          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
-        </button>
-        <a class="btn btn-primary" href="book.html">Book Now</a>
-        <button class="nav-toggle" type="button" aria-label="Open menu"><span></span><span></span><span></span></button>
-      </div>
-    </div>
-  </header>
+  <div id="site-nav"></div>
 
   <main id="main" class="page-reveal">
     <section class="hero" id="hero">
       <div class="hero-media">
-        <img src="assets/images/hero-spiritual.jpg" alt="Spiritual mountain journey with temple and Lord Shiva — Travel to Divine" width="1920" height="1112">
+        <img src="assets/images/hero-spiritual.jpg" alt="Mountain journey with temple — transformative travel experience" width="1920" height="1112">
       </div>
       <div class="hero-overlay"></div>
       <div class="hero-aurora" data-parallax="0.08" aria-hidden="true"></div>
@@ -131,11 +77,12 @@
       <div class="hero-grid" data-parallax="0.03" aria-hidden="true"></div>
       <div class="hero-particles" data-parallax="0.06" aria-hidden="true"></div>
       <div class="hero-content">
-        <h1 class="hero-brand"><span class="brand-travel">TRAVEL</span><span class="brand-rayz">RAYZ</span></h1>
-        <p class="hero-tagline">Travel to Divine. Return with Peace.</p>
-        <p class="hero-subtitle">Creating experiences that <em>strengthen teams</em> beyond the workplace — curated journeys that build connection, boost well-being, and create lasting impact.</p>
+        <p class="hero-eyebrow" aria-hidden="true"><span class="brand-travel">TRAVEL</span><span class="brand-rayz">RAYZ</span></p>
+        <h1 class="hero-headline">Creating Experiences That Strengthen Teams Beyond the Workplace</h1>
+        <p class="hero-tagline">Beyond the Workplace. Stronger Together.</p>
+        <p class="hero-subtitle">Curated corporate outings, treks, yatras and retreats from Mumbai — designed to build connection, boost well-being, and create lasting impact.</p>
         <div class="hero-ctas">
-          <a class="btn btn-primary" href="upcoming-trips.html">Explore Trips</a>
+          <a class="btn btn-primary" href="trips.html">Explore Trips</a>
           <a class="btn btn-outline" href="contact.html">Plan a Corporate Outing</a>
         </div>
       </div>
@@ -146,11 +93,13 @@
       <div class="hero-line" aria-hidden="true"></div>
     </section>
 
-    <section class="journey-strip" id="journey" aria-label="Featured destinations">
+    <section class="journey-strip" id="journey" aria-label="Travel categories and destinations">
       <div class="journey-track" aria-hidden="true">
         <div class="journey-marquee">
-          <span>Kedarnath</span><span>Harishchandragad</span><span>Jyotirlinga Yatra</span><span>Kaas Plateau</span><span>Rajgad</span><span>Bhimashankar</span><span>Lonavala Camp</span><span>Mahabaleshwar</span>
-          <span>Kedarnath</span><span>Harishchandragad</span><span>Jyotirlinga Yatra</span><span>Kaas Plateau</span><span>Rajgad</span><span>Bhimashankar</span><span>Lonavala Camp</span><span>Mahabaleshwar</span>
+          <span>Corporate Treks</span><span>Team Building</span><span>Digital Detox</span><span>Offsites</span><span>Team Outings</span><span>Weekend Trips</span><span>Adventure</span><span>Camping</span><span>Spiritual Yatras</span><span>Family Tours</span><span>Premium Tours</span>
+          <span>Kedarnath</span><span>Harishchandragad</span><span>Jyotirlinga Yatra</span><span>Kaas Plateau</span><span>Rajgad</span><span>Bhimashankar</span><span>Lonavala</span><span>Mahabaleshwar</span>
+          <span>Corporate Treks</span><span>Team Building</span><span>Digital Detox</span><span>Offsites</span><span>Team Outings</span><span>Weekend Trips</span><span>Adventure</span><span>Camping</span><span>Spiritual Yatras</span><span>Family Tours</span><span>Premium Tours</span>
+          <span>Kedarnath</span><span>Harishchandragad</span><span>Jyotirlinga Yatra</span><span>Kaas Plateau</span><span>Rajgad</span><span>Bhimashankar</span><span>Lonavala</span><span>Mahabaleshwar</span>
         </div>
       </div>
     </section>
@@ -160,143 +109,180 @@
         <div class="section-header">
           <p class="sub-heading">Explore</p>
           <h2>Travel Categories</h2>
-          <p>From sacred yatras and adrenaline treks to corporate team experiences — pick your kind of journey.</p>
+          <p>From corporate offsites and team building to sacred yatras and premium tours — pick your kind of journey.</p>
         </div>
         <div class="category-grid">
-          <a class="category-card" href="treks.html" data-cat="treks">
+          <a class="category-card" href="contact.html" data-cat="corporate-treks">
             <span class="category-mark" aria-hidden="true"></span>
-            <h3>Treks</h3>
-            <p>Peak trails &amp; ridgelines</p>
+            <h3>Corporate Treks</h3>
+            <p>Shared peaks that strengthen teams</p>
           </a>
-          <a class="category-card" href="tours.html#camping" data-cat="camping">
+          <a class="category-card" href="contact.html" data-cat="team-building">
+            <span class="category-mark" aria-hidden="true"></span>
+            <h3>Team Building</h3>
+            <p>Trust, collaboration &amp; engagement</p>
+          </a>
+          <a class="category-card" href="contact.html" data-cat="digital-detox">
+            <span class="category-mark" aria-hidden="true"></span>
+            <h3>Digital Detox</h3>
+            <p>Unplug and recharge in nature</p>
+          </a>
+          <a class="category-card" href="contact.html" data-cat="offsites">
+            <span class="category-mark" aria-hidden="true"></span>
+            <h3>Offsites</h3>
+            <p>Purpose-driven corporate retreats</p>
+          </a>
+          <a class="category-card" href="contact.html" data-cat="team-outings">
+            <span class="category-mark" aria-hidden="true"></span>
+            <h3>Team Outings</h3>
+            <p>Relaxed group experiences</p>
+          </a>
+          <a class="category-card" href="trips.html?filter=weekend" data-cat="weekend">
+            <span class="category-mark" aria-hidden="true"></span>
+            <h3>Weekend Trips</h3>
+            <p>Short escapes near Mumbai</p>
+          </a>
+          <a class="category-card" href="trips.html?filter=trek" data-cat="adventure">
+            <span class="category-mark" aria-hidden="true"></span>
+            <h3>Adventure</h3>
+            <p>Trails, cliffs &amp; thrills</p>
+          </a>
+          <a class="category-card" href="trips.html" data-cat="camping">
             <span class="category-mark" aria-hidden="true"></span>
             <h3>Camping</h3>
             <p>Stars, fire &amp; quiet nights</p>
           </a>
-          <a class="category-card" href="upcoming-trips.html" data-cat="weekend">
+          <a class="category-card" href="trips.html?filter=jyotirlinga" data-cat="yatra">
             <span class="category-mark" aria-hidden="true"></span>
-            <h3>Weekend</h3>
-            <p>Short escapes near you</p>
-          </a>
-          <a class="category-card" href="upcoming-trips.html" data-cat="yatra">
-            <span class="category-mark" aria-hidden="true"></span>
-            <h3>Jyotirlinga</h3>
+            <h3>Spiritual Yatras</h3>
             <p>Sacred temple circuits</p>
           </a>
-          <a class="category-card" href="about.html#corporate-why" data-cat="corporate">
+          <a class="category-card" href="trips.html" data-cat="family">
             <span class="category-mark" aria-hidden="true"></span>
-            <h3>Corporate</h3>
-            <p>Teams beyond the workplace</p>
+            <h3>Family Tours</h3>
+            <p>Gentle paced group journeys</p>
           </a>
-          <a class="category-card" href="tours.html#adventure" data-cat="adventure">
+          <a class="category-card" href="trips.html" data-cat="premium">
             <span class="category-mark" aria-hidden="true"></span>
-            <h3>Adventure</h3>
-            <p>Rivers, cliffs &amp; thrills</p>
-          </a>
-          <a class="category-card" href="tours.html#family" data-cat="family">
-            <span class="category-mark" aria-hidden="true"></span>
-            <h3>Family</h3>
-            <p>Gentle paced group tours</p>
-          </a>
-          <a class="category-card" href="tours.html#luxury" data-cat="luxury">
-            <span class="category-mark" aria-hidden="true"></span>
-            <h3>Luxury</h3>
-            <p>Premium comfort travel</p>
+            <h3>Premium Tours</h3>
+            <p>Comfort-first curated travel</p>
           </a>
         </div>
       </div>
     </section>
 
-    <section class="section featured-band" id="featured">
-      <div class="container featured-band-inner">
-        <div class="featured-visual" data-reveal aria-hidden="true">
-          <div class="featured-glow"></div>
-          <div class="featured-frame">
-            <img src="assets/images/hero-spiritual.jpg" alt="" width="640" height="400">
-          </div>
-        </div>
-        <div class="featured-copy" data-reveal>
-          <p class="sub-heading">The Path</p>
-          <h2>Creating experiences that strengthen teams beyond the workplace</h2>
-          <p>Founded by working professionals — we curate journeys that help people reconnect with nature, with each other, and themselves. From sacred yatras to corporate outings, every itinerary balances purpose, safety, and genuine hospitality.</p>
-          <div class="featured-pills">
-            <span>Mumbai based</span>
-            <span>Beyond the Workplace</span>
-            <span>Safety first</span>
-          </div>
-          <a class="btn btn-primary" href="about.html">Our Story</a>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="why">
+    <section class="section" id="featured-trips">
       <div class="container">
         <div class="section-header">
-          <p class="sub-heading">The Difference</p>
-          <h2>Why Choose Us</h2>
-          <p>Small details that turn a trip into a journey you remember.</p>
+          <p class="sub-heading">Live Calendar</p>
+          <h2>Featured Trips</h2>
+          <p>Upcoming departures loaded from our trip calendar — limited seats, book early.</p>
         </div>
-        <div class="feature-mosaic">
-          <article class="feature-tile" data-icon="van">
-            <h3>Luxury Urbania Vehicles</h3>
-            <p>Premium multi-seater vans for comfortable group travel on every journey.</p>
-          </article>
-          <article class="feature-tile" data-icon="stay">
-            <h3>Verified Hotels</h3>
-            <p>Hand-checked stays with clean, safe rooms.</p>
-          </article>
-          <article class="feature-tile feature-tile--wide" data-icon="guide">
-            <h3>Experienced Leaders</h3>
-            <p>Guides who know the routes, temples and trails — so you travel with confidence.</p>
-          </article>
-          <article class="feature-tile" data-icon="meal">
-            <h3>Pure Veg Meals</h3>
-            <p>Wholesome vegetarian breakfasts and dinners.</p>
-          </article>
-          <article class="feature-tile" data-icon="aid">
-            <h3>First Aid Ready</h3>
-            <p>Medical kit and prepared trip captains on every tour.</p>
-          </article>
-          <article class="feature-tile feature-tile--wide" data-icon="support">
-            <h3>24×7 Support</h3>
-            <p>Always a call or WhatsApp away when you need us.</p>
-          </article>
+        <div class="trips-grid" id="trips-grid" aria-live="polite"></div>
+        <div class="section-actions">
+          <a class="btn btn-primary" href="trips.html">View All Trips</a>
         </div>
       </div>
     </section>
 
-    <section class="section section-muted" id="teams">
+    <section class="section section-muted" id="why">
+      <div class="container">
+        <div class="difference-head">
+          <div class="difference-head__copy" data-reveal="left">
+            <p class="sub-heading">The Difference</p>
+            <h2>Why Choose TRAVELRAYZ</h2>
+            <p class="difference-head__lead">Small details that turn a trip into a journey you remember.</p>
+          </div>
+          <aside class="difference-compass" aria-hidden="true" data-reveal="scale">
+            <div class="difference-compass__dial">
+              <span class="difference-compass__ring"></span>
+              <span class="difference-compass__ring difference-compass__ring--mid"></span>
+              <span class="difference-compass__ring difference-compass__ring--inner"></span>
+              <span class="difference-compass__cardinal difference-compass__cardinal--n">N</span>
+              <span class="difference-compass__cardinal difference-compass__cardinal--e">E</span>
+              <span class="difference-compass__cardinal difference-compass__cardinal--s">S</span>
+              <span class="difference-compass__cardinal difference-compass__cardinal--w">W</span>
+              <span class="difference-compass__needle"></span>
+              <span class="difference-compass__hub">✦</span>
+            </div>
+            <p class="difference-compass__caption"><strong>6</strong> promises · <strong>1</strong> standard</p>
+          </aside>
+        </div>
+
+        <ol class="difference-trail">
+          <li class="difference-waypoint" data-icon="van" data-reveal="left">
+            <span class="difference-waypoint__pin"><span>01</span></span>
+            <article class="difference-waypoint__card">
+              <h3>Luxury Urbania Vehicles</h3>
+              <p>Premium multi-seater vans for comfortable group travel on every journey.</p>
+            </article>
+          </li>
+          <li class="difference-waypoint" data-icon="stay" data-reveal="right">
+            <span class="difference-waypoint__pin"><span>02</span></span>
+            <article class="difference-waypoint__card">
+              <h3>Verified Hotels</h3>
+              <p>Hand-checked stays with clean, safe rooms.</p>
+            </article>
+          </li>
+          <li class="difference-waypoint" data-icon="guide" data-reveal="left">
+            <span class="difference-waypoint__pin"><span>03</span></span>
+            <article class="difference-waypoint__card">
+              <h3>Experienced Leaders</h3>
+              <p>Guides who know the routes, temples and trails — so you travel with confidence.</p>
+            </article>
+          </li>
+          <li class="difference-waypoint" data-icon="meal" data-reveal="right">
+            <span class="difference-waypoint__pin"><span>04</span></span>
+            <article class="difference-waypoint__card">
+              <h3>Pure Veg Meals</h3>
+              <p>Wholesome vegetarian breakfasts and dinners.</p>
+            </article>
+          </li>
+          <li class="difference-waypoint" data-icon="aid" data-reveal="left">
+            <span class="difference-waypoint__pin"><span>05</span></span>
+            <article class="difference-waypoint__card">
+              <h3>First Aid Ready</h3>
+              <p>Medical kit and prepared trip captains on every tour.</p>
+            </article>
+          </li>
+          <li class="difference-waypoint" data-icon="support" data-reveal="right">
+            <span class="difference-waypoint__pin"><span>06</span></span>
+            <article class="difference-waypoint__card">
+              <h3>24×7 Support</h3>
+              <p>Always a call or WhatsApp away when you need us.</p>
+            </article>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="section" id="teams">
       <div class="container">
         <div class="section-header">
           <p class="sub-heading">Beyond the Workplace</p>
-          <h2>Experiences That Strengthen Teams</h2>
+          <h2>Corporate Outing Benefits</h2>
           <p>Curated outings that build connection, boost well-being, and create lasting impact.</p>
         </div>
         <p class="teams-script" data-reveal>Beyond the Workplace. Stronger Together.</p>
         <div class="band-stack">
           <a class="band-row" href="contact.html">
-            <h3>Corporate Treks</h3>
-            <p>Shared peaks that turn colleagues into a stronger team.</p>
+            <h3>Stronger Team Bonds</h3>
+            <p>Shared experiences outside the office that turn colleagues into a real team.</p>
             <span class="band-arrow" aria-hidden="true">→</span>
           </a>
           <a class="band-row" href="contact.html">
-            <h3>Team Building</h3>
-            <p>Activities designed for trust, collaboration, and engagement.</p>
+            <h3>Employee Well-Being</h3>
+            <p>Space to unplug, breathe, and return with clearer energy and focus.</p>
             <span class="band-arrow" aria-hidden="true">→</span>
           </a>
           <a class="band-row" href="contact.html">
-            <h3>Digital Detox</h3>
-            <p>Unplug in nature — recharge focus and well-being.</p>
+            <h3>Engagement &amp; Collaboration</h3>
+            <p>Activities designed for trust, dialogue, and ownership across teams.</p>
             <span class="band-arrow" aria-hidden="true">→</span>
           </a>
           <a class="band-row" href="contact.html">
-            <h3>Offsites</h3>
-            <p>Purpose-driven retreats tailored to your organization’s goals.</p>
-            <span class="band-arrow" aria-hidden="true">→</span>
-          </a>
-          <a class="band-row" href="contact.html">
-            <h3>Team Outings</h3>
-            <p>Relaxed group experiences that spark connection and lasting memories.</p>
+            <h3>Healthier Workplace Culture</h3>
+            <p>Memorable outings that improve satisfaction, retention, and productivity.</p>
             <span class="band-arrow" aria-hidden="true">→</span>
           </a>
         </div>
@@ -307,70 +293,144 @@
       </div>
     </section>
 
+    <section class="section section-muted" id="process">
+      <div class="container">
+        <div class="approach-head">
+          <div class="approach-head__copy" data-reveal="left">
+            <p class="sub-heading">Our Approach</p>
+            <h2>Understand · Curate · Execute · Transform</h2>
+            <p class="approach-head__lead">Every organization is unique — we design experiences that align with your goals.</p>
+          </div>
+          <div class="approach-meter" aria-hidden="true" data-reveal="scale">
+            <div class="approach-meter__track">
+              <span class="approach-meter__node"><em>U</em></span>
+              <span class="approach-meter__line"></span>
+              <span class="approach-meter__node"><em>C</em></span>
+              <span class="approach-meter__line"></span>
+              <span class="approach-meter__node"><em>E</em></span>
+              <span class="approach-meter__line"></span>
+              <span class="approach-meter__node"><em>T</em></span>
+            </div>
+            <p class="approach-meter__caption">From brief to breakthrough</p>
+          </div>
+        </div>
+
+        <ol class="approach-flow">
+          <li class="approach-phase" data-phase="understand" data-reveal="scale">
+            <span class="approach-phase__index">01</span>
+            <article class="approach-phase__card">
+              <h3>Understand</h3>
+              <p>We learn your objectives, team dynamics, group size, and desired outcomes.</p>
+            </article>
+          </li>
+          <li class="approach-phase" data-phase="curate" data-reveal="scale">
+            <span class="approach-phase__index">02</span>
+            <article class="approach-phase__card">
+              <h3>Curate</h3>
+              <p>We design customized treks, offsites, digital detox programs, or retreats.</p>
+            </article>
+          </li>
+          <li class="approach-phase" data-phase="execute" data-reveal="scale">
+            <span class="approach-phase__index">03</span>
+            <article class="approach-phase__card">
+              <h3>Execute</h3>
+              <p>From logistics to safety and on-ground coordination — we handle every detail.</p>
+            </article>
+          </li>
+          <li class="approach-phase" data-phase="transform" data-reveal="scale">
+            <span class="approach-phase__index">04</span>
+            <article class="approach-phase__card">
+              <h3>Transform</h3>
+              <p>Teams connect, collaborate, recharge, and build relationships beyond the workplace.</p>
+            </article>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="section" id="founders">
+      <div class="container">
+        <div class="section-header">
+          <p class="sub-heading">Meet the Founders</p>
+          <h2>The Visionaries</h2>
+          <p>HR insight and operational craft — united by a love for travel that brings people closer.</p>
+        </div>
+        <div class="visionary-duo">
+          <article class="visionary" data-reveal>
+            <p class="visionary-mark" aria-hidden="true">P</p>
+            <div class="visionary-copy">
+              <h3>Pratima Jadhav</h3>
+              <p class="visionary-role">HR Manager and Co-Founder</p>
+              <p>With extensive HR experience, Pratima understands employee engagement and workplace well-being — and designs experiences that help teams reconnect beyond the office.</p>
+            </div>
+          </article>
+          <article class="visionary" data-reveal>
+            <p class="visionary-mark" aria-hidden="true">K</p>
+            <div class="visionary-copy">
+              <h3>Kiran Chormare</h3>
+              <p class="visionary-role">Software Engineer and Co-Founder</p>
+              <p>A technology professional with a passion for exploration, Kiran brings planning, problem-solving, and operational expertise to every TRAVELRAYZ journey.</p>
+            </div>
+          </article>
+        </div>
+        <div class="section-actions">
+          <a class="btn btn-outline" href="about.html">Read Our Full Story</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-muted" id="gallery-preview">
+      <div class="container">
+        <div class="section-header">
+          <p class="sub-heading">Moments</p>
+          <h2>Gallery Preview</h2>
+          <p>Scenes from trails, temples, and nights under the stars — real moments from TRAVELRAYZ journeys.</p>
+        </div>
+        <div class="gallery-masonry gallery-masonry--preview" id="gallery-grid"></div>
+        <div class="section-actions">
+          <a class="btn btn-primary" href="gallery.html">View Full Gallery</a>
+        </div>
+      </div>
+    </section>
+
     <section class="section home-cta" id="plan">
       <div class="container">
         <div class="cta-panel" data-reveal>
-          <p class="sub-heading">Let’s Plan</p>
+          <p class="sub-heading">Let's Plan</p>
           <h2>Ready for your next journey?</h2>
-          <p>Tell us your dates and group size — we’ll help you pick the right trek, yatra, corporate outing or weekend escape.</p>
+          <p>Tell us your dates and group size — we'll help you pick the right corporate outing, trek, yatra or weekend escape.</p>
           <div class="section-actions">
-            <a class="btn btn-primary" href="book.html">Book Now</a>
-            <a class="btn btn-outline" href="contact.html">Contact Us</a>
+            <a class="btn btn-primary" href="contact.html">Contact Us</a>
+            <a class="btn btn-outline" href="trips.html">Explore Trips</a>
           </div>
         </div>
       </div>
     </section>
   </main>
 
-  <footer class="footer">
-    <div class="container">
-      <div class="footer-grid">
-        <div class="footer-brand">
-          <a class="logo" href="index.html"><img class="logo-img" src="assets/images/logo-full.png" alt="TRAVELRAYZ" width="220" height="52"></a>
-          <p>Helping organizations build stronger teams, healthier workplaces, and more engaged employees through meaningful experiences beyond the workplace.</p>
-          <div class="social-links">
-            <a data-social="linkedin" href="#" aria-label="LinkedIn" target="_blank" rel="noopener"></a>
-            <a data-social="instagram" href="#" aria-label="Instagram" target="_blank" rel="noopener"></a>
-            <a data-social="youtube" href="#" aria-label="YouTube" target="_blank" rel="noopener"></a>
-          </div>
-        </div>
-        <div>
-          <h4>Quick Links</h4>
-          <div class="footer-links">
-            <a href="upcoming-trips.html">Upcoming Trips</a>
-            <a href="treks.html">Treks</a>
-            <a href="tours.html">Tours</a>
-            <a href="gallery.html">Gallery</a>
-            <a href="about.html">About</a>
-          </div>
-        </div>
-        <div>
-          <h4>Company</h4>
-          <div class="footer-links">
-            <a href="testimonials.html">Testimonials</a>
-            <a href="contact.html">Contact</a>
-            <a href="terms.html">Terms</a>
-            <a href="privacy.html">Privacy</a>
-          </div>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <span>© <span id="year"></span> TRAVELRAYZ. All rights reserved.</span>
-        <span>Travel to Divine. Return with Peace.</span>
-      </div>
-    </div>
-  </footer>
+  <div id="site-footer"></div>
 
-  <div class="float-btns">
-    <a class="float-btn float-whatsapp" data-whatsapp-link href="#" target="_blank" rel="noopener" aria-label="Chat with us on WhatsApp">
-      <span class="fw-circle" aria-hidden="true"></span>
-      <span class="float-label">Talk to us?</span>
-    </a>
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-labelledby="lightbox-title" aria-hidden="true">
+    <div class="lightbox-backdrop" aria-hidden="true"></div>
+    <button class="lightbox-close" type="button" aria-label="Close gallery">✕</button>
+    <button class="lightbox-prev" type="button" aria-label="Previous image">‹</button>
+    <div class="lightbox-stage">
+      <img class="lightbox-image" src="" alt="">
+      <p class="lightbox-caption" id="lightbox-title"></p>
+      <p class="lightbox-counter" aria-live="polite"></p>
+    </div>
+    <button class="lightbox-next" type="button" aria-label="Next image">›</button>
   </div>
 
+  <script src="assets/js/theme.js"></script>
   <script src="assets/js/config.js" defer></script>
   <script src="assets/js/utils.js" defer></script>
+  <script src="assets/js/sheets.js" defer></script>
+  <script src="assets/js/trips.js" defer></script>
+  <script src="assets/js/gallery-data.js" defer></script>
+  <script src="assets/js/gallery.js" defer></script>
   <script src="assets/js/animations.js" defer></script>
+  <script src="assets/js/chrome.js" defer></script>
   <script src="assets/js/main.js" defer></script>
 </body>
 </html>

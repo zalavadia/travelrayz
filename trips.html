@@ -12,20 +12,20 @@
   <script>document.documentElement.classList.add("is-loading");</script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gallery | TRAVELRAYZ — Travel Moments &amp; Memories</title>
-  <meta name="description" content="Browse the TRAVELRAYZ gallery — scenes from treks, temples, campsites and group journeys across Maharashtra and India.">
-  <meta name="keywords" content="TRAVELRAYZ gallery, travel photos, trek photos, yatra photos, camping gallery">
+  <title>Trips | TRAVELRAYZ — Treks, Yatras &amp; Corporate Outings</title>
+  <meta name="description" content="Browse TRAVELRAYZ trips — corporate treks, team outings, spiritual yatras, weekend getaways and premium tours. Live calendar with limited seats.">
+  <meta name="keywords" content="TRAVELRAYZ trips, corporate outings, treks Mumbai, Jyotirlinga yatra, weekend trips, team building">
   <meta name="author" content="TRAVELRAYZ">
   <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://www.travelrayz.com/gallery.html">
+  <link rel="canonical" href="https://www.travelrayz.com/trips.html">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Gallery | TRAVELRAYZ">
-  <meta property="og:description" content="Scenes from trails, temples and nights under the stars.">
+  <meta property="og:title" content="Trips | TRAVELRAYZ">
+  <meta property="og:description" content="Live departures from our trip calendar — curated routes, trusted guides, and limited seats.">
   <meta property="og:image" content="https://www.travelrayz.com/assets/images/maharashtra-3-jyotirlinga-poster.png">
-  <meta property="og:url" content="https://www.travelrayz.com/gallery.html">
+  <meta property="og:url" content="https://www.travelrayz.com/trips.html">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Gallery | TRAVELRAYZ">
-  <meta name="twitter:description" content="Moments captured on TRAVELRAYZ journeys.">
+  <meta name="twitter:title" content="Trips | TRAVELRAYZ">
+  <meta name="twitter:description" content="Explore treks, yatras, corporate outings and weekend trips with TRAVELRAYZ.">
   <meta name="twitter:image" content="https://www.travelrayz.com/assets/images/maharashtra-3-jyotirlinga-poster.png">
   <link rel="icon" href="assets/images/logo-mark.png" type="image/png">
   <link rel="apple-touch-icon" href="assets/images/logo-mark.png">
@@ -35,7 +35,7 @@
   <link rel="stylesheet" href="assets/css/loader-critical.css">
   <link rel="stylesheet" href="assets/css/main.css">
 </head>
-<body data-page="gallery">
+<body data-page="trips">
   <div class="page-loader" id="page-loader" role="status" aria-live="polite" aria-label="Loading TRAVELRAYZ">
     <div class="page-loader-inner">
       <span class="page-loader-ring" aria-hidden="true"></span>
@@ -44,21 +44,20 @@
   </div>
   <script src="assets/js/loader.js"></script>
 
-
   <a class="skip-link" href="#main">Skip to content</a>
 
   <div id="site-nav"></div>
 
   <main id="main" class="page-reveal">
-    <section class="page-hero page-hero--gallery" data-hero="gallery">
+    <section class="page-hero page-hero--trips" data-hero="trips">
       <div class="container page-hero-inner">
         <div class="page-hero-copy">
-          <p class="page-hero-badge">Moments</p>
+          <p class="page-hero-badge">Live calendar</p>
           <h1>
-            <span class="ph-line">Journey</span>
-            <span class="ph-line ph-accent">Gallery</span>
+            <span class="ph-line">Upcoming</span>
+            <span class="ph-line ph-accent">Trips</span>
           </h1>
-          <p class="page-hero-desc">Scenes from trails, temples, and nights under the stars — real moments from travelers who journeyed with TRAVELRAYZ.</p>
+          <p class="page-hero-desc">Live departures from our trip calendar — corporate outings, treks, yatras and weekend escapes. Curated routes, trusted guides, limited seats.</p>
         </div>
       </div>
       <div class="page-hero-line" aria-hidden="true"></div>
@@ -66,36 +65,32 @@
 
     <section class="section">
       <div class="container">
-        <div class="section-header">
-          <p class="sub-heading">Moments</p>
-          <h2>Journey Highlights</h2>
-          <p>A glimpse into the experiences our travelers carry home — click any image to view full size.</p>
+        <div class="trips-toolbar">
+          <div class="search-box">
+            <input type="search" id="trip-search" placeholder="Search by title or location…" autocomplete="off" aria-label="Search trips by title or location">
+          </div>
         </div>
-        <div class="gallery-filters filter-pills" id="gallery-filters" role="tablist" aria-label="Filter gallery by category"></div>
-        <div class="gallery-masonry" id="gallery-grid" aria-live="polite"></div>
+
+        <div id="trips-error" class="error-state hidden" role="alert">
+          <img src="assets/images/logo-mark.png" alt="" width="48" height="48" class="trips-error-logo">
+          <p id="trips-error-msg">Could not load trips from the calendar.</p>
+          <button type="button" class="btn btn-primary" id="trips-retry">Try again</button>
+        </div>
+
+        <div class="trips-grid" id="trips-grid" aria-live="polite"></div>
       </div>
     </section>
   </main>
 
   <div id="site-footer"></div>
 
-  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-labelledby="lightbox-title" aria-hidden="true">
-    <div class="lightbox-backdrop" aria-hidden="true"></div>
-    <button class="lightbox-close" type="button" aria-label="Close gallery">✕</button>
-    <button class="lightbox-prev" type="button" aria-label="Previous image">‹</button>
-    <div class="lightbox-stage">
-      <img class="lightbox-image" src="" alt="">
-      <p class="lightbox-caption" id="lightbox-title"></p>
-      <p class="lightbox-counter" aria-live="polite"></p>
-    </div>
-    <button class="lightbox-next" type="button" aria-label="Next image">›</button>
-  </div>
+  <div class="modal-overlay" id="trip-modal" aria-hidden="true"></div>
 
   <script src="assets/js/theme.js"></script>
   <script src="assets/js/config.js" defer></script>
   <script src="assets/js/utils.js" defer></script>
-  <script src="assets/js/gallery-data.js" defer></script>
-  <script src="assets/js/gallery.js" defer></script>
+  <script src="assets/js/sheets.js" defer></script>
+  <script src="assets/js/trips.js" defer></script>
   <script src="assets/js/animations.js" defer></script>
   <script src="assets/js/chrome.js" defer></script>
   <script src="assets/js/main.js" defer></script>

@@ -11,13 +11,21 @@
     --nav-h: 68px;
   }
 
+  .logo-mark {
+    height: 38px;
+  }
+
+  .logo-word {
+    font-size: 0.88rem;
+  }
+
   .logo-img {
     height: 44px;
     max-width: min(58vw, 180px);
   }
 
   .section {
-    padding: 4rem 0;
+    padding: var(--section-y) 0;
   }
 
   .about-grid,
@@ -53,6 +61,16 @@
     align-items: stretch;
   }
 
+  .trips-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .trips-select {
+    max-width: none;
+    width: 100%;
+  }
+
   .search-box {
     max-width: none;
   }
@@ -70,6 +88,11 @@
 
   .reach-tiles {
     grid-template-columns: 1fr 1fr;
+  }
+
+  .reach-tile:nth-child(7),
+  .reach-tile--linkedin {
+    width: min(100%, calc((100% - 1.1rem) / 2));
   }
 
   .map-panel {
@@ -122,8 +145,12 @@
     grid-template-columns: 1fr;
   }
 
-  .reach-tile:nth-child(n) {
+  .reach-tile:nth-child(n),
+  .reach-tile--linkedin {
     border-radius: 1.2rem 2.4rem 1.2rem 2.4rem;
+    grid-column: auto;
+    width: 100%;
+    justify-self: stretch;
   }
 
   .modal-content {
