@@ -31,6 +31,11 @@ html[data-theme='light'] .navbar.scrolled {
   box-shadow: 0 4px 18px rgba(15, 23, 42, 0.06);
 }
 
+html[data-theme='light'] .logo-img,
+html[data-theme='light'] .login-logo {
+  filter: drop-shadow(0 1px 2px rgba(15, 23, 42, 0.06));
+}
+
 html[data-theme='light'] .theme-toggle {
   background: var(--color-surface);
   border-color: var(--color-border);
@@ -173,7 +178,7 @@ html[data-theme='light'] .hero-overlay {
 }
 
 html[data-theme='light'] body.home .hero-tagline {
-  color: var(--color-cyan);
+  color: var(--color-orange);
   font-weight: 700;
   letter-spacing: 0.22em;
   text-shadow: 0 2px 16px rgba(11, 19, 43, 0.65);
@@ -184,21 +189,14 @@ html[data-theme='light'] .hero-subtitle {
   text-shadow: 0 2px 18px rgba(11, 19, 43, 0.55);
 }
 
+html[data-theme='light'] .hero-watermark {
+  opacity: 0.045;
+}
+
 html[data-theme='light'] .hero-title,
-html[data-theme='light'] .hero-headline,
-html[data-theme='light'] .hero-brand,
-html[data-theme='light'] .hero-eyebrow {
+html[data-theme='light'] .hero-headline {
   color: #ffffff;
   text-shadow: 0 2px 28px rgba(11, 19, 43, 0.65), 0 0 48px rgba(11, 19, 43, 0.35);
-}
-
-html[data-theme='light'] body.home .hero-eyebrow .brand-travel {
-  color: #ffffff;
-}
-
-html[data-theme='light'] body.home .hero-eyebrow .brand-rayz {
-  color: var(--color-orange);
-  text-shadow: 0 2px 16px rgba(11, 19, 43, 0.5);
 }
 
 html[data-theme='light'] body.home .hero-scroll {

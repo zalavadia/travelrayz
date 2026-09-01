@@ -16,14 +16,6 @@
     --nav-h: 68px;
   }
 
-  .logo-mark {
-    height: 38px;
-  }
-
-  .logo-word {
-    font-size: 0.88rem;
-  }
-
   .logo-img {
     height: 44px;
     max-width: min(58vw, 180px);

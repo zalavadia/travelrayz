@@ -16,7 +16,10 @@ const SiteChrome = {
       document.body.insertAdjacentHTML('beforeend', this.whatsappHTML());
     }
 
-    if (typeof ThemeUI !== 'undefined') ThemeUI.syncToggles();
+    if (typeof ThemeUI !== 'undefined') {
+      ThemeUI.syncToggles();
+      ThemeUI.syncLogos();
+    }
   },
 
   isActive(page, names) {
@@ -37,8 +40,7 @@ const SiteChrome = {
 
   logoHTML(href = 'index.html', label = 'TRAVELRAYZ home') {
     return `<a class="logo" href="${href}" aria-label="${label}">
-        <img class="logo-mark" src="assets/images/logo-mark.png" alt="" width="44" height="44" aria-hidden="true">
-        <span class="logo-word" aria-hidden="true"><span class="logo-travel">TRAVEL</span><span class="logo-rayz">RAYZ</span></span>
+        <img class="logo-img" src="assets/images/logo-full.png" alt="TRAVELRAYZ" width="220" height="52">
       </a>`;
   },
 

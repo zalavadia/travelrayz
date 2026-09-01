@@ -82,7 +82,6 @@ body:not(:has(.hero)):not(:has(.page-hero)) .navbar::before {
 .logo {
   display: flex;
   align-items: center;
-  gap: 0.55rem;
   z-index: 1001;
   flex-shrink: 0;
   padding: 0.25rem 0.5rem;
@@ -90,31 +89,6 @@ body:not(:has(.hero)):not(:has(.page-hero)) .navbar::before {
   border-radius: var(--radius-sm);
   background: var(--logo-backdrop);
   text-decoration: none;
-}
-
-.logo-mark {
-  display: block;
-  height: 44px;
-  width: auto;
-  flex-shrink: 0;
-}
-
-.logo-word {
-  display: flex;
-  font-family: var(--font-sub);
-  font-weight: 700;
-  font-size: clamp(0.92rem, 2.4vw, 1.1rem);
-  letter-spacing: 0.05em;
-  line-height: 1;
-  white-space: nowrap;
-}
-
-.logo-travel {
-  color: var(--logo-travel-color, var(--color-text));
-}
-
-.logo-rayz {
-  color: var(--color-orange);
 }
 
 .logo-img {
@@ -128,14 +102,6 @@ body:not(:has(.hero)):not(:has(.page-hero)) .navbar::before {
 .logo:focus-visible {
   outline-offset: 4px;
   border-radius: var(--radius-sm);
-}
-
-.footer .logo-mark {
-  height: 52px;
-}
-
-.footer .logo-word {
-  font-size: 1.15rem;
 }
 
 .footer .logo-img {
@@ -265,7 +231,6 @@ html[data-theme='light'] body:has(.hero) .navbar:not(.scrolled) {
   border-bottom-color: transparent;
   box-shadow: none;
   --nav-link: rgba(255, 255, 255, 0.92);
-  --logo-travel-color: #ffffff;
 }
 
 html[data-theme='light'] body:has(.hero) .navbar:not(.scrolled)::before {
@@ -275,11 +240,6 @@ html[data-theme='light'] body:has(.hero) .navbar:not(.scrolled)::before {
 html[data-theme='light'] body:has(.hero) .navbar:not(.scrolled) .nav-links a {
   color: var(--nav-link);
   text-shadow: 0 1px 10px rgba(11, 19, 43, 0.55);
-}
-
-html[data-theme='light'] body:has(.hero) .navbar:not(.scrolled) .logo-travel {
-  color: #ffffff;
-  text-shadow: 0 1px 10px rgba(11, 19, 43, 0.45);
 }
 
 html[data-theme='light'] body:has(.hero) .navbar:not(.scrolled) .theme-toggle {
@@ -303,11 +263,9 @@ html[data-theme='light'] body:has(.page-hero) .navbar:not(.scrolled) .nav-links 
 
 html[data-theme='light'] body:has(.page-hero) .navbar:not(.scrolled) {
   --nav-link: rgba(255, 255, 255, 0.94);
-  --logo-travel-color: #ffffff;
 }
 
-html[data-theme='light'] .navbar.scrolled .nav-links a,
-html[data-theme='light'] .navbar.scrolled .logo-travel {
+html[data-theme='light'] .navbar.scrolled .nav-links a {
   color: var(--color-text);
 }
 
@@ -461,18 +419,9 @@ html[data-theme='light'] body.home .hero .btn-outline:hover {
     gap: 0.4rem;
   }
 
-  .logo-mark {
-    height: 36px;
-  }
-
-  .logo-word {
-    font-size: 0.82rem;
-  }
-
   .logo-img {
-    width: clamp(120px, 40vw, 170px);
-    height: auto;
-    max-width: none;
+    height: 44px;
+    max-width: min(58vw, 180px);
   }
 
   .nav-actions {

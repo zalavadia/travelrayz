@@ -3,9 +3,28 @@
  */
 const ThemeUI = {
   KEY: 'travelrayz-theme',
+  LOGO_DARK: 'logo-full.png',
+  LOGO_LIGHT: 'logo-full-light.png',
 
   getCurrentTheme() {
     return document.documentElement.getAttribute('data-theme') || 'dark';
+  },
+
+  logoBasePath(img) {
+    const src = img.getAttribute('src') || '';
+    return src.includes('../assets/') ? '../assets/images/' : 'assets/images/';
+  },
+
+  shouldUseLightLogo() {
+    return this.getCurrentTheme() === 'light';
+  },
+
+  syncLogos() {
+    document.querySelectorAll('.logo-img, .login-logo').forEach((img) => {
+      const file = this.shouldUseLightLogo() ? this.LOGO_LIGHT : this.LOGO_DARK;
+      const next = `${this.logoBasePath(img)}${file}`;
+      if (img.getAttribute('src') !== next) img.setAttribute('src', next);
+    });
   },
 
   applyTheme(theme) {
@@ -15,6 +34,7 @@ const ThemeUI = {
       localStorage.setItem(this.KEY, validTheme);
     } catch (_) {}
     this.syncToggles();
+    this.syncLogos();
   },
 
   syncToggles() {
@@ -39,6 +59,7 @@ const ThemeUI = {
 
   init() {
     this.syncToggles();
+    this.syncLogos();
 
     document.addEventListener('click', (event) => {
       const button = event.target.closest('.theme-toggle');
