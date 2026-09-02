@@ -454,6 +454,61 @@
   margin: 0;
 }
 
+/* The Minds Behind TRAVELRAYZ — editorial story block */
+.minds-story {
+  max-width: 42rem;
+  margin: 0 auto;
+  display: grid;
+  gap: 1.15rem;
+}
+
+.minds-story p {
+  color: var(--text-muted);
+  line-height: 1.75;
+  margin: 0;
+  font-size: clamp(0.98rem, 1.5vw, 1.05rem);
+}
+
+.minds-story__closing {
+  margin-top: 0.35rem;
+  padding: 1.15rem 1.25rem;
+  border-left: 3px solid var(--brand-orange);
+  background: linear-gradient(135deg, rgba(22, 166, 201, 0.06), transparent 72%);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  color: var(--text) !important;
+  font-family: var(--font-sub);
+}
+
+html[data-theme='light'] .minds-story__closing {
+  background: linear-gradient(135deg, rgba(22, 166, 201, 0.08), rgba(255, 255, 255, 0.6) 72%);
+}
+
+.minds-story--wide {
+  max-width: 52rem;
+}
+
+.about-quote--goal {
+  margin-top: 0;
+}
+
+.about-quote--goal::before {
+  display: none;
+}
+
+.about-quote__label {
+  font-family: var(--font-sub);
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.85rem !important;
+}
+
+.about-quote--goal p:last-child {
+  font-size: clamp(1.35rem, 2.8vw, 1.85rem);
+  line-height: 1.45;
+}
+
 @media (max-width: 768px) {
   .visionary-duo {
     grid-template-columns: 1fr;

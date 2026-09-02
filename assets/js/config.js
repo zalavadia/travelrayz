@@ -16,12 +16,12 @@ const TRAVELRAYZ_CONFIG = {
   company: {
     name: 'TRAVELRAYZ',
     tagline: 'Travel to Divine. Return with Peace.',
-    taglineAlt: 'Beyond the Workplace. Stronger Together.',
-    headline: 'Creating Experiences That Strengthen Teams Beyond the Workplace',
+    taglineAlt: 'Treks, yatras and journeys that stay with you.',
+    headline: 'Treks, Yatras & Journeys That Stay With You',
     vision:
       'To inspire meaningful connections, healthier workplaces, and stronger teams by helping people reconnect with nature, with each other, and themselves through transformative travel experiences.',
     mission:
-      'To design safe, engaging, and purpose-driven experiences that foster team bonding, employee well-being, personal growth, and work-life balance through curated retreats, treks, and corporate outings.',
+      'To design safe, engaging, and purpose-driven experiences that foster team bonding, employee well-being, personal growth, and work-life balance through curated adventures, retreats, and corporate outings.',
     founders: {
       pratima: {
         name: 'Pratima Jadhav',
