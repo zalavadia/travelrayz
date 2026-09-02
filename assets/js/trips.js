@@ -246,7 +246,7 @@ const TripsUI = {
     } else {
       wrap.appendChild(document.createTextNode(`${TR.formatINR(price)} `));
     }
-    const small = TR.el('small', '', '/ head');
+    const small = TR.el('small', '', '/ person');
     wrap.appendChild(small);
     return wrap;
   },
@@ -403,7 +403,7 @@ const TripsUI = {
       if (desc) {
         desc.setAttribute(
           'content',
-          `${trip.tripName} — ${trip.destination || 'TRAVELRAYZ trip'}. ${TR.formatINR(TR.effectivePrice(trip))} per head.`
+          `${trip.tripName} — ${trip.destination || 'TRAVELRAYZ trip'}. ${TR.formatINR(TR.effectivePrice(trip))} per person.`
         );
       }
       const crumb = TR.qs('.breadcrumb [aria-current="page"]');
