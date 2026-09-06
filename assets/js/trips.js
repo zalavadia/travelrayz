@@ -316,8 +316,8 @@ const TripsUI = {
   },
 
   tripUrl(trip) {
-    if (!trip || !trip.id) return '/explore-trips';
-    return `/trip-details?id=${encodeURIComponent(trip.id)}`;
+    if (!trip || !trip.id) return 'explore-trips/';
+    return `trip-details/?id=${encodeURIComponent(trip.id)}`;
   },
 
   tripBookingMessage(trip) {
@@ -478,7 +478,7 @@ const TripsUI = {
     }
     if (showBrowse) {
       const link = TR.el('a', 'btn btn-outline', 'Browse Trips');
-      link.href = '/explore-trips';
+      link.href = 'explore-trips/';
       actions.appendChild(link);
     }
     box.appendChild(actions);
@@ -584,7 +584,7 @@ const TripsUI = {
     waBtn.target = '_blank';
     waBtn.rel = 'noopener';
     const contactBtn = TR.el('a', 'btn btn-outline', 'Contact us');
-    contactBtn.href = '/lets-connect';
+    contactBtn.href = 'lets-connect/';
     actions.append(waBtn, contactBtn);
     body.appendChild(actions);
 

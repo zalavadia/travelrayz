@@ -1,13 +1,19 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "cleanUrls": true,
-  "trailingSlash": false,
+  "trailingSlash": true,
   "redirects": [
-    { "source": "/trips", "destination": "/explore-trips", "permanent": true },
-    { "source": "/about", "destination": "/our-story", "permanent": true },
-    { "source": "/gallery", "destination": "/captured-journeys", "permanent": true },
-    { "source": "/testimonials", "destination": "/travel-stories", "permanent": true },
-    { "source": "/contact", "destination": "/lets-connect", "permanent": true },
-    { "source": "/upcoming-trips", "destination": "/explore-trips", "permanent": true }
+    { "source": "/trips", "destination": "/explore-trips/", "permanent": true },
+    { "source": "/trips/", "destination": "/explore-trips/", "permanent": true },
+    { "source": "/about", "destination": "/our-story/", "permanent": true },
+    { "source": "/about/", "destination": "/our-story/", "permanent": true },
+    { "source": "/gallery", "destination": "/captured-journeys/", "permanent": true },
+    { "source": "/gallery/", "destination": "/captured-journeys/", "permanent": true },
+    { "source": "/testimonials", "destination": "/travel-stories/", "permanent": true },
+    { "source": "/testimonials/", "destination": "/travel-stories/", "permanent": true },
+    { "source": "/contact", "destination": "/lets-connect/", "permanent": true },
+    { "source": "/contact/", "destination": "/lets-connect/", "permanent": true },
+    { "source": "/upcoming-trips", "destination": "/explore-trips/", "permanent": true },
+    { "source": "/upcoming-trips/", "destination": "/explore-trips/", "permanent": true }
   ]
 }

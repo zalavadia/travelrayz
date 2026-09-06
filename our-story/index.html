@@ -3,6 +3,23 @@
 <head>
   <script>
     (function () {
+      var path = location.pathname || '';
+      var base = '/';
+      if (/\.github\.io$/i.test(location.hostname)) {
+        var seg = path.split('/').filter(Boolean)[0];
+        if (seg && seg !== 'index.html') base = '/' + seg + '/';
+      }
+      window.TR_BASE = base === '/' ? '' : base.slice(0, -1);
+      // Admin keeps its own relative assets (../assets, css/, js/) — skip <base>
+      if (/\/admin(\/|$)/i.test(path)) return;
+      var el = document.createElement('base');
+      el.href = base;
+      var head = document.currentScript && document.currentScript.parentNode;
+      (head || document.head).insertBefore(el, document.currentScript || document.head.firstChild);
+    })();
+  </script>
+<script>
+    (function () {
       try {
         var t = localStorage.getItem('travelrayz-theme');
         if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
@@ -128,8 +145,8 @@
           <h2>Ready to plan your next journey?</h2>
           <p>Whether it is a trek, yatra, weekend getaway or group trip, reach out and we will help you plan something worth remembering.</p>
           <div class="section-actions">
-            <a class="btn btn-primary" href="/lets-connect">Contact Us</a>
-            <a class="btn btn-outline" href="/explore-trips">Explore Trips</a>
+            <a class="btn btn-primary" href="lets-connect/">Contact Us</a>
+            <a class="btn btn-outline" href="explore-trips/">Explore Trips</a>
           </div>
         </div>
       </div>
