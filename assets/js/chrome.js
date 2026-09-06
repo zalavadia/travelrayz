@@ -38,7 +38,7 @@ const SiteChrome = {
         </button>`;
   },
 
-  logoHTML(href = 'index.html', label = 'TRAVELRAYZ home') {
+  logoHTML(href = '/', label = 'TRAVELRAYZ home') {
     return `<a class="logo" href="${href}" aria-label="${label}">
         <img class="logo-img" src="assets/images/logo-full.png" alt="TRAVELRAYZ" width="220" height="52">
       </a>`;
@@ -55,21 +55,21 @@ const SiteChrome = {
     return `
   <header class="navbar" id="navbar">
     <div class="nav-inner">
-      ${this.logoHTML('index.html', 'TRAVELRAYZ home')}
+      ${this.logoHTML('/', 'TRAVELRAYZ home')}
       <nav class="nav-links" aria-label="Primary">
-        <a${home} href="index.html"${this.ariaCurrent(page, ['home'])}>Home</a>
-        <a${trips} href="trips.html"${this.ariaCurrent(page, ['trips', 'treks', 'tours'])}>Explore Trips</a>
-        <a${about} href="about.html"${this.ariaCurrent(page, ['about'])}>Our Story</a>
-        <a${gallery} href="gallery.html"${this.ariaCurrent(page, ['gallery'])}>Captured Journeys</a>
-        <a${testimonials} href="testimonials.html"${this.ariaCurrent(page, ['testimonials'])}>Travel Stories</a>
-        <a${contact} href="contact.html"${this.ariaCurrent(page, ['contact'])}>Let's Connect</a>
+        <a${home} href="/"${this.ariaCurrent(page, ['home'])}>Home</a>
+        <a${trips} href="/explore-trips"${this.ariaCurrent(page, ['trips', 'treks', 'tours'])}>Explore Trips</a>
+        <a${about} href="/our-story"${this.ariaCurrent(page, ['about'])}>Our Story</a>
+        <a${gallery} href="/captured-journeys"${this.ariaCurrent(page, ['gallery'])}>Captured Journeys</a>
+        <a${testimonials} href="/travel-stories"${this.ariaCurrent(page, ['testimonials'])}>Travel Stories</a>
+        <a${contact} href="/lets-connect"${this.ariaCurrent(page, ['contact'])}>Let's Connect</a>
         <div class="nav-mobile-actions">
           ${this.themeToggleHTML('theme-toggle--mobile')}
         </div>
       </nav>
       <div class="nav-actions">
         ${this.themeToggleHTML('theme-toggle--desktop')}
-        <a class="btn btn-primary" href="trips.html">Join the Journey</a>
+        <a class="btn btn-primary" href="/explore-trips">Join the Journey</a>
         <button class="nav-toggle" type="button" aria-label="Open menu"><span></span><span></span><span></span></button>
       </div>
     </div>
@@ -93,14 +93,14 @@ const SiteChrome = {
           <p class="footer-cta__title">Your next adventure awaits</p>
         </div>
         <div class="footer-cta__actions">
-          <a class="btn btn-primary" href="trips.html">Join the Journey</a>
-          <a class="btn btn-outline" href="contact.html">Let's Connect</a>
+          <a class="btn btn-primary" href="/explore-trips">Join the Journey</a>
+          <a class="btn btn-outline" href="/lets-connect">Let's Connect</a>
         </div>
       </div>
 
       <div class="footer-main">
         <div class="footer-brand">
-          ${this.logoHTML('index.html', 'TRAVELRAYZ home')}
+          ${this.logoHTML('/', 'TRAVELRAYZ home')}
           <p>${mission}</p>
           <div class="social-links">
             <a data-social="linkedin" href="#" aria-label="LinkedIn" target="_blank" rel="noopener"></a>
@@ -112,21 +112,21 @@ const SiteChrome = {
         <nav class="footer-col" aria-label="Explore">
           <h4>Explore</h4>
           <div class="footer-links">
-            <a href="trips.html">Explore Trips</a>
-            <a href="treks.html">Treks</a>
-            <a href="tours.html">Tours</a>
-            <a href="gallery.html">Captured Journeys</a>
-            <a href="about.html">Our Story</a>
+            <a href="/explore-trips">Explore Trips</a>
+            <a href="/treks">Treks</a>
+            <a href="/tours">Tours</a>
+            <a href="/captured-journeys">Captured Journeys</a>
+            <a href="/our-story">Our Story</a>
           </div>
         </nav>
 
         <nav class="footer-col" aria-label="Company">
           <h4>Company</h4>
           <div class="footer-links">
-            <a href="testimonials.html">Travel Stories</a>
-            <a href="contact.html">Let's Connect</a>
-            <a href="terms.html">Terms</a>
-            <a href="privacy.html">Privacy</a>
+            <a href="/travel-stories">Travel Stories</a>
+            <a href="/lets-connect">Let's Connect</a>
+            <a href="/terms">Terms</a>
+            <a href="/privacy">Privacy</a>
           </div>
         </nav>
 

@@ -6,57 +6,57 @@
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://www.travelrayz.com/trips.html</loc>
+    <loc>https://www.travelrayz.com/explore-trips</loc>
     <changefreq>daily</changefreq>
     <priority>0.95</priority>
   </url>
   <url>
-    <loc>https://www.travelrayz.com/trip-details.html</loc>
+    <loc>https://www.travelrayz.com/trip-details</loc>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://www.travelrayz.com/treks.html</loc>
+    <loc>https://www.travelrayz.com/treks</loc>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://www.travelrayz.com/tours.html</loc>
+    <loc>https://www.travelrayz.com/tours</loc>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://www.travelrayz.com/about.html</loc>
+    <loc>https://www.travelrayz.com/our-story</loc>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
-    <loc>https://www.travelrayz.com/gallery.html</loc>
+    <loc>https://www.travelrayz.com/captured-journeys</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.travelrayz.com/testimonials.html</loc>
+    <loc>https://www.travelrayz.com/travel-stories</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://www.travelrayz.com/contact.html</loc>
+    <loc>https://www.travelrayz.com/lets-connect</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.travelrayz.com/book.html</loc>
+    <loc>https://www.travelrayz.com/book</loc>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://www.travelrayz.com/privacy.html</loc>
+    <loc>https://www.travelrayz.com/privacy</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://www.travelrayz.com/terms.html</loc>
+    <loc>https://www.travelrayz.com/terms</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>

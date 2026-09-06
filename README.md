@@ -74,7 +74,7 @@ In Apps Script: **Project settings → Script properties**, add:
 | Property | Required | Purpose |
 |----------|----------|---------|
 | `ADMIN_SECRET` | Yes | Admin login password (validated server-side only) |
-| `DRIVE_FOLDER_ID` | Yes (for uploads) | Google Drive folder ID for trip/gallery images |
+| `DRIVE_FOLDER_ID` | Yes (for uploads) | Google Drive folder ID for trip/captured-journeys images |
 
 Never commit secrets to git or public JavaScript.
 
@@ -135,7 +135,7 @@ The site is a folder of static files. No build step. No Node.js on the server.
 1. Drag the project folder to [Netlify Drop](https://app.netlify.com/drop), **or** connect your Git repo.
 2. **Publish directory:** project root (`.`).
 3. **Build command:** none.
-4. `_redirects` in the repo redirects `/upcoming-trips.html` → `/trips.html`.
+4. `_redirects` in the repo redirects `/upcoming-trips.html` → `/explore-trips.html`.
 5. Add your custom domain under **Domain settings** if needed.
 6. Ensure `assets/js/config.js` has the live Apps Script URL.
 
@@ -146,7 +146,7 @@ The site is a folder of static files. No build step. No Node.js on the server.
 3. Confirm `index.html` is at `public_html/index.html`.
 4. Edit `public_html/assets/js/config.js` on the server (or upload after editing locally) with your Apps Script URL.
 5. Point your domain A record to Hostinger; enable SSL in hPanel.
-6. Test: `https://yourdomain.com/trips.html` and `https://yourdomain.com/admin/`.
+6. Test: `https://yourdomain.com/explore-trips.html` and `https://yourdomain.com/admin/`.
 
 ---
 

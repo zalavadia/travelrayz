@@ -1,0 +1,27 @@
+# TRAVELRAYZ — clean URLs matching nav tab names (Vercel/Hostinger)
+
+Options -MultiViews
+RewriteEngine On
+RewriteBase /
+
+# Legacy short paths → nav-matched URLs
+RewriteRule ^trips/?$ /explore-trips [R=301,L,QSA]
+RewriteRule ^about/?$ /our-story [R=301,L,QSA]
+RewriteRule ^gallery/?$ /captured-journeys [R=301,L,QSA]
+RewriteRule ^testimonials/?$ /travel-stories [R=301,L,QSA]
+RewriteRule ^contact/?$ /lets-connect [R=301,L,QSA]
+RewriteRule ^upcoming-trips(\.html)?$ /explore-trips [R=301,L,QSA]
+
+# Redirect /index.html → /
+RewriteCond %{THE_REQUEST} \s/+index\.html[\s?] [NC]
+RewriteRule ^index\.html$ / [R=301,L]
+
+# Redirect /page.html → /page
+RewriteCond %{THE_REQUEST} \s/+(.+?)\.html[\s?] [NC]
+RewriteRule ^ %1 [R=301,L,NE,QSA]
+
+# Internally serve /page as page.html
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME}.html -f
+RewriteRule ^(.+?)/?$ $1.html [L]

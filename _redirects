@@ -1,1 +1,28 @@
-/upcoming-trips.html /trips.html 301
+# Clean URLs matching nav tab names (Netlify)
+
+/explore-trips       /explore-trips.html       200
+/our-story           /our-story.html           200
+/captured-journeys   /captured-journeys.html   200
+/travel-stories      /travel-stories.html      200
+/lets-connect        /lets-connect.html        200
+/trip-details        /trip-details.html        200
+/treks               /treks.html               200
+/tours               /tours.html               200
+/book                /book.html                200
+/privacy             /privacy.html             200
+/terms               /terms.html               200
+
+# Legacy → nav-matched
+/trips               /explore-trips            301
+/about               /our-story                301
+/gallery             /captured-journeys        301
+/testimonials        /travel-stories           301
+/contact             /lets-connect             301
+/upcoming-trips      /explore-trips            301
+/upcoming-trips.html /explore-trips            301
+/index.html          /                         301
+/trips.html          /explore-trips            301
+/about.html          /our-story                301
+/gallery.html        /captured-journeys        301
+/testimonials.html   /travel-stories           301
+/contact.html        /lets-connect             301
