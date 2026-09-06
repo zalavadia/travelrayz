@@ -10,9 +10,8 @@ const ThemeUI = {
     return document.documentElement.getAttribute('data-theme') || 'dark';
   },
 
-  logoBasePath(img) {
-    const src = img.getAttribute('src') || '';
-    return src.includes('../assets/') ? '../assets/images/' : 'assets/images/';
+  logoBasePath() {
+    return '/assets/images/';
   },
 
   shouldUseLightLogo() {
@@ -22,7 +21,7 @@ const ThemeUI = {
   syncLogos() {
     document.querySelectorAll('.logo-img, .login-logo').forEach((img) => {
       const file = this.shouldUseLightLogo() ? this.LOGO_LIGHT : this.LOGO_DARK;
-      const next = `${this.logoBasePath(img)}${file}`;
+      const next = `${this.logoBasePath()}${file}`;
       if (img.getAttribute('src') !== next) img.setAttribute('src', next);
     });
   },

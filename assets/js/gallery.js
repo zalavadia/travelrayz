@@ -3,7 +3,7 @@
  * Data: assets/js/gallery-data.js + Google Sheets (via sheets.js)
  */
 const GalleryUI = {
-  FALLBACK_IMAGE: 'assets/images/logo-mark.png',
+  FALLBACK_IMAGE: '/assets/images/logo-mark.png',
   allItems: [],
   visibleItems: [],
   activeCategory: 'all',

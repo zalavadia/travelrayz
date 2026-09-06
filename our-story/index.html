@@ -1,23 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script>
-    (function () {
-      var path = location.pathname || '';
-      var base = '/';
-      if (/\.github\.io$/i.test(location.hostname)) {
-        var seg = path.split('/').filter(Boolean)[0];
-        if (seg && seg !== 'index.html') base = '/' + seg + '/';
-      }
-      window.TR_BASE = base === '/' ? '' : base.slice(0, -1);
-      // Admin keeps its own relative assets (../assets, css/, js/) — skip <base>
-      if (/\/admin(\/|$)/i.test(path)) return;
-      var el = document.createElement('base');
-      el.href = base;
-      var head = document.currentScript && document.currentScript.parentNode;
-      (head || document.head).insertBefore(el, document.currentScript || document.head.firstChild);
-    })();
-  </script>
 <script>
     (function () {
       try {
@@ -44,22 +27,22 @@
   <meta name="twitter:title" content="About TRAVELRAYZ">
   <meta name="twitter:description" content="More than just travel. Experiences that bring people together.">
   <meta name="twitter:image" content="https://www.travelrayz.com/assets/images/maharashtra-3-jyotirlinga-poster.png">
-  <link rel="icon" href="assets/images/logo-mark.png" type="image/png">
-  <link rel="apple-touch-icon" href="assets/images/logo-mark.png">
+  <link rel="icon" href="/assets/images/logo-mark.png" type="image/png">
+  <link rel="apple-touch-icon" href="/assets/images/logo-mark.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/loader-critical.css">
-  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="stylesheet" href="/assets/css/loader-critical.css">
+  <link rel="stylesheet" href="/assets/css/main.css">
 </head>
 <body data-page="about">
   <div class="page-loader" id="page-loader" role="status" aria-live="polite" aria-label="Loading TRAVELRAYZ">
     <div class="page-loader-inner">
       <span class="page-loader-ring" aria-hidden="true"></span>
-      <img class="page-loader-logo" src="assets/images/logo-mark.png" alt="" width="120" height="120">
+      <img class="page-loader-logo" src="/assets/images/logo-mark.png" alt="" width="120" height="120">
     </div>
   </div>
-  <script src="assets/js/loader.js"></script>
+  <script src="/assets/js/loader.js"></script>
 
 
   <a class="skip-link" href="#main">Skip to content</a>
@@ -84,7 +67,7 @@
     <section class="section" id="story">
       <div class="container about-grid">
         <div class="about-image">
-          <img src="assets/images/hero-spiritual.jpg" alt="TRAVELRAYZ journeys — treks, yatras and group travel" loading="lazy" width="800" height="1000">
+          <img src="/assets/images/hero-spiritual.jpg" alt="TRAVELRAYZ journeys — treks, yatras and group travel" loading="lazy" width="800" height="1000">
         </div>
         <div class="about-content">
           <p class="sub-heading">About TRAVELRAYZ</p>
@@ -145,8 +128,8 @@
           <h2>Ready to plan your next journey?</h2>
           <p>Whether it is a trek, yatra, weekend getaway or group trip, reach out and we will help you plan something worth remembering.</p>
           <div class="section-actions">
-            <a class="btn btn-primary" href="lets-connect/">Contact Us</a>
-            <a class="btn btn-outline" href="explore-trips/">Explore Trips</a>
+            <a class="btn btn-primary" href="/lets-connect/">Contact Us</a>
+            <a class="btn btn-outline" href="/explore-trips/">Explore Trips</a>
           </div>
         </div>
       </div>
@@ -155,11 +138,11 @@
 
   <div id="site-footer"></div>
 
-  <script src="assets/js/theme.js"></script>
-  <script src="assets/js/config.js" defer></script>
-  <script src="assets/js/utils.js" defer></script>
-  <script src="assets/js/animations.js" defer></script>
-  <script src="assets/js/chrome.js" defer></script>
-  <script src="assets/js/main.js" defer></script>
+  <script src="/assets/js/theme.js"></script>
+  <script src="/assets/js/config.js" defer></script>
+  <script src="/assets/js/utils.js" defer></script>
+  <script src="/assets/js/animations.js" defer></script>
+  <script src="/assets/js/chrome.js" defer></script>
+  <script src="/assets/js/main.js" defer></script>
 </body>
 </html>

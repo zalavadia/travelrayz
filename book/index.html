@@ -1,23 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script>
-    (function () {
-      var path = location.pathname || '';
-      var base = '/';
-      if (/\.github\.io$/i.test(location.hostname)) {
-        var seg = path.split('/').filter(Boolean)[0];
-        if (seg && seg !== 'index.html') base = '/' + seg + '/';
-      }
-      window.TR_BASE = base === '/' ? '' : base.slice(0, -1);
-      // Admin keeps its own relative assets (../assets, css/, js/) — skip <base>
-      if (/\/admin(\/|$)/i.test(path)) return;
-      var el = document.createElement('base');
-      el.href = base;
-      var head = document.currentScript && document.currentScript.parentNode;
-      (head || document.head).insertBefore(el, document.currentScript || document.head.firstChild);
-    })();
-  </script>
 <script>
     (function () {
       try {
@@ -44,44 +27,44 @@
   <meta name="twitter:title" content="Book Now | TRAVELRAYZ">
   <meta name="twitter:description" content="Simple steps to book your next journey with TRAVELRAYZ.">
   <meta name="twitter:image" content="assets/images/maharashtra-3-jyotirlinga-poster.png">
-  <link rel="icon" href="assets/images/logo-mark.png" type="image/png">
-  <link rel="apple-touch-icon" href="assets/images/logo-mark.png">
+  <link rel="icon" href="/assets/images/logo-mark.png" type="image/png">
+  <link rel="apple-touch-icon" href="/assets/images/logo-mark.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/loader-critical.css">
-  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="stylesheet" href="/assets/css/loader-critical.css">
+  <link rel="stylesheet" href="/assets/css/main.css">
 </head>
 <body>
   <div class="page-loader" id="page-loader" role="status" aria-live="polite" aria-label="Loading TRAVELRAYZ">
     <div class="page-loader-inner">
       <span class="page-loader-ring" aria-hidden="true"></span>
-      <img class="page-loader-logo" src="assets/images/logo-mark.png" alt="" width="120" height="120">
+      <img class="page-loader-logo" src="/assets/images/logo-mark.png" alt="" width="120" height="120">
     </div>
   </div>
-  <script src="assets/js/loader.js"></script>
+  <script src="/assets/js/loader.js"></script>
 
 
   <a class="skip-link" href="#main">Skip to content</a>
 
   <header class="navbar" id="navbar">
     <div class="nav-inner">
-      <a class="logo" href="./" aria-label="TRAVELRAYZ home">
-        <img class="logo-img" src="assets/images/logo-full.png" alt="TRAVELRAYZ" width="220" height="52">
+      <a class="logo" href="/" aria-label="TRAVELRAYZ home">
+        <img class="logo-img" src="/assets/images/logo-full.png" alt="TRAVELRAYZ" width="220" height="52">
       </a>
       <nav class="nav-links" aria-label="Primary">
-        <a href="./">Home</a>
-        <a href="explore-trips/">Trips</a>
-        <a href="captured-journeys/">Gallery</a>
-        <a href="our-story/">About</a>
-        <a href="lets-connect/">Contact</a>
+        <a href="/">Home</a>
+        <a href="/explore-trips/">Trips</a>
+        <a href="/captured-journeys/">Gallery</a>
+        <a href="/our-story/">About</a>
+        <a href="/lets-connect/">Contact</a>
       </nav>
       <div class="nav-actions">
         <button class="theme-toggle" type="button" aria-label="Switch to light theme" title="Light theme">
           <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 14.5A8.5 8.5 0 0 1 9.5 3 7 7 0 1 0 21 14.5z"/></svg>
           <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
         </button>
-        <a class="btn btn-primary" href="book/">Book Now</a>
+        <a class="btn btn-primary" href="/book/">Book Now</a>
         <button class="nav-toggle" type="button" aria-label="Open menu"><span></span><span></span><span></span></button>
       </div>
     </div>
@@ -111,7 +94,7 @@
         <ol class="step-cascade">
           <li>
             <h3>Choose</h3>
-            <p>Browse <a href="explore-trips/">upcoming trips</a> or tell us your preferred dates and destination.</p>
+            <p>Browse <a href="/explore-trips/">upcoming trips</a> or tell us your preferred dates and destination.</p>
           </li>
           <li>
             <h3>Enquire</h3>
@@ -189,7 +172,7 @@
     <div class="container">
       <div class="footer-grid">
         <div class="footer-brand">
-          <a class="logo" href="./"><img class="logo-img" src="assets/images/logo-full.png" alt="TRAVELRAYZ" width="220" height="52"></a>
+          <a class="logo" href="/"><img class="logo-img" src="/assets/images/logo-full.png" alt="TRAVELRAYZ" width="220" height="52"></a>
           <p>Travel to Divine. Return with Peace. Premium treks, yatras and curated journeys across India.</p>
           <div class="social-links">
             <a data-social="linkedin" href="#" aria-label="LinkedIn" target="_blank" rel="noopener"></a>
@@ -200,20 +183,20 @@
         <div>
           <h4>Quick Links</h4>
           <div class="footer-links">
-            <a href="explore-trips/">Upcoming Trips</a>
-            <a href="treks/">Treks</a>
-            <a href="tours/">Tours</a>
-            <a href="captured-journeys/">Gallery</a>
-            <a href="our-story/">About</a>
+            <a href="/explore-trips/">Upcoming Trips</a>
+            <a href="/treks/">Treks</a>
+            <a href="/tours/">Tours</a>
+            <a href="/captured-journeys/">Gallery</a>
+            <a href="/our-story/">About</a>
           </div>
         </div>
         <div>
           <h4>Company</h4>
           <div class="footer-links">
-            <a href="travel-stories/">Testimonials</a>
-            <a href="lets-connect/">Contact</a>
-            <a href="terms/">Terms</a>
-            <a href="privacy/">Privacy</a>
+            <a href="/travel-stories/">Testimonials</a>
+            <a href="/lets-connect/">Contact</a>
+            <a href="/terms/">Terms</a>
+            <a href="/privacy/">Privacy</a>
           </div>
         </div>
       </div>
@@ -231,11 +214,11 @@
     </a>
   </div>
 
-  <script src="assets/js/theme.js"></script>
-  <script src="assets/js/config.js" defer></script>
-  <script src="assets/js/utils.js" defer></script>
-  <script src="assets/js/sheets.js" defer></script>
-  <script src="assets/js/animations.js" defer></script>
-  <script src="assets/js/main.js" defer></script>
+  <script src="/assets/js/theme.js"></script>
+  <script src="/assets/js/config.js" defer></script>
+  <script src="/assets/js/utils.js" defer></script>
+  <script src="/assets/js/sheets.js" defer></script>
+  <script src="/assets/js/animations.js" defer></script>
+  <script src="/assets/js/main.js" defer></script>
 </body>
 </html>

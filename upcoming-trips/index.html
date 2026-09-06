@@ -1,32 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script>
-    (function () {
-      var path = location.pathname || '';
-      var base = '/';
-      if (/\.github\.io$/i.test(location.hostname)) {
-        var seg = path.split('/').filter(Boolean)[0];
-        if (seg && seg !== 'index.html') base = '/' + seg + '/';
-      }
-      window.TR_BASE = base === '/' ? '' : base.slice(0, -1);
-      // Admin keeps its own relative assets (../assets, css/, js/) — skip <base>
-      if (/\/admin(\/|$)/i.test(path)) return;
-      var el = document.createElement('base');
-      el.href = base;
-      var head = document.currentScript && document.currentScript.parentNode;
-      (head || document.head).insertBefore(el, document.currentScript || document.head.firstChild);
-    })();
-  </script>
-<meta charset="UTF-8">
-  <meta http-equiv="refresh" content="0; url=explore-trips/">
+  <meta charset="UTF-8">
+  <meta http-equiv="refresh" content="0; url=/explore-trips/">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Redirecting to Trips | TRAVELRAYZ</title>
   <link rel="canonical" href="https://www.travelrayz.com/explore-trips/">
   <meta name="robots" content="noindex, follow">
-  <script>location.replace('explore-trips/');</script>
+  <script>location.replace('/explore-trips/');</script>
 </head>
 <body>
-  <p>Redirecting to <a href="explore-trips/">Trips</a>…</p>
+  <p>Redirecting to <a href="/explore-trips/">Trips</a>…</p>
 </body>
 </html>

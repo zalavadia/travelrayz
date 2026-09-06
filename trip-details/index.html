@@ -1,23 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script>
-    (function () {
-      var path = location.pathname || '';
-      var base = '/';
-      if (/\.github\.io$/i.test(location.hostname)) {
-        var seg = path.split('/').filter(Boolean)[0];
-        if (seg && seg !== 'index.html') base = '/' + seg + '/';
-      }
-      window.TR_BASE = base === '/' ? '' : base.slice(0, -1);
-      // Admin keeps its own relative assets (../assets, css/, js/) — skip <base>
-      if (/\/admin(\/|$)/i.test(path)) return;
-      var el = document.createElement('base');
-      el.href = base;
-      var head = document.currentScript && document.currentScript.parentNode;
-      (head || document.head).insertBefore(el, document.currentScript || document.head.firstChild);
-    })();
-  </script>
 <script>
     (function () {
       try {
@@ -43,22 +26,22 @@
   <meta name="twitter:title" content="Trip Details | TRAVELRAYZ">
   <meta name="twitter:description" content="Full trip details from TRAVELRAYZ.">
   <meta name="twitter:image" content="https://www.travelrayz.com/assets/images/maharashtra-3-jyotirlinga-poster.png">
-  <link rel="icon" href="assets/images/logo-mark.png" type="image/png">
-  <link rel="apple-touch-icon" href="assets/images/logo-mark.png">
+  <link rel="icon" href="/assets/images/logo-mark.png" type="image/png">
+  <link rel="apple-touch-icon" href="/assets/images/logo-mark.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/loader-critical.css">
-  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="stylesheet" href="/assets/css/loader-critical.css">
+  <link rel="stylesheet" href="/assets/css/main.css">
 </head>
 <body data-page="trip-detail">
   <div class="page-loader" id="page-loader" role="status" aria-live="polite" aria-label="Loading TRAVELRAYZ">
     <div class="page-loader-inner">
       <span class="page-loader-ring" aria-hidden="true"></span>
-      <img class="page-loader-logo" src="assets/images/logo-mark.png" alt="" width="120" height="120">
+      <img class="page-loader-logo" src="/assets/images/logo-mark.png" alt="" width="120" height="120">
     </div>
   </div>
-  <script src="assets/js/loader.js"></script>
+  <script src="/assets/js/loader.js"></script>
 
   <a class="skip-link" href="#main">Skip to content</a>
 
@@ -68,9 +51,9 @@
     <section class="section section--trip-detail">
       <div class="container">
         <nav class="breadcrumb" aria-label="Breadcrumb">
-          <a href="./">Home</a>
+          <a href="/">Home</a>
           <span aria-hidden="true">/</span>
-          <a href="explore-trips/">Trips</a>
+          <a href="/explore-trips/">Trips</a>
           <span aria-hidden="true">/</span>
           <span aria-current="page">Details</span>
         </nav>
@@ -81,13 +64,13 @@
 
   <div id="site-footer"></div>
 
-  <script src="assets/js/theme.js"></script>
-  <script src="assets/js/config.js" defer></script>
-  <script src="assets/js/utils.js" defer></script>
-  <script src="assets/js/sheets.js" defer></script>
-  <script src="assets/js/explore-trips.js" defer></script>
-  <script src="assets/js/animations.js" defer></script>
-  <script src="assets/js/chrome.js" defer></script>
-  <script src="assets/js/main.js" defer></script>
+  <script src="/assets/js/theme.js"></script>
+  <script src="/assets/js/config.js" defer></script>
+  <script src="/assets/js/utils.js" defer></script>
+  <script src="/assets/js/sheets.js" defer></script>
+  <script src="/assets/js/trips.js" defer></script>
+  <script src="/assets/js/animations.js" defer></script>
+  <script src="/assets/js/chrome.js" defer></script>
+  <script src="/assets/js/main.js" defer></script>
 </body>
 </html>

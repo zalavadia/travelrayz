@@ -13,7 +13,7 @@ const SheetsAPI = {
     {
       id: 'demo-1',
       title: 'Maharashtra 3 Jyotirlinga Yatra',
-      image: 'assets/images/hero-spiritual.jpg',
+      image: '/assets/images/hero-spiritual.jpg',
       location: 'Bhimashankar, Grishneshwar, Trimbakeshwar',
       category: 'Spiritual Yatras',
       fullDescription:
@@ -152,7 +152,7 @@ const SheetsAPI = {
   resolveImageUrl(urlOrId, width = 640) {
     const s = String(urlOrId || '').trim();
     if (!s) return '';
-    if (s.startsWith('assets/') || s.startsWith('/') || s.startsWith('data:')) return s;
+    if (s.startsWith('assets/') || s.startsWith('/assets/') || s.startsWith('/') || s.startsWith('data:')) return s;
     const id = this.extractDriveId(s);
     if (id) return this.driveImageUrl(id, width);
     return s;
@@ -164,7 +164,7 @@ const SheetsAPI = {
     return `${this.endpoint()}?action=getImage&id=${encodeURIComponent(id)}`;
   },
 
-  applyDriveImg(img, urlOrId, fallback = 'assets/images/logo-mark.png', options = {}) {
+  applyDriveImg(img, urlOrId, fallback = '/assets/images/logo-mark.png', options = {}) {
     const { width = 640, upgradeWidth = 960, eager = false } = options;
     const id = this.extractDriveId(urlOrId);
 

@@ -1,23 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script>
-    (function () {
-      var path = location.pathname || '';
-      var base = '/';
-      if (/\.github\.io$/i.test(location.hostname)) {
-        var seg = path.split('/').filter(Boolean)[0];
-        if (seg && seg !== 'index.html') base = '/' + seg + '/';
-      }
-      window.TR_BASE = base === '/' ? '' : base.slice(0, -1);
-      // Admin keeps its own relative assets (../assets, css/, js/) — skip <base>
-      if (/\/admin(\/|$)/i.test(path)) return;
-      var el = document.createElement('base');
-      el.href = base;
-      var head = document.currentScript && document.currentScript.parentNode;
-      (head || document.head).insertBefore(el, document.currentScript || document.head.firstChild);
-    })();
-  </script>
 <script>
 (function () {
     const THEME_KEY = "travelrayz-theme";
@@ -34,22 +17,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
   <title>Admin | TRAVELRAYZ</title>
-  <link rel="icon" href="../assets/images/logo-mark.png" type="image/png">
-  <link rel="apple-touch-icon" href="../assets/images/logo-mark.png">
+  <link rel="icon" href="/assets/images/logo-mark.png" type="image/png">
+  <link rel="apple-touch-icon" href="/assets/images/logo-mark.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../assets/css/loader-critical.css">
+  <link rel="stylesheet" href="/assets/css/loader-critical.css">
   <link rel="stylesheet" href="css/admin.css">
 </head>
 <body>
   <div class="page-loader" id="page-loader" role="status" aria-live="polite" aria-label="Loading TRAVELRAYZ">
     <div class="page-loader-inner">
       <span class="page-loader-ring" aria-hidden="true"></span>
-      <img class="page-loader-logo" src="../assets/images/logo-mark.png" alt="" width="120" height="120">
+      <img class="page-loader-logo" src="/assets/images/logo-mark.png" alt="" width="120" height="120">
     </div>
   </div>
-  <script src="../assets/js/loader.js"></script>
+  <script src="/assets/js/loader.js"></script>
 
   <!-- Login -->
   <div id="login-screen" class="login-screen">
@@ -59,7 +42,7 @@
     </button>
     <div class="login-card glass">
       <div class="login-brand">
-        <img class="login-logo" src="../assets/images/logo-full.png" alt="TRAVELRAYZ" width="220" height="52">
+        <img class="login-logo" src="/assets/images/logo-full.png" alt="TRAVELRAYZ" width="220" height="52">
         <p class="login-subtitle">Admin Dashboard</p>
       </div>
       <form id="login-form" autocomplete="off" novalidate>
@@ -84,7 +67,7 @@
   <div id="dashboard" class="dashboard hidden">
     <header class="admin-header">
       <div class="header-left">
-        <img src="../assets/images/logo-mark.png" alt="" width="32" height="32">
+        <img src="/assets/images/logo-mark.png" alt="" width="32" height="32">
         <span class="header-title">TRAVELRAYZ Admin</span>
       </div>
       <div class="header-right">
@@ -92,7 +75,7 @@
           <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
           <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 14.5A8.5 8.5 0 0 1 9.5 3 7 7 0 1 0 21 14.5z"/></svg>
         </button>
-        <a href="../explore-trips/" class="btn btn-ghost" target="_blank" rel="noopener">View Trips</a>
+        <a href="/explore-trips/" class="btn btn-ghost" target="_blank" rel="noopener">View Trips</a>
         <button type="button" id="logout-btn" class="btn btn-outline">Logout</button>
       </div>
     </header>
@@ -149,7 +132,7 @@
           </div>
 
           <div id="trips-error" class="error-state hidden">
-            <img src="../assets/images/logo-mark.png" alt="" width="48" height="48" class="error-state-logo">
+            <img src="/assets/images/logo-mark.png" alt="" width="48" height="48" class="error-state-logo">
             <p id="trips-error-msg">Could not load trips.</p>
             <button type="button" class="btn btn-primary" id="trips-retry-btn">Retry</button>
           </div>
@@ -187,7 +170,7 @@
             </div>
 
             <div id="trips-empty" class="empty-state-panel hidden">
-              <img src="../assets/images/logo-mark.png" alt="" width="56" height="56">
+              <img src="/assets/images/logo-mark.png" alt="" width="56" height="56">
               <h3>No trips yet</h3>
               <p>Create your first trip to show it on the public site after publishing.</p>
               <button type="button" class="btn btn-primary" id="trip-add-empty">+ Add Trip</button>
@@ -516,10 +499,10 @@
 
   <div id="toast" class="toast" aria-live="polite"></div>
 
-  <script src="../assets/js/theme.js"></script>
-  <script src="../assets/js/config.js"></script>
-  <script src="../assets/js/utils.js"></script>
-  <script src="../assets/js/sheets.js"></script>
+  <script src="/assets/js/theme.js"></script>
+  <script src="/assets/js/config.js"></script>
+  <script src="/assets/js/utils.js"></script>
+  <script src="/assets/js/sheets.js"></script>
   <script src="js/admin.js"></script>
 </body>
 </html>
