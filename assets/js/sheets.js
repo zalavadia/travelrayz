@@ -357,10 +357,17 @@ const SheetsAPI = {
       }
       return '';
     };
+    let text = String(get('text', 'Text') || '').trim();
+    if (
+      (text.startsWith('"') && text.endsWith('"')) ||
+      (text.startsWith('\u201C') && text.endsWith('\u201D'))
+    ) {
+      text = text.slice(1, -1).trim();
+    }
     return {
       id: String(get('id', 'ID') || index + 1),
       name: get('name', 'Name'),
-      text: get('text', 'Text'),
+      text,
       rating: Number(get('rating', 'Rating')) || 5,
       photo: this.resolveImageUrl(get('photo', 'Photo'), 200),
       trip: get('trip', 'Trip'),
