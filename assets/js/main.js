@@ -90,6 +90,7 @@ const AppChrome = {
       links.classList.toggle('open', open);
       toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
       document.documentElement.classList.toggle('nav-open', open);
+      if (typeof ThemeUI !== 'undefined') ThemeUI.syncLogos();
     };
 
     toggle.setAttribute('aria-expanded', 'false');

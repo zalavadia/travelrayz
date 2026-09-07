@@ -233,6 +233,7 @@ html[data-theme='light'] body:has(.hero) .navbar:not(.scrolled) {
   border-bottom-color: transparent;
   box-shadow: none;
   --nav-link: rgba(255, 255, 255, 0.92);
+  --nav-toggle: #ffffff;
 }
 
 html[data-theme='light'] body:has(.hero) .navbar:not(.scrolled)::before {
@@ -265,6 +266,11 @@ html[data-theme='light'] body:has(.page-hero) .navbar:not(.scrolled) .nav-links 
 
 html[data-theme='light'] body:has(.page-hero) .navbar:not(.scrolled) {
   --nav-link: rgba(255, 255, 255, 0.94);
+  --nav-toggle: #ffffff;
+}
+
+html[data-theme='light'] .navbar.scrolled {
+  --nav-toggle: var(--color-text);
 }
 
 html[data-theme='light'] .navbar.scrolled .nav-links a {
@@ -289,6 +295,47 @@ html[data-theme='light'] body:has(.page-hero) .navbar:not(.scrolled) .theme-togg
   background: rgba(7, 20, 38, 0.35);
   border-color: rgba(255, 255, 255, 0.25);
   color: #ffffff;
+}
+
+/* Mobile open menu: light panel needs dark links (hero white-link rules otherwise win) */
+html[data-theme='light'].nav-open .navbar,
+html[data-theme='light'].nav-open .nav-links {
+  background: #ffffff;
+  --nav-link: rgba(15, 23, 42, 0.9);
+  --nav-toggle: rgba(15, 23, 42, 0.9);
+}
+
+html[data-theme='light'].nav-open .navbar .nav-links a,
+html[data-theme='light'].nav-open body:has(.hero) .navbar .nav-links a,
+html[data-theme='light'].nav-open body:has(.page-hero) .navbar .nav-links a,
+html[data-theme='light'].nav-open body:has(.hero) .navbar:not(.scrolled) .nav-links a,
+html[data-theme='light'].nav-open body:has(.page-hero) .navbar:not(.scrolled) .nav-links a {
+  color: rgba(15, 23, 42, 0.9);
+  text-shadow: none;
+}
+
+html[data-theme='light'].nav-open .navbar .nav-links a:hover,
+html[data-theme='light'].nav-open .navbar .nav-links a.active,
+html[data-theme='light'].nav-open body:has(.hero) .navbar:not(.scrolled) .nav-links a:hover,
+html[data-theme='light'].nav-open body:has(.hero) .navbar:not(.scrolled) .nav-links a.active,
+html[data-theme='light'].nav-open body:has(.page-hero) .navbar:not(.scrolled) .nav-links a:hover,
+html[data-theme='light'].nav-open body:has(.page-hero) .navbar:not(.scrolled) .nav-links a.active {
+  color: var(--color-primary);
+  background: color-mix(in srgb, var(--color-cyan) 12%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-cyan) 22%, transparent);
+}
+
+html[data-theme='light'].nav-open .navbar .theme-toggle,
+html[data-theme='light'].nav-open body:has(.hero) .navbar:not(.scrolled) .theme-toggle,
+html[data-theme='light'].nav-open body:has(.page-hero) .navbar:not(.scrolled) .theme-toggle {
+  background: var(--color-surface);
+  border-color: var(--color-border);
+  color: var(--color-text);
+  box-shadow: var(--shadow);
+}
+
+html[data-theme='light'].nav-open .nav-toggle span {
+  background: var(--color-text);
 }
 
 html[data-theme='light'] body.home .hero .btn-outline {

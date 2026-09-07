@@ -16,6 +16,8 @@ const ThemeUI = {
 
   shouldUseLightLogo() {
     if (this.getCurrentTheme() !== 'light') return false;
+    /* Open mobile menu uses a light panel — need the dark wordmark */
+    if (document.documentElement.classList.contains('nav-open')) return true;
     /* Over a dark hero, keep the light-on-dark wordmark until the nav scrolls solid */
     const overDarkHero = document.body.matches(':has(.hero), :has(.page-hero)');
     const nav = document.querySelector('.navbar');

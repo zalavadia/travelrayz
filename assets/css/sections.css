@@ -1130,18 +1130,46 @@ html[data-theme='light'] .minds-story__closing {
   max-width: 150px;
 }
 
-.category-card[data-cat='treks'] .category-mark::before {
+.category-card[data-cat='corporate-treks'] .category-mark::before {
   content: '△';
-  font-size: 2.6rem;
+  font-size: 2.45rem;
 }
 
-.category-card[data-cat='camping'] .category-mark::before {
-  content: '⌂';
+.category-card[data-cat='team-building'] .category-mark::before {
+  content: '⧉';
+  font-size: 2.1rem;
+  font-family: var(--font-sub);
+}
+
+.category-card[data-cat='digital-detox'] .category-mark::before {
+  content: '☾';
+  font-size: 2.35rem;
+}
+
+.category-card[data-cat='offsites'] .category-mark::before {
+  content: '▣';
+  font-size: 1.85rem;
+  font-family: var(--font-sub);
+}
+
+.category-card[data-cat='team-outings'] .category-mark::before {
+  content: '◎';
+  font-size: 2.2rem;
+  font-family: var(--font-sub);
 }
 
 .category-card[data-cat='weekend'] .category-mark::before {
   content: '↗';
   font-family: var(--font-sub);
+}
+
+.category-card[data-cat='adventure'] .category-mark::before {
+  content: '≈';
+  font-size: 2.5rem;
+}
+
+.category-card[data-cat='camping'] .category-mark::before {
+  content: '⌂';
 }
 
 .category-card[data-cat='yatra'] .category-mark {
@@ -1158,6 +1186,31 @@ html[data-theme='light'] .minds-story__closing {
   font-family: serif;
 }
 
+.category-card[data-cat='family'] .category-mark::before {
+  content: '∞';
+  font-family: var(--font-sub);
+  font-weight: 300;
+}
+
+.category-card[data-cat='premium'] .category-mark {
+  color: #fff7ed;
+  background:
+    radial-gradient(circle at 35% 28%, rgba(255, 255, 255, 0.4), transparent 22%),
+    linear-gradient(145deg, rgba(242, 130, 45, 0.6), rgba(3, 105, 161, 0.28));
+  border-color: rgba(242, 130, 45, 0.55);
+}
+
+.category-card[data-cat='premium'] .category-mark::before {
+  content: '★';
+  font-size: 2.1rem;
+}
+
+/* Legacy aliases (older markup) */
+.category-card[data-cat='treks'] .category-mark::before {
+  content: '△';
+  font-size: 2.6rem;
+}
+
 .category-card[data-cat='corporate'] .category-mark {
   background:
     radial-gradient(circle at 35% 28%, rgba(255, 255, 255, 0.35), transparent 22%),
@@ -1167,17 +1220,6 @@ html[data-theme='light'] .minds-story__closing {
 .category-card[data-cat='corporate'] .category-mark::before {
   content: '◇';
   font-size: 2.5rem;
-}
-
-.category-card[data-cat='adventure'] .category-mark::before {
-  content: '≈';
-  font-size: 2.5rem;
-}
-
-.category-card[data-cat='family'] .category-mark::before {
-  content: '∞';
-  font-family: var(--font-sub);
-  font-weight: 300;
 }
 
 .category-card[data-cat='luxury'] .category-mark {
