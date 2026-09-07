@@ -15,7 +15,12 @@ const ThemeUI = {
   },
 
   shouldUseLightLogo() {
-    return this.getCurrentTheme() === 'light';
+    if (this.getCurrentTheme() !== 'light') return false;
+    /* Over a dark hero, keep the light-on-dark wordmark until the nav scrolls solid */
+    const overDarkHero = document.body.matches(':has(.hero), :has(.page-hero)');
+    const nav = document.querySelector('.navbar');
+    if (overDarkHero && nav && !nav.classList.contains('scrolled')) return false;
+    return true;
   },
 
   syncLogos() {

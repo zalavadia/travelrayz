@@ -105,6 +105,7 @@ const AppChrome = {
     const nav = TR.qs('.navbar');
     const onScroll = () => {
       nav?.classList.toggle('scrolled', TR.scrollY() > 40);
+      if (typeof ThemeUI !== 'undefined') ThemeUI.syncLogos();
     };
     TR.onScroll(TR.throttle(onScroll, 16));
     onScroll();
