@@ -74,9 +74,8 @@ html[data-theme='dark'] body:not(.home) .page-hero::after {
 
 html[data-theme='dark'] body:not(.home) .page-hero-media {
   background:
-    radial-gradient(ellipse 50% 60% at 78% 40%, rgba(59, 130, 246, 0.22), transparent 62%),
-    radial-gradient(ellipse 42% 48% at 15% 72%, rgba(56, 189, 248, 0.12), transparent 55%),
-    linear-gradient(125deg, var(--color-background) 0%, var(--color-surface) 52%, #152040 100%) !important;
+    radial-gradient(ellipse 55% 70% at 78% 45%, rgba(245, 130, 32, 0.2), transparent 62%),
+    linear-gradient(115deg, #080a10, #141c2c 55%, #0f2f44) !important;
 }
 
 html[data-theme='dark'] body:not(.home) .page-hero-badge,

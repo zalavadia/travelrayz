@@ -9,8 +9,12 @@
   color: #fff;
   overflow: hidden;
   isolation: isolate;
-  background: var(--color-navy);
+  background: #080a10;
   text-align: center;
+  min-height: clamp(280px, 38vh, 420px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .page-hero::before,
@@ -53,12 +57,11 @@
     radial-gradient(ellipse 50% 40% at 50% 100%, rgba(59, 130, 246, 0.14), transparent 60%);
 }
 
-.page-hero--trips .page-hero-media {
-  background:
-    radial-gradient(ellipse 55% 70% at 78% 45%, rgba(245, 130, 32, 0.24), transparent 62%),
-    linear-gradient(115deg, var(--color-navy), #0d1c2c 55%, #123248);
-}
-.page-hero--gallery .page-hero-media {
+.page-hero--trips .page-hero-media,
+.page-hero--gallery .page-hero-media,
+.page-hero--about .page-hero-media,
+.page-hero--contact .page-hero-media,
+.page-hero--testimonials .page-hero-media {
   background:
     radial-gradient(ellipse 55% 70% at 78% 45%, rgba(245, 130, 32, 0.2), transparent 62%),
     linear-gradient(115deg, #080a10, #141c2c 55%, #0f2f44);
@@ -73,25 +76,10 @@
     radial-gradient(ellipse 55% 70% at 78% 45%, rgba(245, 130, 32, 0.22), transparent 62%),
     linear-gradient(115deg, var(--color-navy), #0f2234 55%, #0f3d52);
 }
-.page-hero--about .page-hero-media {
-  background:
-    radial-gradient(ellipse 55% 70% at 78% 45%, rgba(245, 130, 32, 0.24), transparent 62%),
-    linear-gradient(115deg, var(--color-navy), #0c1b2a 55%, #123a4e);
-}
-.page-hero--contact .page-hero-media {
-  background:
-    radial-gradient(ellipse 55% 70% at 78% 45%, rgba(245, 130, 32, 0.22), transparent 62%),
-    linear-gradient(115deg, var(--color-navy), #0d1f30 55%, #114456);
-}
 .page-hero--book .page-hero-media {
   background:
     radial-gradient(ellipse 55% 70% at 78% 45%, rgba(245, 130, 32, 0.26), transparent 62%),
     linear-gradient(115deg, var(--color-navy), #0c1a28 55%, #123d4e);
-}
-.page-hero--testimonials .page-hero-media {
-  background:
-    radial-gradient(ellipse 55% 70% at 78% 45%, rgba(245, 130, 32, 0.2), transparent 62%),
-    linear-gradient(115deg, #0a0910, #1a1626 55%, #123448);
 }
 .page-hero--legal .page-hero-media {
   background:
