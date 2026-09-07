@@ -136,25 +136,25 @@ const SiteChrome = {
           <ul class="footer-chips">
             <li>
               <a class="footer-chip" href="tel:">
-                <span class="footer-chip__icon" aria-hidden="true">☎</span>
+                <span class="footer-chip__icon icon icon-phone" aria-hidden="true"></span>
                 <span class="footer-chip__text" data-company-phone></span>
               </a>
             </li>
             <li>
               <a class="footer-chip footer-chip--email" href="mailto:">
-                <span class="footer-chip__icon" aria-hidden="true">✉</span>
+                <span class="footer-chip__icon icon icon-email" aria-hidden="true"></span>
                 <span class="footer-chip__text" data-company-email></span>
               </a>
             </li>
             <li>
               <a class="footer-chip footer-chip--wa" data-whatsapp-link href="#" target="_blank" rel="noopener">
-                <span class="footer-chip__icon" aria-hidden="true">◉</span>
+                <span class="footer-chip__icon icon icon-whatsapp" aria-hidden="true"></span>
                 <span class="footer-chip__text" data-company-whatsapp></span>
               </a>
             </li>
             <li>
               <span class="footer-chip footer-chip--loc">
-                <span class="footer-chip__icon" aria-hidden="true">⌖</span>
+                <span class="footer-chip__icon icon icon-location" aria-hidden="true"></span>
                 <span class="footer-chip__text" data-company-address></span>
               </span>
             </li>
