@@ -2,5 +2,6 @@ User-agent: *
 Allow: /
 Disallow: /admin/
 Disallow: /google-sheet/
+Disallow: /upcoming-trips/
 
 Sitemap: https://www.travelrayz.com/sitemap.xml

@@ -1,8 +1,16 @@
-# TRAVELRAYZ — clean URLs without trailing slash (Hostinger / Apache)
+# TRAVELRAYZ — clean URLs, HTTPS + www (Hostinger / Apache)
 
 Options -MultiViews
 RewriteEngine On
 RewriteBase /
+
+# Force HTTPS
+RewriteCond %{HTTPS} !=on
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+
+# Force www
+RewriteCond %{HTTP_HOST} !^www\. [NC]
+RewriteRule ^ https://www.%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 
 # Legacy short paths → nav-matched URLs
 RewriteRule ^trips/?$ /explore-trips [R=301,L,QSA]
