@@ -171,8 +171,17 @@ const SiteChrome = {
   },
 
   whatsappHTML() {
+    const phone = (typeof TRAVELRAYZ_CONFIG !== 'undefined' && TRAVELRAYZ_CONFIG.company.phone)
+      ? String(TRAVELRAYZ_CONFIG.company.phone).replace(/\D/g, '')
+      : '7208358868';
+    const tel = phone.startsWith('91') ? `+${phone}` : `+91${phone}`;
+
     return `
   <div class="float-btns">
+    <a class="float-btn float-call" href="tel:${tel}" aria-label="Call TRAVELRAYZ">
+      <span class="fw-circle fw-circle--call" aria-hidden="true"></span>
+      <span class="float-label">Call us</span>
+    </a>
     <a class="float-btn float-whatsapp" data-whatsapp-link href="#" target="_blank" rel="noopener" aria-label="Chat with us on WhatsApp">
       <span class="fw-circle" aria-hidden="true"></span>
       <span class="float-label">Talk to us?</span>

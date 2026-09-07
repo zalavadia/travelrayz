@@ -50,8 +50,18 @@
   }
 
   .float-btns {
-    right: 0.85rem;
-    bottom: 0.85rem;
+    right: max(0.75rem, env(safe-area-inset-right));
+    bottom: max(0.85rem, env(safe-area-inset-bottom));
+    gap: 0.65rem;
+  }
+
+  .float-btns .fw-circle {
+    width: 52px;
+    height: 52px;
+  }
+
+  .float-btns .float-label {
+    display: none;
   }
 
   .trips-toolbar {
