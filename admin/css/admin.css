@@ -2,9 +2,9 @@
  * TRAVELRAYZ Admin Panel — theme-aware dashboard
  */
 
-@import url('../../assets/css/variables.css');
-@import url('../../assets/css/theme.css');
-@import url('../../assets/css/loader-critical.css');
+@import url('/assets/css/variables.css');
+@import url('/assets/css/theme.css');
+@import url('/assets/css/loader-critical.css');
 
 :root,
 [data-theme='dark'] {
