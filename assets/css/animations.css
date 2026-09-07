@@ -353,7 +353,6 @@ html[data-theme='light'] .skeleton-shimmer {
 .gallery-item.is-skeleton .gallery-skel {
   display: block;
   width: 100%;
-  aspect-ratio: 4 / 3;
   min-height: 140px;
 }
 

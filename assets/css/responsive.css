@@ -45,10 +45,6 @@
     max-height: 360px;
   }
 
-  .gallery-masonry {
-    columns: 2 160px;
-  }
-
   .float-btns {
     right: max(0.75rem, env(safe-area-inset-right));
     bottom: max(0.85rem, env(safe-area-inset-bottom));
@@ -120,10 +116,6 @@
 
   .hero-ctas .btn {
     width: 100%;
-  }
-
-  .gallery-masonry {
-    columns: 1;
   }
 
   .category-grid {

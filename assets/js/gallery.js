@@ -4,6 +4,7 @@
  */
 const GalleryUI = {
   FALLBACK_IMAGE: '/assets/images/logo-mark.png',
+  RATIOS: ['tall', 'wide', 'portrait', 'square', 'tall', 'wide'],
   allItems: [],
   visibleItems: [],
   activeCategory: 'all',
@@ -22,6 +23,7 @@ const GalleryUI = {
 
     this.bindLightbox();
     this.bindFilterEvents();
+    this.bindMasonryResize();
     this.showSkeleton();
 
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -57,6 +59,41 @@ const GalleryUI = {
     if (typeof Motion !== 'undefined') Motion.refreshReveal(this.grid);
   },
 
+  bindMasonryResize() {
+    if (this.masonryResizeBound) return;
+    this.masonryResizeBound = true;
+    let timer = 0;
+    window.addEventListener('resize', () => {
+      window.clearTimeout(timer);
+      timer = window.setTimeout(() => this.layoutMasonry(), 120);
+    });
+  },
+
+  layoutMasonry() {
+    if (!this.grid) return;
+    const items = TR.qsa('.gallery-item:not([hidden])', this.grid);
+    if (!items.length) return;
+
+    const styles = window.getComputedStyle(this.grid);
+    const rowH = parseFloat(styles.getPropertyValue('grid-auto-rows')) || 8;
+    const gap = parseFloat(styles.rowGap || styles.gap) || 16;
+
+    items.forEach((item) => {
+      item.style.gridRowEnd = 'span 1';
+      const height = item.getBoundingClientRect().height;
+      const span = Math.max(6, Math.ceil((height + gap) / (rowH + gap)));
+      item.style.gridRowEnd = `span ${span}`;
+    });
+  },
+
+  scheduleMasonry() {
+    window.requestAnimationFrame(() => {
+      this.layoutMasonry();
+      window.setTimeout(() => this.layoutMasonry(), 80);
+      window.setTimeout(() => this.layoutMasonry(), 320);
+    });
+  },
+
   bindFilterEvents() {
     if (!this.filtersRoot || this.filtersBound || this.limit) return;
     this.filtersBound = true;
@@ -75,14 +112,24 @@ const GalleryUI = {
     if (!this.filtersRoot || this.limit) return;
     TR.clearChildren(this.filtersRoot);
 
-    const allBtn = this.makeFilterButton('all', 'All');
-    allBtn.classList.toggle('active', this.activeCategory === 'all');
-    this.filtersRoot.appendChild(allBtn);
-
     const cats = new Set(GALLERY_DATA?.categories || []);
     this.allItems.forEach((item) => {
       if (item.category) cats.add(item.category);
     });
+
+    /* No images or a single category — filters add nothing */
+    if (!this.allItems.length || cats.size <= 1) {
+      this.filtersRoot.hidden = true;
+      this.filtersRoot.replaceChildren();
+      return;
+    }
+
+    this.filtersRoot.hidden = false;
+
+    const allBtn = this.makeFilterButton('all', 'All');
+    allBtn.classList.toggle('active', this.activeCategory === 'all');
+    this.filtersRoot.appendChild(allBtn);
+
     [...cats].forEach((cat) => {
       const btn = this.makeFilterButton(cat, cat);
       btn.classList.toggle('active', this.activeCategory === cat);
@@ -115,10 +162,12 @@ const GalleryUI = {
     TR.clearChildren(this.grid);
     for (let i = 0; i < n; i += 1) {
       const fig = TR.el('figure', 'gallery-item is-skeleton');
+      fig.dataset.ratio = this.RATIOS[i % this.RATIOS.length];
       fig.setAttribute('aria-hidden', 'true');
       fig.appendChild(TR.el('div', 'skeleton-shimmer gallery-skel'));
       this.grid.appendChild(fig);
     }
+    this.scheduleMasonry();
   },
 
   render() {
@@ -138,12 +187,14 @@ const GalleryUI = {
     });
 
     this.grid.classList.add('content-enter');
+    this.scheduleMasonry();
     if (typeof Motion !== 'undefined') Motion.refreshReveal(this.grid);
   },
 
   buildGalleryItem(item, index) {
     const fig = TR.el('figure', 'gallery-item');
     fig.dataset.index = String(index);
+    fig.dataset.ratio = this.RATIOS[index % this.RATIOS.length];
     fig.dataset.reveal = '';
 
     const btn = document.createElement('button');
@@ -154,9 +205,16 @@ const GalleryUI = {
     const img = document.createElement('img');
     img.loading = 'lazy';
     img.decoding = 'async';
-    img.width = 600;
-    img.height = 400;
     img.alt = item.alt || item.caption || 'TRAVELRAYZ journey photo';
+
+    const settleRatio = () => {
+      if (!img.naturalWidth || img.classList.contains('is-fallback')) return;
+      this.layoutMasonry();
+    };
+
+    img.addEventListener('load', settleRatio);
+    if (img.complete) settleRatio();
+
     if (typeof SheetsAPI !== 'undefined') {
       SheetsAPI.applyDriveImg(img, item.src, this.FALLBACK_IMAGE, { width: 480, upgradeWidth: 800 });
     } else {
