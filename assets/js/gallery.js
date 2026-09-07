@@ -37,14 +37,16 @@ const GalleryUI = {
           alt: item.alt || 'TRAVELRAYZ journey photo',
           caption: item.alt || 'TRAVELRAYZ journey photo',
           category: item.category || 'Highlights'
-        }));
+        })).filter((item) => item.src);
       } catch (err) {
         console.warn('[TRAVELRAYZ] Gallery API unavailable.', err);
       }
     }
 
+    /* Prefer live admin uploads. Static demo photos only fill an empty gallery. */
+    const sourceItems = remoteItems.length ? remoteItems : staticItems;
     const seen = new Set();
-    this.allItems = [...remoteItems, ...staticItems].filter((item) => {
+    this.allItems = sourceItems.filter((item) => {
       const key = item.src || item.alt;
       if (!key || seen.has(key)) return false;
       seen.add(key);

@@ -182,7 +182,16 @@ const SheetsAPI = {
     };
 
     if (!id) {
-      if (fallback) img.src = fallback;
+      const raw = String(urlOrId || '').trim();
+      if (raw && !/^data:/i.test(raw)) {
+        img.src = raw;
+        setLoading(false);
+        return;
+      }
+      if (fallback) {
+        img.src = fallback;
+        img.classList.add('is-fallback');
+      }
       return;
     }
 
@@ -230,6 +239,12 @@ const SheetsAPI = {
       if (fallback) {
         img.src = fallback;
         img.classList.add('is-fallback');
+      }
+      /* Hide broken gallery tiles instead of showing logo placeholders */
+      const galleryItem = img.closest('.gallery-item');
+      if (galleryItem && fallback && String(fallback).includes('logo-mark')) {
+        galleryItem.hidden = true;
+        galleryItem.setAttribute('aria-hidden', 'true');
       }
     });
 

@@ -1,52 +1,8 @@
 /**
- * TRAVELRAYZ — Testimonials from Google Sheets, with static fallback
+ * TRAVELRAYZ — Traveler Stories from Google Sheets (admin Testimonials)
+ * Public page shows only real reviews uploaded in Admin. No demo fallbacks.
  */
 const TestimonialsUI = {
-  fallback: [
-    {
-      name: 'Priya Sharma',
-      trip: 'Mumbai · Jyotirlinga Yatra',
-      text: 'The 3 Jyotirlinga yatra was beautifully organized. Comfortable group travel, quality meals, and a calm trip leader — felt premium yet soulful.',
-      rating: 5,
-      photo: ''
-    },
-    {
-      name: 'Arjun Mehta',
-      trip: 'Pune · Weekend Trek',
-      text: "Best weekend trek I've done. Safety first, great group vibes, and views that stay with you.",
-      rating: 5,
-      photo: ''
-    },
-    {
-      name: 'Neha Patil',
-      trip: 'Thane · Family Tour',
-      text: 'Family trip was seamless. Kids loved camping, elders loved the comfort. TRAVELRAYZ handled everything.',
-      rating: 5,
-      photo: ''
-    },
-    {
-      name: 'Rahul Desai',
-      trip: 'Nashik · Camping Tour',
-      text: 'Camping under the stars was magical. Bonfire, music, and hot dinner — everything was perfectly arranged.',
-      rating: 5,
-      photo: ''
-    },
-    {
-      name: 'Sunita Kulkarni',
-      trip: 'Kolhapur · Spiritual Tour',
-      text: 'Spiritual yatra with zero stress. Darshan timings, hotel quality, and comfortable travel — all top notch.',
-      rating: 5,
-      photo: ''
-    },
-    {
-      name: 'Vikram Joshi',
-      trip: 'Aurangabad · Adventure Tour',
-      text: 'Booked through WhatsApp, got instant confirmation. The team is responsive and genuinely cares about your experience.',
-      rating: 5,
-      photo: ''
-    }
-  ],
-
   async init() {
     this.grid = TR.qs('#testimonials-grid');
     if (!this.grid) return;
@@ -64,9 +20,11 @@ const TestimonialsUI = {
     }
 
     const seen = new Set();
-    this.items = [...remote, ...this.fallback].filter((item) => {
-      const key = `${item.name || ''}|${item.text || ''}`.toLowerCase();
-      if (!key || key === '|' || seen.has(key)) return false;
+    this.items = remote.filter((item) => {
+      const text = String(item.text || '').trim();
+      if (!text) return false;
+      const key = `${item.name || ''}|${text}`.toLowerCase();
+      if (seen.has(key)) return false;
       seen.add(key);
       return true;
     });
@@ -111,7 +69,7 @@ const TestimonialsUI = {
     TR.clearChildren(this.grid);
 
     if (!this.items.length) {
-      const empty = TR.el('p', 'gallery-empty', 'No testimonials yet. Check back soon.');
+      const empty = TR.el('p', 'gallery-empty', 'No traveler stories yet. Check back soon.');
       this.grid.appendChild(empty);
       return;
     }
