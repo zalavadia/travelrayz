@@ -1,9 +1,13 @@
-# Legacy → nav-matched folder URLs (Netlify)
-/trips               /explore-trips/           301
-/about               /our-story/               301
-/gallery             /captured-journeys/       301
-/testimonials        /travel-stories/          301
-/contact             /lets-connect/            301
-/upcoming-trips      /explore-trips/           301
-/upcoming-trips/     /explore-trips/           301
+/trips               /explore-trips            301
+/about               /our-story                301
+/gallery             /captured-journeys        301
+/testimonials        /travel-stories           301
+/contact             /lets-connect             301
+/upcoming-trips      /explore-trips            301
+/upcoming-trips/     /explore-trips            301
+/explore-trips/      /explore-trips            301
+/our-story/          /our-story                301
+/captured-journeys/  /captured-journeys        301
+/travel-stories/     /travel-stories           301
+/lets-connect/       /lets-connect             301
 /index.html          /                         301

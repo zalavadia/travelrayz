@@ -16,19 +16,19 @@ from urllib.parse import unquote, urlsplit
 
 
 REDIRECTS = {
-    "/upcoming-trips": "/explore-trips/",
-    "/upcoming-trips/": "/explore-trips/",
+    "/upcoming-trips": "/explore-trips",
+    "/upcoming-trips/": "/explore-trips",
     "/index.html": "/",
-    "/trips": "/explore-trips/",
-    "/trips/": "/explore-trips/",
-    "/about": "/our-story/",
-    "/about/": "/our-story/",
-    "/gallery": "/captured-journeys/",
-    "/gallery/": "/captured-journeys/",
-    "/testimonials": "/travel-stories/",
-    "/testimonials/": "/travel-stories/",
-    "/contact": "/lets-connect/",
-    "/contact/": "/lets-connect/",
+    "/trips": "/explore-trips",
+    "/trips/": "/explore-trips",
+    "/about": "/our-story",
+    "/about/": "/our-story",
+    "/gallery": "/captured-journeys",
+    "/gallery/": "/captured-journeys",
+    "/testimonials": "/travel-stories",
+    "/testimonials/": "/travel-stories",
+    "/contact": "/lets-connect",
+    "/contact/": "/lets-connect",
 }
 
 

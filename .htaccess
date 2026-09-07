@@ -1,20 +1,27 @@
-# TRAVELRAYZ — clean folder URLs (Hostinger / Apache)
+# TRAVELRAYZ — clean URLs without trailing slash (Hostinger / Apache)
 
 Options -MultiViews
 RewriteEngine On
 RewriteBase /
 
-# Legacy short paths → nav-matched folder URLs
-RewriteRule ^trips/?$ /explore-trips/ [R=301,L,QSA]
-RewriteRule ^about/?$ /our-story/ [R=301,L,QSA]
-RewriteRule ^gallery/?$ /captured-journeys/ [R=301,L,QSA]
-RewriteRule ^testimonials/?$ /travel-stories/ [R=301,L,QSA]
-RewriteRule ^contact/?$ /lets-connect/ [R=301,L,QSA]
-RewriteRule ^upcoming-trips/?$ /explore-trips/ [R=301,L,QSA]
+# Legacy short paths → nav-matched URLs
+RewriteRule ^trips/?$ /explore-trips [R=301,L,QSA]
+RewriteRule ^about/?$ /our-story [R=301,L,QSA]
+RewriteRule ^gallery/?$ /captured-journeys [R=301,L,QSA]
+RewriteRule ^testimonials/?$ /travel-stories [R=301,L,QSA]
+RewriteRule ^contact/?$ /lets-connect [R=301,L,QSA]
+RewriteRule ^upcoming-trips/?$ /explore-trips [R=301,L,QSA]
 
-# Legacy .html files → folders
-RewriteCond %{THE_REQUEST} \s/+index\.html[\s?] [NC]
-RewriteRule ^index\.html$ / [R=301,L]
+# Strip trailing slash (except root)
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.+)/$ /$1 [R=301,L]
 
-RewriteCond %{THE_REQUEST} \s/+(.+?)\.html[\s?] [NC]
-RewriteRule ^ %1/ [R=301,L,NE,QSA]
+# Serve folder/index.html for extensionless paths
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}/index.html -f
+RewriteRule ^(.+)$ $1/index.html [L]
+
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteCond %{REQUEST_FILENAME}/index.html -f
+RewriteRule ^(.+[^/])$ $1/index.html [L]
