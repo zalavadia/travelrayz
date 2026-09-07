@@ -4,4 +4,4 @@ Disallow: /admin/
 Disallow: /google-sheet/
 Disallow: /upcoming-trips/
 
-Sitemap: https://www.travelrayz.com/sitemap.xml
+Sitemap: https://travelrayz.com/sitemap.xml
