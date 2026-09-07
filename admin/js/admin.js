@@ -147,10 +147,18 @@ const AdminApp = {
   bindNavigation() {
     TR.qsa('.nav-item').forEach((btn) => {
       btn.addEventListener('click', () => {
-        TR.qsa('.nav-item').forEach((b) => b.classList.remove('active'));
+        TR.qsa('.nav-item').forEach((b) => {
+          b.classList.remove('active');
+          b.setAttribute('aria-selected', 'false');
+        });
         btn.classList.add('active');
+        btn.setAttribute('aria-selected', 'true');
         TR.qsa('.panel').forEach((p) => p.classList.remove('active'));
         document.getElementById(`panel-${btn.dataset.panel}`)?.classList.add('active');
+
+        btn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+        const main = document.querySelector('.admin-main');
+        if (main) main.scrollTop = 0;
       });
     });
   },
@@ -631,18 +639,18 @@ const AdminApp = {
         : TR.formatINR(t.price);
       return `
         <tr data-id="${TR.sanitize(t.id)}">
-          <td class="trip-name-cell">
+          <td class="trip-name-cell" data-label="Trip">
             ${TR.sanitize(t.tripName)}
             ${featured ? '<span class="tag tag-featured">Featured</span>' : ''}
             ${soldOut ? '<span class="tag tag-soldout">Sold out</span>' : ''}
           </td>
-          <td>${TR.sanitize(t.destination || '—')}</td>
-          <td>${TR.sanitize(t.category || '—')}</td>
-          <td>${dateStr}</td>
-          <td>${price}</td>
-          <td>${TR.sanitize(t.seats || '—')}</td>
-          <td><span class="status-badge ${statusClass}">${statusLabel}</span></td>
-          <td class="table-actions">
+          <td data-label="Location">${TR.sanitize(t.destination || '—')}</td>
+          <td data-label="Category">${TR.sanitize(t.category || '—')}</td>
+          <td data-label="Start">${dateStr}</td>
+          <td data-label="Price">${price}</td>
+          <td data-label="Seats">${TR.sanitize(t.seats || '—')}</td>
+          <td data-label="Status"><span class="status-badge ${statusClass}">${statusLabel}</span></td>
+          <td class="table-actions" data-label="Actions">
             <button type="button" class="btn btn-ghost btn-sm" data-edit="${TR.sanitize(t.id)}" title="Edit">Edit</button>
             <button type="button" class="btn btn-ghost btn-sm" data-duplicate="${TR.sanitize(t.id)}" title="Duplicate">Copy</button>
             ${published
