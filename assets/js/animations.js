@@ -14,6 +14,7 @@ const Motion = {
     this.texturePageHeroes();
     this.initReveal();
     this.initParallax();
+    this.initCounters();
   },
 
   _loaderArmed: false,
@@ -126,6 +127,68 @@ const Motion = {
     });
   },
 
+  initCounters() {
+    const section = TR.qs('.home-stats');
+    if (!section) return;
+
+    const counters = TR.qsa('.stat-counter', section);
+    if (!counters.length) return;
+
+    const finish = (el) => {
+      const to = Number(el.dataset.countTo) || 0;
+      const suffix = el.dataset.countSuffix || '';
+      el.textContent = `${to}${suffix}`;
+    };
+
+    const runAll = () => {
+      if (section.dataset.countersDone === '1') return;
+      section.dataset.countersDone = '1';
+
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce) {
+        counters.forEach(finish);
+        return;
+      }
+
+      const duration = 1800;
+      const easeOut = (t) => 1 - (1 - t) ** 4;
+      const start = performance.now();
+
+      const tick = (now) => {
+        const progress = Math.min(1, (now - start) / duration);
+        const eased = easeOut(progress);
+        counters.forEach((el) => {
+          const to = Number(el.dataset.countTo) || 0;
+          const suffix = el.dataset.countSuffix || '';
+          const value = progress >= 1 ? to : Math.round(eased * to);
+          el.textContent = `${value}${suffix}`;
+        });
+        if (progress < 1) requestAnimationFrame(tick);
+      };
+
+      requestAnimationFrame(tick);
+    };
+
+    if (!('IntersectionObserver' in window)) {
+      runAll();
+      return;
+    }
+
+    const root = document.querySelector('.site-shell') || null;
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          runAll();
+          io.disconnect();
+        });
+      },
+      { root, threshold: 0.25, rootMargin: '0px 0px -8% 0px' }
+    );
+
+    io.observe(section);
+  },
+
   initParallax() {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const layers = TR.qsa('[data-parallax]');
@@ -163,6 +226,7 @@ const Motion = {
       '.featured-copy',
       '.cta-panel',
       '.journey-strip',
+      '.home-stat',
       '.band-row',
       '.difference-waypoint',
       '.approach-phase',
