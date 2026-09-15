@@ -711,6 +711,7 @@ textarea {
   font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
+  margin-top: 0.35rem;
 }
 
 .form-divider::before,
@@ -1354,7 +1355,8 @@ html[data-theme='light'] .skeleton-shimmer {
 }
 
 .form-actions.full,
-.form-section.full {
+.form-section.full,
+.form-divider.full {
   grid-column: 1 / -1;
 }
 
