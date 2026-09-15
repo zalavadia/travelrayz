@@ -1346,6 +1346,64 @@ html[data-theme='light'] .minds-story__closing {
   border-bottom: 1px solid var(--surface-border);
 }
 
+.home-stats-inner {
+  position: relative;
+  min-height: 8.5rem;
+}
+
+.home-stats-loader {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: none;
+  place-items: center;
+  gap: 0.75rem;
+  flex-direction: column;
+  pointer-events: none;
+}
+
+.home-stats.is-loading .home-stats-loader {
+  display: flex;
+}
+
+.home-stats.is-loading .home-stats-grid,
+.home-stats.is-loading .home-stats-note {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.home-stats-spinner {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  border: 2px solid color-mix(in srgb, var(--color-orange) 25%, transparent);
+  border-top-color: var(--color-orange);
+  animation: home-stats-spin 0.75s linear infinite;
+}
+
+.home-stats-loader-text {
+  font-family: var(--font-sub);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+@keyframes home-stats-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-stats-spinner {
+    animation: none;
+    border-top-color: var(--color-orange);
+    opacity: 0.85;
+  }
+}
+
 .home-stats-grid {
   list-style: none;
   margin: 0;

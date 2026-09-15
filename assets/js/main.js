@@ -273,9 +273,20 @@ const AppChrome = {
   },
 
   async loadSiteStats() {
-    if (!TR.qs('.home-stats')) return;
+    const section = TR.qs('.home-stats');
+    if (!section) return;
+
+    const finishLoading = () => {
+      section.classList.remove('is-loading');
+      section.setAttribute('aria-busy', 'false');
+    };
+
+    section.classList.add('is-loading');
+    section.setAttribute('aria-busy', 'true');
+
     if (typeof SheetsAPI === 'undefined' || !SheetsAPI.configured()) {
       this.applySiteStats(TRAVELRAYZ_CONFIG.company.stats);
+      finishLoading();
       return;
     }
     try {
@@ -284,6 +295,8 @@ const AppChrome = {
     } catch (err) {
       console.warn('[TRAVELRAYZ] Could not load site stats', err);
       this.applySiteStats(TRAVELRAYZ_CONFIG.company.stats);
+    } finally {
+      finishLoading();
     }
   }
 };

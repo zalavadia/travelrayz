@@ -129,8 +129,12 @@
       </div>
     </section>
 
-    <section class="home-stats" id="stats" aria-label="Our journey in numbers">
-      <div class="container">
+    <section class="home-stats is-loading" id="stats" aria-label="Our journey in numbers" aria-busy="true">
+      <div class="container home-stats-inner">
+        <div class="home-stats-loader" role="status">
+          <span class="home-stats-spinner" aria-hidden="true"></span>
+          <span class="home-stats-loader-text">Loading journey stats…</span>
+        </div>
         <ul class="home-stats-grid">
           <li class="home-stat" data-reveal>
             <p class="home-stat-value">
