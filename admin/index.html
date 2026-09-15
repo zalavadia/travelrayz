@@ -236,8 +236,8 @@
                 </div>
                 <div class="form-group">
                   <label for="trip-price">Price</label>
-                  <input type="text" id="trip-price" class="input" placeholder="7999 or Ask us for pricing">
-                  <p class="field-hint">Leave blank for “Ask us for pricing”, or enter a number / custom note.</p>
+                  <input type="text" id="trip-price" class="input" placeholder="7999 or Contact us for more details">
+                  <p class="field-hint">Leave blank for “Contact us for more details”, or enter a number / custom note.</p>
                 </div>
                 <div class="form-group">
                   <label for="trip-discounted-price">Discounted price</label>
@@ -377,7 +377,10 @@
               <input type="text" id="gallery-alt" class="input" placeholder="Describe the photo" required>
             </div>
             <div class="form-actions">
-              <button type="submit" class="btn btn-primary">Add Image</button>
+              <button type="submit" class="btn btn-primary" id="gallery-submit-btn">
+                <span class="btn-label">Add Image</span>
+                <span class="btn-spinner hidden" aria-hidden="true"></span>
+              </button>
             </div>
           </form>
           <div id="gallery-list" class="card-grid"></div>
@@ -429,7 +432,10 @@
               <textarea id="test-text" rows="3" required></textarea>
             </div>
             <div class="form-actions full">
-              <button type="submit" class="btn btn-primary">Add Testimonial</button>
+              <button type="submit" class="btn btn-primary" id="testimonial-submit-btn">
+                <span class="btn-label">Add Testimonial</span>
+                <span class="btn-spinner hidden" aria-hidden="true"></span>
+              </button>
             </div>
           </form>
           <div id="testimonials-list" class="card-list"></div>
@@ -475,7 +481,10 @@
 
             <div class="form-actions full policy-form-actions">
               <button type="button" id="policy-reset-defaults" class="btn btn-ghost">Reset to defaults</button>
-              <button type="submit" class="btn btn-primary">Save Policy</button>
+              <button type="submit" class="btn btn-primary" id="policy-save-btn">
+                <span class="btn-label">Save Policy</span>
+                <span class="btn-spinner hidden" aria-hidden="true"></span>
+              </button>
             </div>
           </form>
         </section>
@@ -530,7 +539,12 @@
             <div class="form-group full">
               <p class="hint">Password is validated via Apps Script and kept in <code>sessionStorage</code> only. Configure <code>ADMIN_USER_ID</code> as <code>travelrayz</code> and <code>ADMIN_PASSWORD</code> in Script Properties.</p>
             </div>
-            <div class="form-actions full"><button type="submit" class="btn btn-primary">Save Settings</button></div>
+            <div class="form-actions full">
+              <button type="submit" class="btn btn-primary" id="settings-save-btn">
+                <span class="btn-label">Save Settings</span>
+                <span class="btn-spinner hidden" aria-hidden="true"></span>
+              </button>
+            </div>
           </form>
         </section>
 

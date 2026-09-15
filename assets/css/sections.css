@@ -1351,56 +1351,59 @@ html[data-theme='light'] .minds-story__closing {
   min-height: 8.5rem;
 }
 
-.home-stats-loader {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
+.home-stats-skeleton {
   display: none;
-  place-items: center;
-  gap: 0.75rem;
-  flex-direction: column;
-  pointer-events: none;
 }
 
-.home-stats.is-loading .home-stats-loader {
-  display: flex;
+.home-stats.is-loading .home-stats-skeleton {
+  display: block;
 }
 
-.home-stats.is-loading .home-stats-grid,
+.home-stats.is-loading .home-stats-grid:not(.home-stats-grid--skel),
 .home-stats.is-loading .home-stats-note {
-  opacity: 0;
-  visibility: hidden;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
-.home-stats-spinner {
-  width: 2rem;
-  height: 2rem;
-  border-radius: 50%;
-  border: 2px solid color-mix(in srgb, var(--color-orange) 25%, transparent);
-  border-top-color: var(--color-orange);
-  animation: home-stats-spin 0.75s linear infinite;
+.home-stat--skel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.65rem;
 }
 
-.home-stats-loader-text {
-  font-family: var(--font-sub);
-  font-size: 0.78rem;
-  font-weight: 500;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--text-muted);
+.home-stat-skel-value {
+  display: block;
+  width: min(7.5rem, 42%);
+  height: clamp(2.4rem, 5.5vw, 3.5rem);
+  border-radius: 0.45rem;
 }
 
-@keyframes home-stats-spin {
-  to {
-    transform: rotate(360deg);
-  }
+.home-stat-skel-label {
+  display: block;
+  width: min(10rem, 70%);
+  height: 0.85rem;
+  border-radius: 0.35rem;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .home-stats-spinner {
-    animation: none;
-    border-top-color: var(--color-orange);
-    opacity: 0.85;
+.home-stat-skel-note {
+  display: block;
+  width: min(18rem, 70%);
+  height: 1.15rem;
+  margin: 1.75rem auto 0;
+  border-radius: 0.4rem;
+}
+
+@media (max-width: 640px) {
+  .home-stat-skel-note {
+    margin-top: 1.25rem;
   }
 }
 

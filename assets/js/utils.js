@@ -53,7 +53,7 @@ const TR = {
     if (priceRaw) {
       return { kind: 'custom', label: priceRaw, perPerson: false };
     }
-    return { kind: 'inquiry', label: 'Ask us for pricing', perPerson: false };
+    return { kind: 'inquiry', label: 'Contact us for more details', perPerson: false };
   },
 
   formatDateIN(value, options = {}) {

@@ -27,10 +27,17 @@ const TestimonialsUI = {
     }
 
     const seen = new Set();
-    this.items = [...seeded, ...remote].filter((item) => {
+    const dedupeKey = (item) => {
+      const name = String(item.name || '').trim().toLowerCase();
+      const trip = String(item.trip || '').trim().toLowerCase();
+      const text = String(item.text || '').replace(/\s+/g, ' ').trim().toLowerCase();
+      return `${name}|${trip}|${text.slice(0, 140)}`;
+    };
+    /* Live sheet rows first so admin edits win over seeded copies */
+    this.items = [...remote, ...seeded].filter((item) => {
       const text = String(item.text || '').trim();
       if (!text) return false;
-      const key = `${item.name || ''}|${text}`.toLowerCase();
+      const key = dedupeKey(item);
       if (seen.has(key)) return false;
       seen.add(key);
       return true;

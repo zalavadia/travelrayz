@@ -1412,10 +1412,29 @@ html[data-theme='light'] .skeleton-shimmer {
   max-width: 920px;
 }
 
-#trip-save-btn {
+#trip-save-btn,
+#settings-save-btn,
+#policy-save-btn,
+#gallery-submit-btn,
+#testimonial-submit-btn,
+#login-submit {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.45rem;
+}
+
+.btn-primary.is-saving {
+  cursor: wait;
+}
+
+form.is-saving {
+  pointer-events: none;
+}
+
+form.is-saving .btn-primary.is-saving {
+  pointer-events: none;
+  opacity: 1;
 }
 
 /* ── Upload progress & meta ── */

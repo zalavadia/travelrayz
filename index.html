@@ -131,9 +131,18 @@
 
     <section class="home-stats is-loading" id="stats" aria-label="Our journey in numbers" aria-busy="true">
       <div class="container home-stats-inner">
-        <div class="home-stats-loader" role="status">
-          <span class="home-stats-spinner" aria-hidden="true"></span>
-          <span class="home-stats-loader-text">Loading journey stats…</span>
+        <div class="home-stats-skeleton" role="status" aria-label="Loading journey stats">
+          <ul class="home-stats-grid home-stats-grid--skel" aria-hidden="true">
+            <li class="home-stat home-stat--skel">
+              <span class="skeleton-shimmer home-stat-skel-value"></span>
+              <span class="skeleton-shimmer home-stat-skel-label"></span>
+            </li>
+            <li class="home-stat home-stat--skel">
+              <span class="skeleton-shimmer home-stat-skel-value"></span>
+              <span class="skeleton-shimmer home-stat-skel-label"></span>
+            </li>
+          </ul>
+          <span class="skeleton-shimmer home-stat-skel-note" aria-hidden="true"></span>
         </div>
         <ul class="home-stats-grid">
           <li class="home-stat" data-reveal>

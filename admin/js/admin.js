@@ -121,10 +121,41 @@ const AdminApp = {
 
   setLoginLoading(on) {
     const btn = document.getElementById('login-submit');
-    if (!btn) return;
-    btn.disabled = on;
-    btn.querySelector('.btn-label').textContent = on ? 'Verifying…' : 'Enter Dashboard';
-    btn.querySelector('.btn-spinner')?.classList.toggle('hidden', !on);
+    this.setSubmitLoading(btn, on, {
+      busy: 'Verifying…',
+      idle: 'Enter Dashboard'
+    });
+  },
+
+  setSubmitLoading(button, loading, labels = {}) {
+    if (!button) return;
+    const labelEl = button.querySelector('.btn-label');
+    const spinner = button.querySelector('.btn-spinner');
+    const idle =
+      labels.idle ||
+      button.dataset.idleLabel ||
+      (labelEl ? labelEl.textContent.trim() : button.textContent.trim());
+
+    if (!button.dataset.idleLabel && idle) button.dataset.idleLabel = idle;
+
+    if (loading) {
+      button.disabled = true;
+      button.setAttribute('aria-busy', 'true');
+      button.classList.add('is-saving');
+      const busy = labels.busy || 'Saving…';
+      if (labelEl) labelEl.textContent = busy;
+      else button.textContent = busy;
+      spinner?.classList.remove('hidden');
+      button.closest('form')?.classList.add('is-saving');
+    } else {
+      button.disabled = false;
+      button.setAttribute('aria-busy', 'false');
+      button.classList.remove('is-saving');
+      if (labelEl) labelEl.textContent = idle;
+      else button.textContent = idle;
+      spinner?.classList.add('hidden');
+      button.closest('form')?.classList.remove('is-saving');
+    }
   },
 
   showDashboard() {
@@ -641,7 +672,7 @@ const AdminApp = {
         : null;
       const price = priced
         ? (priced.kind === 'sale' ? `${priced.old} → ${priced.label}` : priced.label)
-        : (t.price || 'Ask us for pricing');
+        : (t.price || 'Contact us for more details');
       return `
         <tr data-id="${TR.sanitize(t.id)}">
           <td class="trip-name-cell" data-label="Trip">
@@ -907,9 +938,7 @@ const AdminApp = {
     const isUpdate = !!this.editingTripId;
     const btn = document.getElementById('trip-save-btn');
     this.saving = true;
-    btn.disabled = true;
-    btn.querySelector('.btn-label').textContent = 'Saving…';
-    btn.querySelector('.btn-spinner')?.classList.remove('hidden');
+    this.setSubmitLoading(btn, true, { busy: 'Saving…', idle: 'Save Trip' });
 
     try {
       if (trip.poster && trip.poster.startsWith('data:')) {
@@ -939,9 +968,7 @@ const AdminApp = {
       this.toast(err.message || 'Save failed', 'error');
     } finally {
       this.saving = false;
-      btn.disabled = false;
-      btn.querySelector('.btn-label').textContent = 'Save Trip';
-      btn.querySelector('.btn-spinner')?.classList.add('hidden');
+      this.setSubmitLoading(btn, false, { idle: 'Save Trip' });
     }
   },
 
@@ -981,8 +1008,10 @@ const AdminApp = {
         this.toast('Configure sheetsApiUrl first', 'error');
         return;
       }
-      const btn = e.submitter || e.target.querySelector('[type="submit"]');
-      btn.disabled = true;
+      const btn = document.getElementById('gallery-submit-btn') ||
+        e.submitter ||
+        e.target.querySelector('[type="submit"]');
+      this.setSubmitLoading(btn, true, { busy: 'Adding…', idle: 'Add Image' });
       try {
         let url = src;
         if (src.startsWith('data:')) {
@@ -998,7 +1027,7 @@ const AdminApp = {
       } catch (err) {
         this.toast(err.message || 'Save failed', 'error');
       } finally {
-        btn.disabled = false;
+        this.setSubmitLoading(btn, false, { idle: 'Add Image' });
       }
     });
   },
@@ -1072,8 +1101,10 @@ const AdminApp = {
         return;
       }
 
-      const btn = e.submitter || e.target.querySelector('[type="submit"]');
-      btn.disabled = true;
+      const btn = document.getElementById('testimonial-submit-btn') ||
+        e.submitter ||
+        e.target.querySelector('[type="submit"]');
+      this.setSubmitLoading(btn, true, { busy: 'Adding…', idle: 'Add Testimonial' });
 
       try {
         const photoRaw = document.getElementById('test-photo').value.trim();
@@ -1104,7 +1135,7 @@ const AdminApp = {
       } catch (err) {
         this.toast(err.message || 'Save failed', 'error');
       } finally {
-        btn.disabled = false;
+        this.setSubmitLoading(btn, false, { idle: 'Add Testimonial' });
       }
     });
   },
@@ -1304,6 +1335,9 @@ const AdminApp = {
   },
 
   async savePolicy() {
+    const btn = document.getElementById('policy-save-btn');
+    if (btn?.disabled) return;
+
     const payload = this.collectPolicyForm();
     if (!payload.title) {
       this.toast('Page title is required', 'error');
@@ -1313,17 +1347,21 @@ const AdminApp = {
       this.toast('Add at least one policy section', 'error');
       return;
     }
+    if (!this.sheetsConfigured) {
+      this.toast('Configure sheetsApiUrl and redeploy Code.gs to save policy live', 'error');
+      return;
+    }
+
+    this.setSubmitLoading(btn, true, { busy: 'Saving…', idle: 'Save Policy' });
     try {
-      if (!this.sheetsConfigured) {
-        this.toast('Configure sheetsApiUrl and redeploy Code.gs to save policy live', 'error');
-        return;
-      }
       const saved = await SheetsAPI.saveBookingPolicy(payload);
       this.fillPolicyForm(saved);
       this.toast('Booking policy saved — live on /booking-policy', 'success');
     } catch (err) {
       console.error(err);
       this.toast(err.message || 'Could not save policy', 'error');
+    } finally {
+      this.setSubmitLoading(btn, false, { idle: 'Save Policy' });
     }
   },
 
@@ -1371,6 +1409,9 @@ const AdminApp = {
   },
 
   async saveSettings() {
+    const btn = document.getElementById('settings-save-btn');
+    if (btn?.disabled) return;
+
     const g = (id) => document.getElementById(id)?.value?.trim() ?? '';
     const stats = {
       happyTravellers: Number(g('set-stat-happy')) || 0,
@@ -1387,6 +1428,7 @@ const AdminApp = {
       stats
     };
 
+    this.setSubmitLoading(btn, true, { busy: 'Saving…', idle: 'Save Settings' });
     try {
       if (this.sheetsConfigured) {
         settings.stats = await SheetsAPI.saveSiteStats(stats);
@@ -1402,6 +1444,8 @@ const AdminApp = {
     } catch (err) {
       console.error(err);
       this.toast(err.message || 'Could not save settings', 'error');
+    } finally {
+      this.setSubmitLoading(btn, false, { idle: 'Save Settings' });
     }
   },
 
