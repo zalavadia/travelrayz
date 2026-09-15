@@ -21,7 +21,7 @@ const BOOKING_POLICY_DEFAULT = {
     {
       heading: '3. Cancellation by Traveller',
       body:
-        'Refunds follow the cancellation terms specified for the respective trip. Trip-specific terms always take priority over this general policy. Any non-refundable amount already paid to hotels, transport providers, ticketing partners, activity providers or other suppliers may be deducted from the applicable refund.'
+        'Refunds follow the cancellation terms specified for the respective trip (see sample table below). Trip-specific terms always take priority over this general policy. Any non-refundable amount already paid to hotels, transport providers, ticketing partners, activity providers or other suppliers may be deducted from the applicable refund.'
     },
     {
       heading: '4. No-Show / Early Return',

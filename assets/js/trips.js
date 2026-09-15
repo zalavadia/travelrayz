@@ -304,8 +304,8 @@ const TripsUI = {
     const footer = TR.el('div', 'trip-footer');
     footer.appendChild(this.buildPriceBlock(trip));
 
-    const tc = TR.el('a', 'trip-tc-note', 'T&C apply');
-    tc.href = '/booking-policy';
+    const tc = TR.el('button', 'trip-tc-note', 'T&C apply');
+    tc.type = 'button';
     tc.title = 'Booking, Cancellation & Refund Policy';
     footer.appendChild(tc);
 
@@ -343,10 +343,20 @@ const TripsUI = {
     window.open(TR.whatsappUrl(wa, this.tripBookingMessage(trip)), '_blank', 'noopener');
   },
 
+  openPolicyModal(e) {
+    e?.preventDefault?.();
+    e?.stopPropagation?.();
+    if (typeof BookingPolicyUI !== 'undefined' && BookingPolicyUI.openModal) {
+      BookingPolicyUI.openModal();
+      return;
+    }
+    window.location.href = '/booking-policy';
+  },
+
   bindCards() {
     TR.qsa('.trip-card', this.grid).forEach((card) => {
       card.addEventListener('click', (e) => {
-        if (e.target.closest('button, a.trip-tc-note')) return;
+        if (e.target.closest('button')) return;
         const trip = this.trips.find((t) => String(t.id) === card.dataset.id);
         if (trip) window.location.href = this.tripUrl(trip);
       });
@@ -360,6 +370,7 @@ const TripsUI = {
         const trip = this.trips.find((t) => String(t.id) === card.dataset.id);
           if (trip) this.openBooking(trip);
       });
+      card.querySelector('.trip-tc-note')?.addEventListener('click', (e) => this.openPolicyModal(e));
     });
   },
 
@@ -599,8 +610,9 @@ const TripsUI = {
     waBtn.rel = 'noopener';
     const contactBtn = TR.el('a', 'btn btn-outline', 'Contact us');
     contactBtn.href = '/lets-connect';
-    const tcLink = TR.el('a', 'trip-tc-note trip-tc-note--detail', 'T&C apply — Booking & refund policy');
-    tcLink.href = '/booking-policy';
+    const tcLink = TR.el('button', 'trip-tc-note trip-tc-note--detail', 'T&C apply — Booking & refund policy');
+    tcLink.type = 'button';
+    tcLink.addEventListener('click', (e) => this.openPolicyModal(e));
     actions.append(waBtn, contactBtn, tcLink);
     body.appendChild(actions);
 
@@ -654,6 +666,7 @@ const TripsUI = {
         e.stopPropagation();
         this.openBooking(trip);
       });
+      card.querySelector('.trip-tc-note')?.addEventListener('click', (e) => this.openPolicyModal(e));
       card.addEventListener('click', (e) => {
         if (e.target.closest('button')) return;
         window.location.href = this.tripUrl(trip);

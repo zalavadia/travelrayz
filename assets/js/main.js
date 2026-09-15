@@ -33,7 +33,7 @@ const AppChrome = {
       if (el.classList.contains('page-loader')) return true;
       if (el.classList.contains('float-btns')) return true;
       if (el.classList.contains('toast')) return true;
-      if (el.id === 'trip-modal' || el.id === 'lightbox') return true;
+      if (el.id === 'trip-modal' || el.id === 'policy-modal' || el.id === 'lightbox') return true;
       return false;
     };
 
@@ -48,7 +48,7 @@ const AppChrome = {
     else document.body.prepend(shell);
 
     // Overlays must sit on body (outside overflow scrollport)
-    ['#trip-modal', '#lightbox', '.float-btns'].forEach((sel) => {
+    ['#trip-modal', '#policy-modal', '#lightbox', '.float-btns'].forEach((sel) => {
       const el = TR.qs(sel);
       if (el && el.parentElement !== document.body) document.body.appendChild(el);
     });

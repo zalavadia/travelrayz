@@ -641,7 +641,7 @@ const AdminApp = {
         : null;
       const price = priced
         ? (priced.kind === 'sale' ? `${priced.old} → ${priced.label}` : priced.label)
-        : (t.price || 'Message / Call for price');
+        : (t.price || 'Ask us for pricing');
       return `
         <tr data-id="${TR.sanitize(t.id)}">
           <td class="trip-name-cell" data-label="Trip">

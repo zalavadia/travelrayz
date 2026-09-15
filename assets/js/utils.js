@@ -37,7 +37,7 @@ const TR = {
     return Number.isFinite(num) && num > 0 ? num : null;
   },
 
-  /** Public display label for trip pricing (supports "Message / Call for price"). */
+  /** Public display label for trip pricing (blank → ask-us fallback). */
   formatTripPrice(trip) {
     const priceRaw = String(trip?.price || '').trim();
     const discRaw = String(trip?.discountedPrice || '').trim();
@@ -53,7 +53,7 @@ const TR = {
     if (priceRaw) {
       return { kind: 'custom', label: priceRaw, perPerson: false };
     }
-    return { kind: 'inquiry', label: 'Message / Call for price', perPerson: false };
+    return { kind: 'inquiry', label: 'Ask us for pricing', perPerson: false };
   },
 
   formatDateIN(value, options = {}) {
