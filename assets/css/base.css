@@ -113,6 +113,23 @@ h6 {
   font-weight: 600;
   line-height: 1.15;
   color: var(--heading);
+  letter-spacing: -0.01em;
+}
+
+/* Numeric / UI figures — never use display serif for digits */
+.trip-price,
+.modal-price,
+.home-stat-value,
+.stat-counter,
+.countdown,
+.approach-phase__index,
+.difference-waypoint__pin,
+.approach-meter__node,
+.stat-value,
+.price-old {
+  font-family: var(--font-num);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1;
 }
 
 h1 {

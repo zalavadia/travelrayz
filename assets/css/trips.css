@@ -496,8 +496,10 @@
 }
 
 .trip-price {
-  font-family: var(--font-heading);
+  font-family: var(--font-num);
   font-size: var(--text-xl);
+  font-weight: 600;
+  letter-spacing: -0.02em;
   color: var(--color-orange);
 }
 
@@ -506,6 +508,7 @@
   font-size: var(--text-base);
   font-weight: 600;
   line-height: 1.35;
+  letter-spacing: 0;
 }
 
 .trip-price small {
@@ -513,6 +516,7 @@
   font-size: var(--text-xs);
   color: var(--text-muted);
   font-weight: 400;
+  letter-spacing: 0;
 }
 
 .countdown {
@@ -653,8 +657,10 @@
 }
 
 .modal-price {
-  font-family: var(--font-heading);
+  font-family: var(--font-num);
   font-size: var(--text-2xl);
+  font-weight: 600;
+  letter-spacing: -0.02em;
   color: var(--color-orange);
   margin-right: auto;
 }

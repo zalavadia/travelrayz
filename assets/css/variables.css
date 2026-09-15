@@ -130,6 +130,8 @@
   --font-heading: 'Cormorant Garamond', Georgia, serif;
   --font-sub: 'Outfit', sans-serif;
   --font-body: 'Outfit', sans-serif;
+  /* Prices, counters, step indexes — readable digits */
+  --font-num: 'Outfit', sans-serif;
 
   --text-xs: clamp(0.72rem, 0.68rem + 0.18vw, 0.78rem);
   --text-sm: clamp(0.82rem, 0.78rem + 0.22vw, 0.92rem);
