@@ -56,6 +56,64 @@
   margin-top: 0.75rem;
 }
 
+.policy-intro {
+  color: var(--text-muted);
+  font-size: 1.05rem;
+  line-height: 1.7;
+  margin: 0 0 2rem;
+  max-width: 42rem;
+}
+
+.policy-section {
+  margin-bottom: 1.75rem;
+}
+
+.policy-section h2 {
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 2.5vw, 1.55rem);
+  margin: 0 0 0.65rem;
+  color: var(--text);
+}
+
+.policy-section p {
+  color: var(--text-muted);
+  margin: 0;
+  line-height: 1.7;
+}
+
+.policy-important {
+  margin-top: 2.5rem;
+  padding: 1.5rem 1.35rem;
+  border-left: 3px solid var(--accent);
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+  border-radius: 0 0.5rem 0.5rem 0;
+}
+
+.policy-important h2 {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  margin: 0 0 0.75rem;
+}
+
+.policy-important p {
+  color: var(--text-muted);
+  margin: 0;
+  line-height: 1.7;
+}
+
+.policy-updated {
+  margin-top: 2rem;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.trip-tc-note--detail {
+  align-self: center;
+  width: 100%;
+  text-align: center;
+  margin-top: 0.35rem;
+}
+
 .mission-vision {
   display: grid;
   grid-template-columns: 1fr 1fr;

@@ -86,6 +86,7 @@
           <button type="button" class="nav-item active" data-panel="trips" role="tab" aria-selected="true"><span class="nav-icon" aria-hidden="true">✈</span><span class="nav-label">Trips</span></button>
           <button type="button" class="nav-item" data-panel="gallery" role="tab" aria-selected="false"><span class="nav-icon" aria-hidden="true">🖼</span><span class="nav-label">Gallery</span></button>
           <button type="button" class="nav-item" data-panel="testimonials" role="tab" aria-selected="false"><span class="nav-icon" aria-hidden="true">★</span><span class="nav-label">Stories</span></button>
+          <button type="button" class="nav-item" data-panel="policy" role="tab" aria-selected="false"><span class="nav-icon" aria-hidden="true">§</span><span class="nav-label">Policy</span></button>
           <button type="button" class="nav-item" data-panel="settings" role="tab" aria-selected="false"><span class="nav-icon" aria-hidden="true">⚙</span><span class="nav-label">Settings</span></button>
           <button type="button" class="nav-item" data-panel="export" role="tab" aria-selected="false"><span class="nav-icon" aria-hidden="true">↓</span><span class="nav-label">Export</span></button>
         </nav>
@@ -434,6 +435,51 @@
           <div id="testimonials-list" class="card-list"></div>
         </section>
 
+        <!-- Booking / Cancellation / Refund Policy -->
+        <section id="panel-policy" class="panel">
+          <div class="panel-header">
+            <h2>Booking &amp; Refund Policy</h2>
+            <p class="panel-desc">Edit the public <a href="/booking-policy" target="_blank" rel="noopener">/booking-policy</a> page. Synced via Apps Script like trips.</p>
+          </div>
+
+          <form id="policy-form" class="form-grid policy-admin-form">
+            <div class="form-group full">
+              <label for="policy-title">Page title</label>
+              <input type="text" id="policy-title" placeholder="Booking, Cancellation &amp; Refund Policy — Travelrayz" required>
+            </div>
+            <div class="form-group">
+              <label for="policy-updated">Last updated</label>
+              <input type="text" id="policy-updated" placeholder="September 2026">
+            </div>
+            <div class="form-group full">
+              <label for="policy-intro">Intro</label>
+              <textarea id="policy-intro" rows="3" placeholder="Please read all trip details…"></textarea>
+            </div>
+
+            <div class="form-divider full"><span>Policy sections</span></div>
+            <div class="form-group full policy-sections-toolbar">
+              <p class="hint">Each section has a heading and body. Trip-specific terms on trip pages still take priority.</p>
+              <button type="button" id="policy-add-section" class="btn btn-outline btn-sm">Add section</button>
+            </div>
+            <div id="policy-sections" class="form-group full policy-sections-list" aria-live="polite"></div>
+
+            <div class="form-divider full"><span>Important notice</span></div>
+            <div class="form-group">
+              <label for="policy-important-title">Important heading</label>
+              <input type="text" id="policy-important-title" placeholder="Important">
+            </div>
+            <div class="form-group full">
+              <label for="policy-important-body">Important body</label>
+              <textarea id="policy-important-body" rows="6"></textarea>
+            </div>
+
+            <div class="form-actions full policy-form-actions">
+              <button type="button" id="policy-reset-defaults" class="btn btn-ghost">Reset to defaults</button>
+              <button type="submit" class="btn btn-primary">Save Policy</button>
+            </div>
+          </form>
+        </section>
+
         <!-- Settings -->
         <section id="panel-settings" class="panel">
           <div class="panel-header">
@@ -531,6 +577,7 @@
   <script src="/assets/js/config.js"></script>
   <script src="/assets/js/utils.js"></script>
   <script src="/assets/js/sheets.js"></script>
+  <script src="/assets/js/booking-policy-data.js"></script>
   <script src="/admin/js/admin.js"></script>
 </body>
 </html>

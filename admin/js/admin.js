@@ -30,6 +30,7 @@ const AdminApp = {
     this.bindGallery();
     this.bindTestimonials();
     this.bindSettings();
+    this.bindPolicy();
     this.bindExport();
     this.bindConfirmModal();
 
@@ -136,6 +137,7 @@ const AdminApp = {
       this.renderTestimonials();
     });
     this.loadSettingsForm();
+    this.loadPolicyForm();
   },
 
   checkSheetsConfig() {
@@ -1179,6 +1181,150 @@ const AdminApp = {
       e.preventDefault();
       this.saveSettings();
     });
+  },
+
+  /* ── Booking policy ── */
+  bindPolicy() {
+    document.getElementById('policy-form')?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      this.savePolicy();
+    });
+    document.getElementById('policy-add-section')?.addEventListener('click', () => {
+      this.addPolicySectionRow();
+    });
+    document.getElementById('policy-reset-defaults')?.addEventListener('click', () => {
+      if (!confirm('Replace the form with the default Travelrayz policy copy?')) return;
+      this.fillPolicyForm(
+        typeof BOOKING_POLICY_DEFAULT !== 'undefined' ? BOOKING_POLICY_DEFAULT : null
+      );
+      this.toast('Defaults loaded — click Save Policy to publish', 'success');
+    });
+    document.getElementById('policy-sections')?.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-remove-section]');
+      if (!btn) return;
+      const card = btn.closest('.policy-section-card');
+      card?.remove();
+      this.renumberPolicySections();
+    });
+  },
+
+  policyDefaults() {
+    return typeof BOOKING_POLICY_DEFAULT !== 'undefined'
+      ? BOOKING_POLICY_DEFAULT
+      : {
+          title: 'Booking, Cancellation & Refund Policy — Travelrayz',
+          intro: '',
+          lastUpdated: '',
+          sections: [],
+          importantTitle: 'Important',
+          importantBody: ''
+        };
+  },
+
+  loadPolicyForm() {
+    const fallback = this.policyDefaults();
+    this.fillPolicyForm(fallback);
+    if (!this.sheetsConfigured) return;
+    SheetsAPI.fetchBookingPolicy()
+      .then((policy) => {
+        if (policy) this.fillPolicyForm(policy);
+      })
+      .catch(() => {});
+  },
+
+  fillPolicyForm(policy) {
+    const p = SheetsAPI.normalizeBookingPolicy
+      ? SheetsAPI.normalizeBookingPolicy(policy || this.policyDefaults())
+      : policy || this.policyDefaults();
+    const set = (id, val) => {
+      const el = document.getElementById(id);
+      if (el) el.value = val ?? '';
+    };
+    set('policy-title', p.title);
+    set('policy-updated', p.lastUpdated);
+    set('policy-intro', p.intro);
+    set('policy-important-title', p.importantTitle);
+    set('policy-important-body', p.importantBody);
+
+    const list = document.getElementById('policy-sections');
+    if (!list) return;
+    list.innerHTML = '';
+    (p.sections || []).forEach((section) => this.addPolicySectionRow(section));
+    if (!(p.sections || []).length) this.addPolicySectionRow();
+  },
+
+  addPolicySectionRow(section = {}) {
+    const list = document.getElementById('policy-sections');
+    if (!list) return;
+    const index = list.children.length + 1;
+    const card = document.createElement('div');
+    card.className = 'policy-section-card';
+    card.innerHTML = `
+      <div class="policy-section-card-head">
+        <strong>Section ${index}</strong>
+        <button type="button" class="btn btn-ghost btn-sm" data-remove-section>Remove</button>
+      </div>
+      <div class="form-group">
+        <label>Heading</label>
+        <input type="text" class="policy-section-heading" placeholder="1. Booking Confirmation" value="">
+      </div>
+      <div class="form-group">
+        <label>Body</label>
+        <textarea class="policy-section-body" rows="4" placeholder="Section text…"></textarea>
+      </div>
+    `;
+    card.querySelector('.policy-section-heading').value = section.heading || '';
+    card.querySelector('.policy-section-body').value = section.body || '';
+    list.appendChild(card);
+  },
+
+  renumberPolicySections() {
+    TR.qsa('.policy-section-card', document.getElementById('policy-sections')).forEach((card, i) => {
+      const label = card.querySelector('.policy-section-card-head strong');
+      if (label) label.textContent = `Section ${i + 1}`;
+    });
+  },
+
+  collectPolicyForm() {
+    const g = (id) => document.getElementById(id)?.value ?? '';
+    const sections = [];
+    TR.qsa('.policy-section-card', document.getElementById('policy-sections')).forEach((card) => {
+      const heading = card.querySelector('.policy-section-heading')?.value?.trim() || '';
+      const body = card.querySelector('.policy-section-body')?.value?.trim() || '';
+      if (heading || body) sections.push({ heading, body });
+    });
+    return {
+      title: g('policy-title').trim(),
+      lastUpdated: g('policy-updated').trim(),
+      intro: g('policy-intro'),
+      sections,
+      importantTitle: g('policy-important-title').trim(),
+      importantBody: g('policy-important-body')
+    };
+  },
+
+  async savePolicy() {
+    const payload = this.collectPolicyForm();
+    if (!payload.title) {
+      this.toast('Page title is required', 'error');
+      return;
+    }
+    if (!payload.sections.length) {
+      this.toast('Add at least one policy section', 'error');
+      return;
+    }
+    try {
+      if (!this.sheetsConfigured) {
+        this.toast('Configure sheetsApiUrl and redeploy Code.gs to save policy live', 'error');
+        return;
+      }
+      const saved = await SheetsAPI.saveBookingPolicy(payload);
+      this.fillPolicyForm(saved);
+      this.toast('Booking policy saved — live on /booking-policy', 'success');
+    } catch (err) {
+      console.error(err);
+      this.toast(err.message || 'Could not save policy', 'error');
+    }
   },
 
   loadSettingsForm() {

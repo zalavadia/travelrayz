@@ -304,6 +304,11 @@ const TripsUI = {
     const footer = TR.el('div', 'trip-footer');
     footer.appendChild(this.buildPriceBlock(trip));
 
+    const tc = TR.el('a', 'trip-tc-note', 'T&C apply');
+    tc.href = '/booking-policy';
+    tc.title = 'Booking, Cancellation & Refund Policy';
+    footer.appendChild(tc);
+
     const actions = TR.el('div', 'trip-card-actions');
     const detailsBtn = TR.el('button', 'btn btn-outline btn-sm trip-details-btn', 'View Details');
     detailsBtn.type = 'button';
@@ -341,7 +346,7 @@ const TripsUI = {
   bindCards() {
     TR.qsa('.trip-card', this.grid).forEach((card) => {
       card.addEventListener('click', (e) => {
-        if (e.target.closest('button')) return;
+        if (e.target.closest('button, a.trip-tc-note')) return;
         const trip = this.trips.find((t) => String(t.id) === card.dataset.id);
         if (trip) window.location.href = this.tripUrl(trip);
       });
@@ -594,7 +599,9 @@ const TripsUI = {
     waBtn.rel = 'noopener';
     const contactBtn = TR.el('a', 'btn btn-outline', 'Contact us');
     contactBtn.href = '/lets-connect';
-    actions.append(waBtn, contactBtn);
+    const tcLink = TR.el('a', 'trip-tc-note trip-tc-note--detail', 'T&C apply — Booking & refund policy');
+    tcLink.href = '/booking-policy';
+    actions.append(waBtn, contactBtn, tcLink);
     body.appendChild(actions);
 
     article.appendChild(body);

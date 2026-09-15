@@ -126,6 +126,7 @@ const SiteChrome = {
           <div class="footer-links">
             <a href="/travel-stories">Travel Stories</a>
             <a href="/lets-connect">Let's Connect</a>
+            <a href="/booking-policy">Booking Policy</a>
             <a href="/terms">Terms</a>
             <a href="/privacy">Privacy</a>
           </div>

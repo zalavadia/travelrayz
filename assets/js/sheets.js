@@ -648,5 +648,55 @@ const SheetsAPI = {
     const payload = this.normalizeSiteStats(stats);
     const data = await this.post({ action: 'saveSiteStats', stats: payload }, { admin: true });
     return this.normalizeSiteStats(data?.stats || payload);
+  },
+
+  normalizeBookingPolicy(raw) {
+    const defaults =
+      typeof BOOKING_POLICY_DEFAULT !== 'undefined' ? BOOKING_POLICY_DEFAULT : {};
+    const p = raw || {};
+    const sections = Array.isArray(p.sections)
+      ? p.sections
+          .map((s) => ({
+            heading: String(s?.heading || '').trim(),
+            body: String(s?.body || '').trim()
+          }))
+          .filter((s) => s.heading || s.body)
+      : [];
+    return {
+      title: String(p.title || '').trim() || defaults.title || 'Booking, Cancellation & Refund Policy',
+      intro: p.intro != null ? String(p.intro) : String(defaults.intro || ''),
+      lastUpdated: String(p.lastUpdated || '').trim() || defaults.lastUpdated || '',
+      sections: sections.length ? sections : (defaults.sections || []).map((s) => ({ ...s })),
+      importantTitle:
+        String(p.importantTitle || '').trim() || defaults.importantTitle || 'Important',
+      importantBody:
+        p.importantBody != null
+          ? String(p.importantBody)
+          : String(defaults.importantBody || '')
+    };
+  },
+
+  async fetchBookingPolicy() {
+    const fallback =
+      typeof BOOKING_POLICY_DEFAULT !== 'undefined' ? BOOKING_POLICY_DEFAULT : null;
+    if (!this.configured()) {
+      return this.normalizeBookingPolicy(fallback);
+    }
+    try {
+      const data = await this.get('getBookingPolicy');
+      return this.normalizeBookingPolicy(data?.policy || data || fallback);
+    } catch (err) {
+      console.warn('[TRAVELRAYZ] Booking policy unavailable.', err);
+      return this.normalizeBookingPolicy(fallback);
+    }
+  },
+
+  async saveBookingPolicy(policy) {
+    const payload = this.normalizeBookingPolicy(policy);
+    const data = await this.post(
+      { action: 'saveBookingPolicy', policy: payload },
+      { admin: true }
+    );
+    return this.normalizeBookingPolicy(data?.policy || payload);
   }
 };
