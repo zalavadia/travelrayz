@@ -424,6 +424,11 @@
   font-family: var(--font-body);
 }
 
+.trip-detail-itinerary .itinerary-text strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
 .trip-detail-related {
   margin-top: 2.5rem;
 }

@@ -168,6 +168,12 @@ const TR = {
     return d.innerHTML;
   },
 
+  /** Itinerary: preserve line breaks/spaces; render **bold** as <strong>. */
+  formatItineraryHtml(str) {
+    const safe = TR.sanitize(str == null ? '' : String(str));
+    return safe.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  },
+
   /** Page scroll root — .site-shell when present, otherwise window */
   scrollRoot() {
     return document.querySelector('.site-shell') || window;
