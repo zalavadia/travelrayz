@@ -134,6 +134,12 @@ const Motion = {
     const counters = TR.qsa('.stat-counter', section);
     if (!counters.length) return;
 
+    /* Allow a fresh run after admin/config values are injected */
+    section.dataset.countersDone = '';
+    counters.forEach((el) => {
+      el.textContent = `0${el.dataset.countSuffix || ''}`;
+    });
+
     const finish = (el) => {
       const to = Number(el.dataset.countTo) || 0;
       const suffix = el.dataset.countSuffix || '';

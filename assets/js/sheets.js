@@ -613,5 +613,40 @@ const SheetsAPI = {
 
   async deleteTestimonial(item) {
     return this.post({ action: 'deleteTestimonial', item }, { admin: true });
+  },
+
+  normalizeSiteStats(raw) {
+    const defaults = TRAVELRAYZ_CONFIG.company.stats || {};
+    const s = raw || {};
+    const happy = Number(s.happyTravellers);
+    const trips = Number(s.tripsCompleted);
+    return {
+      happyTravellers: Number.isFinite(happy) && happy >= 0 ? happy : (defaults.happyTravellers ?? 162),
+      tripsCompleted: Number.isFinite(trips) && trips >= 0 ? trips : (defaults.tripsCompleted ?? 13),
+      happyLabel: String(s.happyLabel || defaults.happyLabel || 'Happy Travellers').trim(),
+      tripsLabel: String(s.tripsLabel || defaults.tripsLabel || 'Trips & treks completed').trim(),
+      note: s.note != null ? String(s.note) : String(defaults.note || 'And the journey is still growing'),
+      suffix: s.suffix != null ? String(s.suffix) : String(defaults.suffix ?? '+')
+    };
+  },
+
+  async fetchSiteStats() {
+    if (!this.configured()) {
+      return this.normalizeSiteStats(TRAVELRAYZ_CONFIG.company.stats);
+    }
+    try {
+      const data = await this.get('getSiteStats');
+      const stats = data?.stats || data;
+      return this.normalizeSiteStats(stats);
+    } catch (err) {
+      console.warn('[TRAVELRAYZ] Site stats unavailable.', err);
+      return this.normalizeSiteStats(TRAVELRAYZ_CONFIG.company.stats);
+    }
+  },
+
+  async saveSiteStats(stats) {
+    const payload = this.normalizeSiteStats(stats);
+    const data = await this.post({ action: 'saveSiteStats', stats: payload }, { admin: true });
+    return this.normalizeSiteStats(data?.stats || payload);
   }
 };

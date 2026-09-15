@@ -228,6 +228,7 @@ const AppChrome = {
     TR.qsa('[data-company-mission]').forEach((el) => {
       el.textContent = c.mission || c.tagline;
     });
+    this.applySiteStats(c.stats);
     TR.qsa('[data-whatsapp-link]').forEach((el) => {
       el.href = TR.whatsappUrl(c.whatsapp, 'Hi TRAVELRAYZ! I want to plan a trip.');
     });
@@ -237,6 +238,53 @@ const AppChrome = {
     TR.qsa('[data-social="youtube"]').forEach((el) => (el.href = c.social.youtube));
     const map = TR.qs('#google-map');
     if (map && c.mapsEmbed) map.src = c.mapsEmbed;
+  },
+
+  applySiteStats(stats) {
+    const section = TR.qs('.home-stats');
+    if (!section) return;
+    const s = typeof SheetsAPI !== 'undefined'
+      ? SheetsAPI.normalizeSiteStats(stats || TRAVELRAYZ_CONFIG.company.stats)
+      : (stats || TRAVELRAYZ_CONFIG.company.stats || {});
+
+    const happy = TR.qs('[data-stat="happy"]', section);
+    const trips = TR.qs('[data-stat="trips"]', section);
+    const happyLabel = TR.qs('[data-stat-label="happy"]', section);
+    const tripsLabel = TR.qs('[data-stat-label="trips"]', section);
+    const note = TR.qs('[data-stat-note]', section);
+    const suffix = s.suffix != null ? String(s.suffix) : '+';
+
+    if (happy) {
+      happy.dataset.countTo = String(s.happyTravellers ?? 162);
+      happy.dataset.countSuffix = suffix;
+    }
+    if (trips) {
+      trips.dataset.countTo = String(s.tripsCompleted ?? 13);
+      trips.dataset.countSuffix = suffix;
+    }
+    if (happyLabel) happyLabel.textContent = s.happyLabel || 'Happy Travellers';
+    if (tripsLabel) tripsLabel.textContent = s.tripsLabel || 'Trips & treks completed';
+    if (note) note.textContent = s.note != null ? s.note : 'And the journey is still growing';
+
+    TRAVELRAYZ_CONFIG.company.stats = {
+      ...(TRAVELRAYZ_CONFIG.company.stats || {}),
+      ...s
+    };
+  },
+
+  async loadSiteStats() {
+    if (!TR.qs('.home-stats')) return;
+    if (typeof SheetsAPI === 'undefined' || !SheetsAPI.configured()) {
+      this.applySiteStats(TRAVELRAYZ_CONFIG.company.stats);
+      return;
+    }
+    try {
+      const stats = await SheetsAPI.fetchSiteStats();
+      this.applySiteStats(stats);
+    } catch (err) {
+      console.warn('[TRAVELRAYZ] Could not load site stats', err);
+      this.applySiteStats(TRAVELRAYZ_CONFIG.company.stats);
+    }
   }
 };
 
@@ -250,6 +298,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     AppChrome.init();
   } catch (err) {
     console.error('[TRAVELRAYZ] AppChrome init failed', err);
+  }
+
+  try {
+    await AppChrome.loadSiteStats();
+  } catch (err) {
+    console.warn('[TRAVELRAYZ] Site stats load failed', err);
   }
 
   try {

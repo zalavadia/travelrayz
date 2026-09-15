@@ -438,7 +438,7 @@
         <section id="panel-settings" class="panel">
           <div class="panel-header">
             <h2>Settings</h2>
-            <p class="panel-desc">Public company details (stored locally for this browser)</p>
+            <p class="panel-desc">Public company details and homepage counters (synced via Apps Script)</p>
           </div>
           <form id="settings-form" class="form-grid">
             <div class="form-group"><label for="set-name">Company Name</label><input type="text" id="set-name"></div>
@@ -453,6 +453,33 @@
             <div class="form-group"><label for="set-linkedin">LinkedIn</label><input type="url" id="set-linkedin"></div>
             <div class="form-group"><label for="set-facebook">Facebook</label><input type="url" id="set-facebook"></div>
             <div class="form-group"><label for="set-youtube">YouTube</label><input type="url" id="set-youtube"></div>
+
+            <div class="form-divider full"><span>Homepage counters</span></div>
+            <div class="form-group">
+              <label for="set-stat-happy">Happy Travellers count</label>
+              <input type="number" id="set-stat-happy" min="0" step="1" placeholder="162">
+            </div>
+            <div class="form-group">
+              <label for="set-stat-trips">Trips &amp; treks completed</label>
+              <input type="number" id="set-stat-trips" min="0" step="1" placeholder="13">
+            </div>
+            <div class="form-group">
+              <label for="set-stat-happy-label">Happy Travellers label</label>
+              <input type="text" id="set-stat-happy-label" placeholder="Happy Travellers">
+            </div>
+            <div class="form-group">
+              <label for="set-stat-trips-label">Trips label</label>
+              <input type="text" id="set-stat-trips-label" placeholder="Trips &amp; treks completed">
+            </div>
+            <div class="form-group full">
+              <label for="set-stat-note">Counter note</label>
+              <input type="text" id="set-stat-note" placeholder="And the journey is still growing">
+            </div>
+            <div class="form-group">
+              <label for="set-stat-suffix">Number suffix</label>
+              <input type="text" id="set-stat-suffix" placeholder="+">
+            </div>
+
             <div class="form-divider full"><span>Security</span></div>
             <div class="form-group full">
               <p class="hint">Password is validated via Apps Script and kept in <code>sessionStorage</code> only. Configure <code>ADMIN_USER_ID</code> as <code>travelrayz</code> and <code>ADMIN_PASSWORD</code> in Script Properties.</p>

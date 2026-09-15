@@ -1183,29 +1183,80 @@ const AdminApp = {
 
   loadSettingsForm() {
     const c = TRAVELRAYZ_CONFIG.company;
+    const stats = c.stats || {};
     const map = {
       'set-name': c.name, 'set-tagline': c.tagline, 'set-phone': c.phone, 'set-phone2': c.phone2,
       'set-whatsapp': c.whatsapp, 'set-email': c.email, 'set-address': c.address, 'set-maps': c.mapsEmbed,
       'set-instagram': c.social?.instagram, 'set-linkedin': c.social?.linkedin,
-      'set-facebook': c.social?.facebook, 'set-youtube': c.social?.youtube
+      'set-facebook': c.social?.facebook, 'set-youtube': c.social?.youtube,
+      'set-stat-happy': stats.happyTravellers,
+      'set-stat-trips': stats.tripsCompleted,
+      'set-stat-happy-label': stats.happyLabel,
+      'set-stat-trips-label': stats.tripsLabel,
+      'set-stat-note': stats.note,
+      'set-stat-suffix': stats.suffix
     };
     Object.entries(map).forEach(([id, val]) => {
       const el = document.getElementById(id);
       if (el) el.value = val ?? '';
     });
+
+    if (this.sheetsConfigured) {
+      SheetsAPI.fetchSiteStats().then((remote) => {
+        if (!remote) return;
+        TRAVELRAYZ_CONFIG.company.stats = {
+          ...(TRAVELRAYZ_CONFIG.company.stats || {}),
+          ...remote
+        };
+        const refresh = {
+          'set-stat-happy': remote.happyTravellers,
+          'set-stat-trips': remote.tripsCompleted,
+          'set-stat-happy-label': remote.happyLabel,
+          'set-stat-trips-label': remote.tripsLabel,
+          'set-stat-note': remote.note,
+          'set-stat-suffix': remote.suffix
+        };
+        Object.entries(refresh).forEach(([id, val]) => {
+          const el = document.getElementById(id);
+          if (el) el.value = val ?? '';
+        });
+      }).catch(() => {});
+    }
   },
 
-  saveSettings() {
+  async saveSettings() {
     const g = (id) => document.getElementById(id)?.value?.trim() ?? '';
+    const stats = {
+      happyTravellers: Number(g('set-stat-happy')) || 0,
+      tripsCompleted: Number(g('set-stat-trips')) || 0,
+      happyLabel: g('set-stat-happy-label') || 'Happy Travellers',
+      tripsLabel: g('set-stat-trips-label') || 'Trips & treks completed',
+      note: document.getElementById('set-stat-note')?.value ?? '',
+      suffix: g('set-stat-suffix')
+    };
     const settings = {
       name: g('set-name'), tagline: g('set-tagline'), phone: g('set-phone'), phone2: g('set-phone2'),
       whatsapp: g('set-whatsapp'), email: g('set-email'), address: g('set-address'), mapsEmbed: g('set-maps'),
-      social: { ...TRAVELRAYZ_CONFIG.company.social, instagram: g('set-instagram'), linkedin: g('set-linkedin'), facebook: g('set-facebook'), youtube: g('set-youtube') }
+      social: { ...TRAVELRAYZ_CONFIG.company.social, instagram: g('set-instagram'), linkedin: g('set-linkedin'), facebook: g('set-facebook'), youtube: g('set-youtube') },
+      stats
     };
-    localStorage.setItem(this.SETTINGS_KEY, JSON.stringify(settings));
-    Object.assign(TRAVELRAYZ_CONFIG.company, settings);
-    if (settings.social) Object.assign(TRAVELRAYZ_CONFIG.company.social, settings.social);
-    this.toast('Settings saved', 'success');
+
+    try {
+      if (this.sheetsConfigured) {
+        settings.stats = await SheetsAPI.saveSiteStats(stats);
+      }
+      localStorage.setItem(this.SETTINGS_KEY, JSON.stringify(settings));
+      Object.assign(TRAVELRAYZ_CONFIG.company, settings);
+      if (settings.social) Object.assign(TRAVELRAYZ_CONFIG.company.social, settings.social);
+      TRAVELRAYZ_CONFIG.company.stats = settings.stats;
+      this.toast(
+        this.sheetsConfigured ? 'Settings saved (counters live on homepage)' : 'Settings saved locally',
+        'success'
+      );
+    } catch (err) {
+      console.error(err);
+      this.toast(err.message || 'Could not save settings', 'error');
+    }
   },
 
   /* ── Export ── */

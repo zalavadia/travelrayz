@@ -14,8 +14,12 @@
  * Lightweight single-admin security: credentials in Script Properties, validated per
  * protected POST. Not suitable for multi-user or high-security production use.
  *
- * GET  ?action=getPublishedTrips|getTrip&id=
+ * GET  ?action=getPublishedTrips|getTrip&id=|getSiteStats
  * POST { action, adminUserId?, adminPassword?, ... }  Content-Type: text/plain;charset=utf-8
+ *
+ * Homepage counters are stored in Script Properties:
+ *   SITE_STAT_HAPPY, SITE_STAT_TRIPS, SITE_STAT_HAPPY_LABEL,
+ *   SITE_STAT_TRIPS_LABEL, SITE_STAT_NOTE, SITE_STAT_SUFFIX
  */
 
 var SHEET_TRIPS = "Trips";
@@ -137,6 +141,8 @@ function doGet(e) {
       case "getImage":
         if (!id) return respond(fail("Image id is required"));
         return serveDriveImage(id);
+      case "getSiteStats":
+        return respond(ok("Site stats loaded", { stats: getSiteStats() }));
       default:
         return respond(
           fail("Unknown GET action. Use getPublishedTrips or getTrip")
@@ -168,7 +174,8 @@ function doPost(e) {
       addGallery: 1,
       deleteGallery: 1,
       addTestimonial: 1,
-      deleteTestimonial: 1
+      deleteTestimonial: 1,
+      saveSiteStats: 1
     };
 
     if (writeActions[action]) {
@@ -252,6 +259,12 @@ function doPost(e) {
         requireAdmin(body);
         deleteTestimonial(body.item || {});
         result = ok("Testimonial deleted", {});
+        break;
+      case "saveSiteStats":
+        requireAdmin(body);
+        result = ok("Site stats saved", {
+          stats: saveSiteStats(body.stats || {})
+        });
         break;
       default:
         result = fail("Unknown action: " + action);
@@ -1205,6 +1218,70 @@ function findLegacyRowById(sheet, id) {
     if (String(ids[i][0]).trim() === wanted) return i + 2;
   }
   return 0;
+}
+
+/* ── Homepage counters (Script Properties) ── */
+
+function defaultSiteStats() {
+  return {
+    happyTravellers: 162,
+    tripsCompleted: 13,
+    happyLabel: "Happy Travellers",
+    tripsLabel: "Trips & treks completed",
+    note: "And the journey is still growing",
+    suffix: "+"
+  };
+}
+
+function getSiteStats() {
+  var props = PropertiesService.getScriptProperties();
+  var defaults = defaultSiteStats();
+  var happy = Number(props.getProperty("SITE_STAT_HAPPY"));
+  var trips = Number(props.getProperty("SITE_STAT_TRIPS"));
+  return {
+    happyTravellers: !isNaN(happy) && happy >= 0 ? happy : defaults.happyTravellers,
+    tripsCompleted: !isNaN(trips) && trips >= 0 ? trips : defaults.tripsCompleted,
+    happyLabel: String(props.getProperty("SITE_STAT_HAPPY_LABEL") || defaults.happyLabel).trim() || defaults.happyLabel,
+    tripsLabel: String(props.getProperty("SITE_STAT_TRIPS_LABEL") || defaults.tripsLabel).trim() || defaults.tripsLabel,
+    note: String(props.getProperty("SITE_STAT_NOTE") || defaults.note),
+    suffix: props.getProperty("SITE_STAT_SUFFIX") != null
+      ? String(props.getProperty("SITE_STAT_SUFFIX"))
+      : defaults.suffix
+  };
+}
+
+function saveSiteStats(stats) {
+  var incoming = stats || {};
+  var current = getSiteStats();
+  var next = {
+    happyTravellers: incoming.happyTravellers != null && String(incoming.happyTravellers).trim() !== ""
+      ? Math.max(0, Math.round(Number(incoming.happyTravellers)) || 0)
+      : current.happyTravellers,
+    tripsCompleted: incoming.tripsCompleted != null && String(incoming.tripsCompleted).trim() !== ""
+      ? Math.max(0, Math.round(Number(incoming.tripsCompleted)) || 0)
+      : current.tripsCompleted,
+    happyLabel: incoming.happyLabel != null
+      ? String(incoming.happyLabel).trim() || current.happyLabel
+      : current.happyLabel,
+    tripsLabel: incoming.tripsLabel != null
+      ? String(incoming.tripsLabel).trim() || current.tripsLabel
+      : current.tripsLabel,
+    note: incoming.note != null ? String(incoming.note) : current.note,
+    suffix: incoming.suffix != null ? String(incoming.suffix) : current.suffix
+  };
+
+  PropertiesService.getScriptProperties().setProperties(
+    {
+      SITE_STAT_HAPPY: String(next.happyTravellers),
+      SITE_STAT_TRIPS: String(next.tripsCompleted),
+      SITE_STAT_HAPPY_LABEL: next.happyLabel,
+      SITE_STAT_TRIPS_LABEL: next.tripsLabel,
+      SITE_STAT_NOTE: next.note,
+      SITE_STAT_SUFFIX: next.suffix
+    },
+    false
+  );
+  return next;
 }
 
 /* ── Setup helper (run once from editor) ── */

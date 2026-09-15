@@ -57,11 +57,19 @@ const TRAVELRAYZ_CONFIG = {
       linkedinLabel: 'Travelrayz',
       facebook: 'https://facebook.com/travelrayz',
       youtube: 'https://youtube.com/@travelrayz'
+    },
+    stats: {
+      happyTravellers: 162,
+      tripsCompleted: 13,
+      happyLabel: 'Happy Travellers',
+      tripsLabel: 'Trips & treks completed',
+      note: 'And the journey is still growing',
+      suffix: '+'
     }
   }
 };
 
-/* Persist non-secret settings overrides from admin (contact details, social links) */
+/* Persist non-secret settings overrides from admin (contact details, social links, stats) */
 (function loadSavedSettings() {
   try {
     const saved = localStorage.getItem('travelrayz_settings');
@@ -70,6 +78,10 @@ const TRAVELRAYZ_CONFIG = {
       if (parsed.social && TRAVELRAYZ_CONFIG.company.social) {
         Object.assign(TRAVELRAYZ_CONFIG.company.social, parsed.social);
         delete parsed.social;
+      }
+      if (parsed.stats && TRAVELRAYZ_CONFIG.company.stats) {
+        Object.assign(TRAVELRAYZ_CONFIG.company.stats, parsed.stats);
+        delete parsed.stats;
       }
       Object.assign(TRAVELRAYZ_CONFIG.company, parsed);
     }
