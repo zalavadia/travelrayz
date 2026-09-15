@@ -413,29 +413,15 @@
   margin: 0.5rem 0 1rem;
 }
 
-.trip-detail-itinerary .itinerary-list {
-  list-style: none;
-  padding: 0;
+.trip-detail-itinerary .itinerary-text {
   margin: 0;
-}
-
-.trip-detail-itinerary .itinerary-list li {
-  position: relative;
-  padding: 0.65rem 0 0.65rem 1.25rem;
-  border-bottom: 1px solid var(--surface-border);
+  padding: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
   font-size: var(--text-sm);
+  line-height: 1.7;
   color: var(--text-muted);
-}
-
-.trip-detail-itinerary .itinerary-list li::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 1rem;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--color-cyan);
+  font-family: var(--font-body);
 }
 
 .trip-detail-related {

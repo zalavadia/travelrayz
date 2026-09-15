@@ -615,6 +615,24 @@ function toJsonList(value) {
   return JSON.stringify(parts);
 }
 
+/** Store itinerary as plain text so the site can show it exactly as entered. */
+function toPlainItinerary(value) {
+  if (value == null) return "";
+  if (Array.isArray(value)) return value.join("\n");
+  var s = String(value).replace(/\r\n/g, "\n");
+  var trimmed = s.trim();
+  if (!trimmed) return "";
+  if (trimmed.charAt(0) === "[") {
+    try {
+      var arr = JSON.parse(trimmed);
+      if (Array.isArray(arr)) return arr.join("\n");
+    } catch (err) {
+      /* keep raw text */
+    }
+  }
+  return s;
+}
+
 function parseJsonList(value) {
   var s = String(value || "").trim();
   if (!s) return [];
@@ -821,7 +839,15 @@ function tripToRow(trip, existing) {
       "exclusions",
       "Exclusions"
     ]),
-    itinerary: clearList(n.itinerary, ex.itinerary, ["itinerary", "Itinerary"]),
+    itinerary: (function () {
+      if (rawHasField(raw, ["itinerary", "Itinerary"])) {
+        return toPlainItinerary(n.itinerary);
+      }
+      if (n.itinerary != null && String(n.itinerary).trim() !== "") {
+        return toPlainItinerary(n.itinerary);
+      }
+      return toPlainItinerary(ex.itinerary);
+    })(),
     importantNotes: coalesceField(n.importantNotes, ex, "importantNotes", "", {
       allowClear: true,
       present: rawHasField(raw, [

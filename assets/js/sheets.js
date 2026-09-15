@@ -120,6 +120,21 @@ const SheetsAPI = {
     return raw;
   },
 
+  /** Keep day-wise itinerary as plain text (no bullet conversion). */
+  itineraryToPlain(value) {
+    if (value == null || value === '') return '';
+    if (Array.isArray(value)) return value.join('\n');
+    const s = String(value);
+    const trimmed = s.trim();
+    if (trimmed.startsWith('[')) {
+      try {
+        const arr = JSON.parse(trimmed);
+        if (Array.isArray(arr)) return arr.join('\n');
+      } catch (_) {}
+    }
+    return s.replace(/\r\n/g, '\n');
+  },
+
   listToJsonField(value) {
     if (value == null || value === '') return '[]';
     if (Array.isArray(value)) return JSON.stringify(value);
@@ -296,7 +311,7 @@ const SheetsAPI = {
       inclusions: this.parseListField(get('inclusions', 'Inclusions') || row.inclusionsList),
       exclusions: this.parseListField(get('exclusions', 'Exclusions') || row.exclusionsList),
       pickupPoints: get('meetingPoint', 'Pickup Points', 'pickupPoints'),
-      itinerary: this.parseListField(get('itinerary', 'Itinerary') || row.itineraryList),
+      itinerary: this.itineraryToPlain(get('itinerary', 'Itinerary') || row.itineraryList),
       importantNotes: get('importantNotes'),
       bookingLink: get('bookingLink') || this.whatsappLink(whatsapp, title),
       whatsappNumber: whatsapp,
@@ -339,7 +354,7 @@ const SheetsAPI = {
       fullDescription: t.fullDescription || t.description || '',
       inclusions: this.listToJsonField(t.inclusions),
       exclusions: this.listToJsonField(t.exclusions),
-      itinerary: this.listToJsonField(t.itinerary),
+      itinerary: this.itineraryToPlain(t.itinerary),
       importantNotes: t.importantNotes || [t.difficulty, t.vehicle].filter(Boolean).join(' · '),
       image: t.image || t.poster || '',
       driveFileId: t.driveFileId || this.extractDriveId(t.image || t.poster) || '',
