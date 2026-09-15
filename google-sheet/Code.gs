@@ -674,9 +674,12 @@ function normalizeIncomingTrip(trip) {
   };
 }
 
-function coalesceField(incoming, existing, key, fallback) {
+function coalesceField(incoming, existing, key, fallback, options) {
+  var opts = options || {};
   var v = incoming != null ? String(incoming).trim() : "";
   if (v) return v;
+  /* Empty string is intentional when the client sent that field */
+  if (opts.allowClear && opts.present) return "";
   if (
     existing &&
     existing[key] != null &&
@@ -687,7 +690,16 @@ function coalesceField(incoming, existing, key, fallback) {
   return fallback != null ? fallback : "";
 }
 
+function rawHasField(raw, keys) {
+  if (!raw) return false;
+  for (var i = 0; i < keys.length; i++) {
+    if (Object.prototype.hasOwnProperty.call(raw, keys[i])) return true;
+  }
+  return false;
+}
+
 function tripToRow(trip, existing) {
+  var raw = trip || {};
   var n = normalizeIncomingTrip(trip);
   var ex = existing || {};
   var now = isoNow();
@@ -698,18 +710,30 @@ function tripToRow(trip, existing) {
     n.shortDescription,
     ex,
     "shortDescription",
-    ""
+    "",
+    {
+      allowClear: true,
+      present: rawHasField(raw, ["shortDescription"])
+    }
   );
   var fullDescription = coalesceField(
     n.fullDescription,
     ex,
     "fullDescription",
-    coalesceField(ex.shortDescription, ex, "shortDescription", "")
+    "",
+    {
+      allowClear: true,
+      present: rawHasField(raw, [
+        "fullDescription",
+        "description",
+        "Description"
+      ])
+    }
   );
-  if (!shortDescription && fullDescription) {
+  if (!shortDescription && fullDescription && !rawHasField(raw, ["shortDescription"])) {
     shortDescription = fullDescription.slice(0, 220);
   }
-  if (!fullDescription && shortDescription) {
+  if (!fullDescription && shortDescription && !rawHasField(raw, ["fullDescription", "description", "Description"])) {
     fullDescription = shortDescription;
   }
 
@@ -736,46 +760,84 @@ function tripToRow(trip, existing) {
   var status = coalesceField(n.status, ex, "status", "draft").toLowerCase();
   if (status === "active") status = "published";
 
+  var clearList = function (incoming, existingVal, keys) {
+    if (rawHasField(raw, keys)) {
+      return toJsonList(incoming);
+    }
+    if (incoming != null && String(incoming).trim() !== "") {
+      return toJsonList(incoming);
+    }
+    return toJsonList(existingVal);
+  };
+
   return {
     id: id,
     slug: coalesceField(n.slug, ex, "slug", slugify(title)),
     title: title,
     location: coalesceField(n.location, ex, "location", ""),
-    meetingPoint: coalesceField(n.meetingPoint, ex, "meetingPoint", ""),
-    category: coalesceField(n.category, ex, "category", ""),
-    startDate: coalesceField(n.startDate, ex, "startDate", ""),
-    endDate: coalesceField(n.endDate, ex, "endDate", ""),
-    duration: coalesceField(n.duration, ex, "duration", ""),
-    price: coalesceField(n.price, ex, "price", ""),
-    discountedPrice: coalesceField(
-      n.discountedPrice,
-      ex,
-      "discountedPrice",
-      ""
-    ),
-    seats: coalesceField(n.seats, ex, "seats", ""),
-    maxGroupSize: coalesceField(n.maxGroupSize, ex, "maxGroupSize", ""),
+    meetingPoint: coalesceField(n.meetingPoint, ex, "meetingPoint", "", {
+      allowClear: true,
+      present: rawHasField(raw, ["meetingPoint", "pickupPoints", "Pickup Points"])
+    }),
+    category: coalesceField(n.category, ex, "category", "", {
+      allowClear: true,
+      present: rawHasField(raw, ["category", "Category"])
+    }),
+    startDate: coalesceField(n.startDate, ex, "startDate", "", {
+      allowClear: true,
+      present: rawHasField(raw, ["startDate", "travelDate", "Travel Date"])
+    }),
+    endDate: coalesceField(n.endDate, ex, "endDate", "", {
+      allowClear: true,
+      present: rawHasField(raw, ["endDate"])
+    }),
+    duration: coalesceField(n.duration, ex, "duration", "", {
+      allowClear: true,
+      present: rawHasField(raw, ["duration", "Duration"])
+    }),
+    price: coalesceField(n.price, ex, "price", "", {
+      allowClear: true,
+      present: rawHasField(raw, ["price", "Price"])
+    }),
+    discountedPrice: coalesceField(n.discountedPrice, ex, "discountedPrice", "", {
+      allowClear: true,
+      present: rawHasField(raw, ["discountedPrice"])
+    }),
+    seats: coalesceField(n.seats, ex, "seats", "", {
+      allowClear: true,
+      present: rawHasField(raw, ["seats", "Seats"])
+    }),
+    maxGroupSize: coalesceField(n.maxGroupSize, ex, "maxGroupSize", "", {
+      allowClear: true,
+      present: rawHasField(raw, ["maxGroupSize"])
+    }),
     shortDescription: shortDescription,
     fullDescription: fullDescription,
-    inclusions: toJsonList(
-      n.inclusions != null && String(n.inclusions).trim() !== ""
-        ? n.inclusions
-        : ex.inclusions
-    ),
-    exclusions: toJsonList(
-      n.exclusions != null && String(n.exclusions).trim() !== ""
-        ? n.exclusions
-        : ex.exclusions
-    ),
-    itinerary: toJsonList(
-      n.itinerary != null && String(n.itinerary).trim() !== ""
-        ? n.itinerary
-        : ex.itinerary
-    ),
-    importantNotes: coalesceField(n.importantNotes, ex, "importantNotes", ""),
+    inclusions: clearList(n.inclusions, ex.inclusions, [
+      "inclusions",
+      "Inclusions"
+    ]),
+    exclusions: clearList(n.exclusions, ex.exclusions, [
+      "exclusions",
+      "Exclusions"
+    ]),
+    itinerary: clearList(n.itinerary, ex.itinerary, ["itinerary", "Itinerary"]),
+    importantNotes: coalesceField(n.importantNotes, ex, "importantNotes", "", {
+      allowClear: true,
+      present: rawHasField(raw, [
+        "importantNotes",
+        "difficulty",
+        "Difficulty",
+        "vehicle",
+        "Vehicle"
+      ])
+    }),
     image: image,
     driveFileId: driveFileId,
-    whatsappNumber: coalesceField(n.whatsappNumber, ex, "whatsappNumber", ""),
+    whatsappNumber: coalesceField(n.whatsappNumber, ex, "whatsappNumber", "", {
+      allowClear: true,
+      present: rawHasField(raw, ["whatsappNumber"])
+    }),
     featured: featured,
     soldOut: soldOut,
     status: status,

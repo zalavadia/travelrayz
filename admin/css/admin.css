@@ -424,17 +424,10 @@ textarea {
   line-height: 1.4;
 }
 
-.label-optional,
-.form-optional {
-  font-size: 0.72rem;
-  font-weight: 500;
-  font-style: normal;
-  color: var(--text-muted);
-  letter-spacing: 0.02em;
-}
-
-.label-optional::before {
-  content: '· ';
+.req {
+  color: var(--danger);
+  font-weight: 700;
+  margin-left: 0.1rem;
 }
 
 /* ── Buttons ── */
