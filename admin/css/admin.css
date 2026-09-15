@@ -417,6 +417,26 @@ textarea {
   margin-top: 0.35rem;
 }
 
+.field-hint {
+  margin: 0.35rem 0 0;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+.label-optional,
+.form-optional {
+  font-size: 0.72rem;
+  font-weight: 500;
+  font-style: normal;
+  color: var(--text-muted);
+  letter-spacing: 0.02em;
+}
+
+.label-optional::before {
+  content: '· ';
+}
+
 /* ── Buttons ── */
 .btn {
   display: inline-flex;

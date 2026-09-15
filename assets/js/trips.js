@@ -236,18 +236,20 @@ const TripsUI = {
 
   buildPriceBlock(trip, className) {
     const wrap = TR.el('div', className || 'trip-price');
-    const price = Number(String(trip.price || '').replace(/[^\d.]/g, '')) || 0;
-    const disc = Number(String(trip.discountedPrice || '').replace(/[^\d.]/g, '')) || 0;
+    const priced = TR.formatTripPrice(trip);
 
-    if (disc > 0 && disc < price) {
-      const old = TR.el('span', 'trip-price-old', TR.formatINR(price));
-      wrap.appendChild(old);
-      wrap.appendChild(document.createTextNode(` ${TR.formatINR(disc)} `));
+    if (priced.kind === 'sale') {
+      wrap.appendChild(TR.el('span', 'trip-price-old', priced.old));
+      wrap.appendChild(document.createTextNode(` ${priced.label} `));
     } else {
-      wrap.appendChild(document.createTextNode(`${TR.formatINR(price)} `));
+      wrap.appendChild(document.createTextNode(`${priced.label} `));
     }
-    const small = TR.el('small', '', '/ person');
-    wrap.appendChild(small);
+
+    if (priced.perPerson) {
+      wrap.appendChild(TR.el('small', '', '/ person'));
+    } else {
+      wrap.classList.add('trip-price--inquiry');
+    }
     return wrap;
   },
 
@@ -322,8 +324,13 @@ const TripsUI = {
 
   tripBookingMessage(trip) {
     const title = trip.tripName || 'this trip';
-    const start = TR.formatDateIN(trip.travelDate) || 'the scheduled date';
-    return `Hello TRAVELRAYZ, I am interested in ${title} starting on ${start}. Please share booking details.`;
+    const start = TR.formatDateIN(trip.travelDate);
+    const priced = TR.formatTripPrice(trip);
+    const dateBit = start ? ` starting on ${start}` : '';
+    const priceBit = priced.kind === 'inquiry' || priced.kind === 'custom'
+      ? ` Please share dates and pricing.`
+      : ` Please share booking details.`;
+    return `Hello TRAVELRAYZ, I am interested in ${title}${dateBit}.${priceBit}`;
   },
 
   openBooking(trip) {
@@ -401,9 +408,11 @@ const TripsUI = {
       document.title = `${trip.tripName} | TRAVELRAYZ`;
       const desc = TR.qs('meta[name="description"]');
       if (desc) {
+        const priced = TR.formatTripPrice(trip);
+        const priceBit = priced.perPerson ? `${priced.label} per person` : priced.label;
         desc.setAttribute(
           'content',
-          `${trip.tripName} — ${trip.destination || 'TRAVELRAYZ trip'}. ${TR.formatINR(TR.effectivePrice(trip))} per person.`
+          `${trip.tripName} — ${trip.destination || 'TRAVELRAYZ trip'}. ${priceBit}.`
         );
       }
       const crumb = TR.qs('.breadcrumb [aria-current="page"]');

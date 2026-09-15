@@ -545,6 +545,7 @@ function ensureNamedSheet(name, headers) {
 
 function headerMap(sheet) {
   var lastCol = Math.max(sheet.getLastColumn(), 1);
+  /* getRange(row, column, numRows, numColumns) — not end-row/end-col */
   var headers = sheet.getRange(1, 1, 1, lastCol).getValues()[0];
   var map = {};
   for (var i = 0; i < headers.length; i++) {
@@ -556,7 +557,7 @@ function headerMap(sheet) {
 
 function rowToObject(sheet, rowIndex, headers) {
   var width = Math.max(headers.length, sheet.getLastColumn());
-  var values = sheet.getRange(rowIndex, 1, rowIndex, width).getValues()[0];
+  var values = sheet.getRange(rowIndex, 1, 1, width).getValues()[0];
   var obj = {};
   for (var i = 0; i < headers.length; i++) {
     obj[headers[i]] = values[i] != null ? String(values[i]) : "";
@@ -574,7 +575,7 @@ function findTripRow(sheet, id) {
   if (!idCol) return 0;
   var lastRow = sheet.getLastRow();
   if (lastRow < 2) return 0;
-  var ids = sheet.getRange(2, idCol, lastRow, idCol).getValues();
+  var ids = sheet.getRange(2, idCol, lastRow - 1, 1).getValues();
   for (var i = 0; i < ids.length; i++) {
     if (String(ids[i][0]).trim() === wanted) return i + 2;
   }
@@ -853,7 +854,8 @@ function writeTripRow(sheet, rowNum, rowObj) {
         " columns are required"
     );
   }
-  sheet.getRange(rowNum, 1, rowNum, TRIP_HEADERS.length).setValues([row]);
+  /* numRows must be 1 — getRange(r,c,numRows,numColumns), not end coordinates */
+  sheet.getRange(rowNum, 1, 1, TRIP_HEADERS.length).setValues([row]);
   return enrichTrip(rowObj);
 }
 
@@ -986,7 +988,7 @@ function getGalleryItems(includeInactive) {
   if (lastRow < 2) return [];
   var items = [];
   for (var r = 2; r <= lastRow; r++) {
-    var row = sheet.getRange(r, 1, r, GALLERY_HEADERS.length).getValues()[0];
+    var row = sheet.getRange(r, 1, 1, GALLERY_HEADERS.length).getValues()[0];
     var item = {
       id: String(row[0]),
       src: normalizeImageField(String(row[1]), String(row[1])),
@@ -1035,7 +1037,7 @@ function getTestimonials(includeInactive) {
   var items = [];
   for (var r = 2; r <= lastRow; r++) {
     var row = sheet
-      .getRange(r, 1, r, TESTIMONIAL_HEADERS.length)
+      .getRange(r, 1, 1, TESTIMONIAL_HEADERS.length)
       .getValues()[0];
     var item = {
       id: String(row[0]),
@@ -1087,7 +1089,7 @@ function findLegacyRowById(sheet, id) {
   if (!wanted) return 0;
   var lastRow = sheet.getLastRow();
   if (lastRow < 2) return 0;
-  var ids = sheet.getRange(2, 1, lastRow, 1).getValues();
+  var ids = sheet.getRange(2, 1, lastRow - 1, 1).getValues();
   for (var i = 0; i < ids.length; i++) {
     if (String(ids[i][0]).trim() === wanted) return i + 2;
   }

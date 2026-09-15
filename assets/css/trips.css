@@ -510,6 +510,13 @@
   color: var(--color-orange);
 }
 
+.trip-price--inquiry {
+  font-family: var(--font-sub);
+  font-size: var(--text-base);
+  font-weight: 600;
+  line-height: 1.35;
+}
+
 .trip-price small {
   font-family: var(--font-body);
   font-size: var(--text-xs);

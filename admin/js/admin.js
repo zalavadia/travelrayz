@@ -633,10 +633,13 @@ const AdminApp = {
       const soldOut = this.isSoldOut(t);
       const dateStr = t.travelDate
         ? new Date(t.travelDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })
-        : '—';
-      const price = t.discountedPrice && Number(t.discountedPrice) > 0
-        ? `<s class="price-old">${TR.formatINR(t.price)}</s> ${TR.formatINR(t.discountedPrice)}`
-        : TR.formatINR(t.price);
+        : 'Flexible / TBA';
+      const priced = typeof TR !== 'undefined' && TR.formatTripPrice
+        ? TR.formatTripPrice(t)
+        : null;
+      const price = priced
+        ? (priced.kind === 'sale' ? `${priced.old} → ${priced.label}` : priced.label)
+        : (t.price || 'Message / Call for price');
       return `
         <tr data-id="${TR.sanitize(t.id)}">
           <td class="trip-name-cell" data-label="Trip">
@@ -647,7 +650,7 @@ const AdminApp = {
           <td data-label="Location">${TR.sanitize(t.destination || '—')}</td>
           <td data-label="Category">${TR.sanitize(t.category || '—')}</td>
           <td data-label="Start">${dateStr}</td>
-          <td data-label="Price">${price}</td>
+          <td data-label="Price">${TR.sanitize(price)}</td>
           <td data-label="Seats">${TR.sanitize(t.seats || '—')}</td>
           <td data-label="Status"><span class="status-badge ${statusClass}">${statusLabel}</span></td>
           <td class="table-actions" data-label="Actions">

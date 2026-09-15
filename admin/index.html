@@ -223,23 +223,24 @@
                   <input type="text" id="trip-duration" placeholder="2 Days / 2 Nights">
                 </div>
 
-                <div class="form-section full"><span>Schedule &amp; pricing</span></div>
+                <div class="form-section full"><span>Schedule &amp; pricing <em class="form-optional">(optional)</em></span></div>
 
                 <div class="form-group">
-                  <label for="trip-start-date">Start date</label>
+                  <label for="trip-start-date">Start date <span class="label-optional">optional</span></label>
                   <input type="datetime-local" id="trip-start-date">
                 </div>
                 <div class="form-group">
-                  <label for="trip-end-date">End date</label>
+                  <label for="trip-end-date">End date <span class="label-optional">optional</span></label>
                   <input type="datetime-local" id="trip-end-date">
                 </div>
                 <div class="form-group">
-                  <label for="trip-price">Price (INR)</label>
-                  <input type="number" id="trip-price" min="0" step="1" placeholder="7999">
+                  <label for="trip-price">Price <span class="label-optional">optional</span></label>
+                  <input type="text" id="trip-price" class="input" placeholder="7999 or Message / Call for price">
+                  <p class="field-hint">Leave blank or write text like “Message / Call for price”.</p>
                 </div>
                 <div class="form-group">
-                  <label for="trip-discounted-price">Discounted price (INR)</label>
-                  <input type="number" id="trip-discounted-price" min="0" step="1" placeholder="Optional">
+                  <label for="trip-discounted-price">Discounted price <span class="label-optional">optional</span></label>
+                  <input type="text" id="trip-discounted-price" class="input" placeholder="Only if you have a numeric offer">
                 </div>
                 <div class="form-group">
                   <label for="trip-seats">Available seats</label>

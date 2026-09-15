@@ -26,6 +26,36 @@ const TR = {
     return '₹' + num.toLocaleString('en-IN');
   },
 
+  /** Extract a usable number from a price field, or null if it's blank / custom text. */
+  parsePriceNumber(value) {
+    const raw = String(value == null ? '' : value).trim();
+    if (!raw) return null;
+    if (!/\d/.test(raw)) return null;
+    /* Pure custom phrases like "Call for price" should not become 0 */
+    if (!/^[\d₹Rs.\s,/-]+$/i.test(raw) && /[a-zA-Z]/.test(raw)) return null;
+    const num = Number(raw.replace(/[^\d.]/g, ''));
+    return Number.isFinite(num) && num > 0 ? num : null;
+  },
+
+  /** Public display label for trip pricing (supports "Message / Call for price"). */
+  formatTripPrice(trip) {
+    const priceRaw = String(trip?.price || '').trim();
+    const discRaw = String(trip?.discountedPrice || '').trim();
+    const price = this.parsePriceNumber(priceRaw);
+    const disc = this.parsePriceNumber(discRaw);
+
+    if (disc != null && price != null && disc < price) {
+      return { kind: 'sale', label: this.formatINR(disc), old: this.formatINR(price), perPerson: true };
+    }
+    if (price != null) {
+      return { kind: 'fixed', label: this.formatINR(price), perPerson: true };
+    }
+    if (priceRaw) {
+      return { kind: 'custom', label: priceRaw, perPerson: false };
+    }
+    return { kind: 'inquiry', label: 'Message / Call for price', perPerson: false };
+  },
+
   formatDateIN(value, options = {}) {
     if (value == null || value === '') return '';
     const d = new Date(value);
@@ -46,9 +76,11 @@ const TR = {
   },
 
   effectivePrice(trip) {
-    const price = Number(String(trip?.price || '').replace(/[^\d.]/g, '')) || 0;
-    const disc = Number(String(trip?.discountedPrice || '').replace(/[^\d.]/g, '')) || 0;
-    return disc > 0 && disc < price ? disc : price;
+    const priced = this.formatTripPrice(trip);
+    if (priced.kind === 'sale' || priced.kind === 'fixed') {
+      return this.parsePriceNumber(trip?.discountedPrice) || this.parsePriceNumber(trip?.price) || 0;
+    }
+    return 0;
   },
 
   isSoldOut(trip) {
