@@ -802,7 +802,8 @@ const AdminApp = {
       document.getElementById('trip-full-desc').value = trip.description || '';
       document.getElementById('trip-inclusions').value = trip.inclusions || '';
       document.getElementById('trip-exclusions').value = trip.exclusions || '';
-      document.getElementById('trip-itinerary').value = trip.itinerary || '';
+      document.getElementById('trip-itinerary').value =
+        trip.itinerary != null ? String(trip.itinerary) : '';
       document.getElementById('trip-notes').value = trip.importantNotes || '';
       document.getElementById('trip-whatsapp').value = trip.whatsappNumber || TRAVELRAYZ_CONFIG.company.whatsapp || '';
       document.getElementById('trip-featured').checked = TR.parseBool(trip.featured);
@@ -855,6 +856,7 @@ const AdminApp = {
 
   collectTripFromForm() {
     const g = (id) => document.getElementById(id)?.value?.trim() ?? '';
+    const gRaw = (id) => document.getElementById(id)?.value ?? '';
     const cb = (id) => document.getElementById(id)?.checked || false;
     return {
       id: g('trip-id') || undefined,
@@ -876,7 +878,7 @@ const AdminApp = {
       inclusions: g('trip-inclusions'),
       exclusions: g('trip-exclusions'),
       pickupPoints: g('trip-meeting-point'),
-      itinerary: g('trip-itinerary'),
+      itinerary: gRaw('trip-itinerary'),
       importantNotes: g('trip-notes'),
       whatsappNumber: g('trip-whatsapp'),
       featured: cb('trip-featured') ? 'Yes' : 'No',

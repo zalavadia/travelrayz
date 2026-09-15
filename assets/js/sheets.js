@@ -120,19 +120,32 @@ const SheetsAPI = {
     return raw;
   },
 
-  /** Keep day-wise itinerary as plain text (no bullet conversion). */
+  /** Day-wise itinerary: return exactly as stored (no trim, no bullet conversion). */
   itineraryToPlain(value) {
-    if (value == null || value === '') return '';
-    if (Array.isArray(value)) return value.join('\n');
+    if (value == null) return '';
+    if (Array.isArray(value)) {
+      return value.map((part) => (part == null ? '' : String(part))).join('\n');
+    }
     const s = String(value);
-    const trimmed = s.trim();
-    if (trimmed.startsWith('[')) {
+    /* Legacy rows saved as JSON array string */
+    if (s.charAt(0) === '[') {
       try {
-        const arr = JSON.parse(trimmed);
-        if (Array.isArray(arr)) return arr.join('\n');
+        const arr = JSON.parse(s);
+        if (Array.isArray(arr)) {
+          return arr.map((part) => (part == null ? '' : String(part))).join('\n');
+        }
       } catch (_) {}
     }
-    return s.replace(/\r\n/g, '\n');
+    return s;
+  },
+
+  readRawField(row, keys) {
+    for (const k of keys) {
+      if (row == null || !Object.prototype.hasOwnProperty.call(row, k)) continue;
+      if (row[k] == null) return '';
+      return String(row[k]);
+    }
+    return null;
   },
 
   listToJsonField(value) {
@@ -311,7 +324,12 @@ const SheetsAPI = {
       inclusions: this.parseListField(get('inclusions', 'Inclusions') || row.inclusionsList),
       exclusions: this.parseListField(get('exclusions', 'Exclusions') || row.exclusionsList),
       pickupPoints: get('meetingPoint', 'Pickup Points', 'pickupPoints'),
-      itinerary: this.itineraryToPlain(get('itinerary', 'Itinerary') || row.itineraryList),
+      itinerary: (() => {
+        const raw = this.readRawField(row, ['itinerary', 'Itinerary']);
+        if (raw !== null) return this.itineraryToPlain(raw);
+        if (row.itineraryList != null) return this.itineraryToPlain(row.itineraryList);
+        return '';
+      })(),
       importantNotes: get('importantNotes'),
       bookingLink: get('bookingLink') || this.whatsappLink(whatsapp, title),
       whatsappNumber: whatsapp,
@@ -354,7 +372,7 @@ const SheetsAPI = {
       fullDescription: t.fullDescription || t.description || '',
       inclusions: this.listToJsonField(t.inclusions),
       exclusions: this.listToJsonField(t.exclusions),
-      itinerary: this.itineraryToPlain(t.itinerary),
+      itinerary: t.itinerary != null ? String(t.itinerary) : '',
       importantNotes: t.importantNotes || [t.difficulty, t.vehicle].filter(Boolean).join(' · '),
       image: t.image || t.poster || '',
       driveFileId: t.driveFileId || this.extractDriveId(t.image || t.poster) || '',

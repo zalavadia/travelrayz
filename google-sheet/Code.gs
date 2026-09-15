@@ -615,22 +615,42 @@ function toJsonList(value) {
   return JSON.stringify(parts);
 }
 
-/** Store itinerary as plain text so the site can show it exactly as entered. */
+/** Day-wise itinerary: store and return exactly as entered (no trim). */
 function toPlainItinerary(value) {
   if (value == null) return "";
-  if (Array.isArray(value)) return value.join("\n");
-  var s = String(value).replace(/\r\n/g, "\n");
-  var trimmed = s.trim();
-  if (!trimmed) return "";
-  if (trimmed.charAt(0) === "[") {
+  if (Array.isArray(value)) {
+    return value
+      .map(function (part) {
+        return part == null ? "" : String(part);
+      })
+      .join("\n");
+  }
+  var s = String(value);
+  if (s.charAt(0) === "[") {
     try {
-      var arr = JSON.parse(trimmed);
-      if (Array.isArray(arr)) return arr.join("\n");
+      var arr = JSON.parse(s);
+      if (Array.isArray(arr)) {
+        return arr
+          .map(function (part) {
+            return part == null ? "" : String(part);
+          })
+          .join("\n");
+      }
     } catch (err) {
       /* keep raw text */
     }
   }
   return s;
+}
+
+function pickRaw(obj /* keys... */) {
+  for (var i = 1; i < arguments.length; i++) {
+    var k = arguments[i];
+    if (obj != null && Object.prototype.hasOwnProperty.call(obj, k)) {
+      return obj[k] == null ? "" : String(obj[k]);
+    }
+  }
+  return "";
 }
 
 function parseJsonList(value) {
@@ -674,7 +694,10 @@ function normalizeIncomingTrip(trip) {
     fullDescription: pick(t, "fullDescription", "description", "Description"),
     inclusions: t.inclusions != null ? t.inclusions : pick(t, "Inclusions"),
     exclusions: t.exclusions != null ? t.exclusions : pick(t, "Exclusions"),
-    itinerary: t.itinerary != null ? t.itinerary : pick(t, "Itinerary"),
+    itinerary:
+      t != null && Object.prototype.hasOwnProperty.call(t, "itinerary")
+        ? toPlainItinerary(t.itinerary)
+        : pickRaw(t, "Itinerary"),
     importantNotes: pick(
       t,
       "importantNotes",
@@ -843,7 +866,7 @@ function tripToRow(trip, existing) {
       if (rawHasField(raw, ["itinerary", "Itinerary"])) {
         return toPlainItinerary(n.itinerary);
       }
-      if (n.itinerary != null && String(n.itinerary).trim() !== "") {
+      if (n.itinerary != null) {
         return toPlainItinerary(n.itinerary);
       }
       return toPlainItinerary(ex.itinerary);

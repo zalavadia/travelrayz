@@ -568,8 +568,8 @@ const TripsUI = {
     this.appendListSection(grid, 'Exclusions', TR.splitList(trip.exclusions));
     body.appendChild(grid);
 
-    const itineraryText = String(trip.itinerary || '').trim();
-    if (itineraryText) {
+    const itineraryText = trip.itinerary != null ? String(trip.itinerary) : '';
+    if (itineraryText !== '') {
       const itBlock = TR.el('div', 'modal-block trip-detail-itinerary');
       itBlock.appendChild(TR.el('h2', '', 'Day-wise itinerary'));
       itBlock.appendChild(TR.el('div', 'itinerary-text', itineraryText));
