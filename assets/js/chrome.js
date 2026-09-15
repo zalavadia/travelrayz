@@ -127,8 +127,7 @@ const SiteChrome = {
             <a href="/travel-stories">Travel Stories</a>
             <a href="/lets-connect">Let's Connect</a>
             <a href="/booking-policy">Booking Policy</a>
-            <a href="/terms">Terms</a>
-            <a href="/privacy">Privacy</a>
+            <a href="/terms">Terms &amp; Conditions</a>
           </div>
         </nav>
 

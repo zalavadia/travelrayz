@@ -24,7 +24,9 @@
     { "source": "/treks/", "destination": "/treks", "permanent": true },
     { "source": "/tours/", "destination": "/tours", "permanent": true },
     { "source": "/book/", "destination": "/book", "permanent": true },
-    { "source": "/privacy/", "destination": "/privacy", "permanent": true },
-    { "source": "/terms/", "destination": "/terms", "permanent": true }
+    { "source": "/privacy", "destination": "/terms", "permanent": true },
+    { "source": "/privacy/", "destination": "/terms", "permanent": true },
+    { "source": "/terms/", "destination": "/terms", "permanent": true },
+    { "source": "/booking-policy/", "destination": "/booking-policy", "permanent": true }
   ]
 }
